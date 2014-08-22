@@ -2,9 +2,7 @@ package com.jonny.wgsb;
 
 public class Calendar {
 	Integer _id;
-	String _event;
-	String _date;
-	String _dateString;
+	String _event, _date, _dateString;
 
     Calendar() {
     }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:appCompat="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_menu" >
+    <item android:id="@+id/menu_switch_week"
+          android:icon="@android:drawable/ic_menu_set_as"
+          android:title="Switch Weeks"
+          appCompat:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/menu_refresh"
+      	  android:icon="@drawable/ic_menu_refresh"
+      	  android:title="Refresh"
+      	  appCompat:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/menu_add_period"
+      	  android:icon="@android:drawable/ic_menu_add"
+      	  android:title="Add Subject"
+      	  appCompat:showAsAction="always|withText" />
+    <item android:id="@+id/menu_today"
+          android:icon="@android:drawable/ic_menu_today"
+          android:title="Today"
+          appCompat:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/menu_compact"
+        android:icon="@drawable/ic_menu_chat_dashboard"
+        android:title="Compact Detail"
+        appCompat:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/menu_preferences"
+          android:icon="@android:drawable/ic_menu_preferences"
+          android:title="Timetable Settings"
+          appCompat:showAsAction="ifRoom" />
+</menu>

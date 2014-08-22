@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget4x2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/appwidget_dark_bg_clickable"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/widget_margin" >
+    <LinearLayout
+        android:id="@+id/widget4x2_now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" >
+        <TextView
+            android:id="@+id/widget4x2_now_id"
+            android:layout_width="@dimen/id_width"
+            android:layout_height="fill_parent"
+            android:background="#9033B5E5"
+            android:gravity="center"
+            android:maxLength="3"
+            android:text="Now"
+            android:textColor="#FFFFFFFF" />
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:background="#FF909090" />
+        <RelativeLayout
+            android:id="@+id/widget4x2_now_rel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp" >
+            <TextView
+                android:id="@+id/widget4x2_now_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subject 1"
+                android:textColor="#FFFFFFFF"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/widget4x2_now_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:paddingRight="8dp"
+                android:text="Room XX"
+                android:textColor="#FFFFFFFF" />
+            <TextView
+                android:id="@+id/widget4x2_now_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/widget4x2_now_room"
+                android:paddingRight="8dp"
+                android:text="XX:XX"
+                android:textColor="#FFFFFFFF" />
+            <TextView
+                android:id="@+id/widget4x2_now_teacher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/widget4x2_now_name"
+                android:paddingRight="8dp"
+                android:text=""
+                android:textColor="#FFFFFFFF" />
+        </RelativeLayout>
+    </LinearLayout>
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#FF909090" />
+    <LinearLayout
+        android:id="@+id/widget4x2_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" >
+        <TextView
+            android:id="@+id/widget4x2_next_id"
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:maxLength="4"
+            android:text="Next"
+            android:textColor="#FFFFFFFF" />
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:background="#FF909090" />
+        <RelativeLayout
+            android:id="@+id/widget4x2_next_rel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp" >
+            <TextView
+                android:id="@+id/widget4x2_next_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subject 2"
+                android:textColor="#FFFFFFFF"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/widget4x2_next_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:paddingRight="8dp"
+                android:text="Room XY"
+                android:textColor="#FFFFFFFF" />
+            <TextView
+                android:id="@+id/widget4x2_next_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/widget4x2_next_room"
+                android:paddingRight="8dp"
+                android:text="XX:YY"
+                android:textColor="#FFFFFFFF" />
+            <TextView
+                android:id="@+id/widget4x2_next_teacher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/widget4x2_next_name"
+                android:paddingRight="8dp"
+                android:text=""
+                android:textColor="#FFFFFFFF" />
+        </RelativeLayout>
+    </LinearLayout>
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#FF909090" />
+    <LinearLayout
+        android:id="@+id/widget4x2_then"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" >
+        <TextView
+            android:id="@+id/widget4x2_then_id"
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:maxLength="4"
+            android:text="Then"
+            android:textColor="#FFFFFFFF" />
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:background="#FF909090" />
+        <RelativeLayout
+            android:id="@+id/widget4x2_then_rel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp" >
+            <TextView
+                android:id="@+id/widget4x2_then_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subject 3"
+                android:textColor="#FFFFFFFF"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/widget4x2_then_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:paddingRight="8dp"
+                android:text="Room YY"
+                android:textColor="#FFFFFFFF" />
+            <TextView
+                android:id="@+id/widget4x2_then_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/widget4x2_then_room"
+                android:paddingRight="8dp"
+                android:text="XY:XX"
+                android:textColor="#FFFFFFFF" />
+            <TextView
+                android:id="@+id/widget4x2_then_teacher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/widget4x2_then_name"
+                android:paddingRight="8dp"
+                android:text=""
+                android:textColor="#FFFFFFFF" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

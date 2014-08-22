@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false" >
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="450dp"
+        android:baselineAligned="false">
+        <ListView
+            android:id="@+id/main_list"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="0.75"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/website_btn"
+            android:layout_width="62dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="35dp"
+            android:contentDescription="@string/app_name"
+            android:background="@drawable/website"
+            android:layout_alignStart="@+id/facebook_btn"
+            android:layout_marginTop="30dp"
+            android:layout_alignParentRight="true" />
+        <Button
+            android:id="@+id/facebook_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="@string/app_name"
+            android:background="@drawable/facebook"
+            android:layout_centerVertical="true"
+            android:layout_alignStart="@+id/twitter_btn" />
+        <Button
+            android:id="@+id/twitter_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="35dp"
+            android:contentDescription="@string/app_name"
+            android:background="@drawable/twitter"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="30dp" />
+    </RelativeLayout>
+</RelativeLayout>

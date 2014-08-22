@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_logo" >
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/setup_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_light"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        android:fitsSystemWindows="true"
+        android:clipToPadding="false">
+        <ListView
+            android:id="@+id/LIST"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/setup_toolbar"
+            android:gravity="top" />
+        <LinearLayout
+            android:id="@+id/setup_toolbar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp" >
+            <Button
+                android:id="@+id/add_activity"
+                android:background="@drawable/layout_selector"
+                android:layout_width="230dp"
+                android:layout_height="32dp"
+                android:text="Add Activity"
+                android:textColor="#FFF" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="#FF909090" />
+            <Button
+                android:id="@+id/next"
+                android:background="@drawable/layout_selector"
+                android:layout_width="80dp"
+                android:layout_height="32dp"
+                android:text="Next"
+                android:textColor="#FFF" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignBottom="@+id/LIST"
+            android:background="#FF909090" />
+    </RelativeLayout>
+</FrameLayout>
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tDisplay"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:paddingTop="10dip"
+        android:paddingBottom="10dip"
+        android:background="@color/white"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip" />
+    <ListView
+        android:id="@+id/notifications_list"
+        android:clickable="true"
+        android:longClickable="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:padding="8dip"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dip"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:drawSelectorOnTop="true"
+        android:cacheColorHint="@color/background_light" >
+    </ListView>
+</LinearLayout>

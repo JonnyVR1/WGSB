@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:appCompat="http://schemas.android.com/apk/res-auto" >
+	<item
+        android:id="@+id/badge"
+        android:actionLayout="@layout/actionbar_badge_layout"
+        android:icon="@drawable/ic_notifications"
+        android:title="Notifications"
+        appCompat:showAsAction="always">
+    </item>
+    <item
+        android:id="@+id/settings"
+        android:orderInCategory="100"
+        appCompat:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_settings"
+        android:title="@string/settings"/>
+</menu>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="Style" >
+        <ListPreference
+            android:defaultValue="light"
+            android:dialogTitle="Choose theme"
+            android:entries="@array/theme"
+            android:entryValues="@array/theme_values"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:key="theme"
+            android:summary="Light or Dark"
+            android:title="Change Theme" />
+        <ListPreference
+            android:defaultValue="exp"
+            android:dialogTitle="Change detail level"
+            android:entries="@array/view_style"
+            android:entryValues="@array/view_style_values"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
+            android:key="viewStyle"
+            android:summary="More detail, or more compact"
+            android:title="Change detail level" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Backup and Restore" >
+        <Preference
+            android:icon="@android:drawable/ic_menu_save"
+            android:key="backup"
+            android:summary="Backup your timetable as a spreadsheet"
+            android:title="Create a timetable backup" />
+        <Preference
+            android:icon="@android:drawable/ic_menu_set_as"
+            android:key="restore"
+            android:summary="Restore from a backup"
+            android:title="Restore timetable" />
+        <Preference
+            android:icon="@android:drawable/ic_menu_delete"
+            android:key="clearData"
+            android:summary="Wipe all timetable data permenantly"
+            android:title="Clear timetable data" />
+    </PreferenceCategory>
+</PreferenceScreen>

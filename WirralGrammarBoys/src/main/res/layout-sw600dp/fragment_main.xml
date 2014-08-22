@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false" >
+    <ImageView
+        android:id="@+id/banner_img"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/banner"
+        android:layout_weight="0.10" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"/>
+    <ListView
+        android:id="@+id/main_list"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.20" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="120dp"
+        android:layout_weight="0.06"
+        android:orientation="vertical" >
+        <Button
+            android:id="@+id/website_btn"
+            android:layout_width="62dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:contentDescription="@string/app_name"
+            android:background="@drawable/website" />
+        <Button
+            android:id="@+id/facebook_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/app_name"
+            android:background="@drawable/facebook" />
+        <Button
+            android:id="@+id/twitter_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
+            android:contentDescription="@string/app_name"
+            android:background="@drawable/twitter" />
+    </RelativeLayout>
+</LinearLayout>

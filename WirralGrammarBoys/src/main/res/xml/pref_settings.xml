@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen 
+   xmlns:android="http://schemas.android.com/apk/res/android" >
+	<PreferenceCategory 
+        android:title="Settings"
+        android:key="settings">
+		<CheckBoxPreference 
+			android:title="@string/push" 
+			android:key="pref_push" 
+			android:summary="@string/push_summary" 
+			android:defaultValue="false"/>
+		<PreferenceScreen
+			android:title="@string/year"
+			android:summary="@string/year_summary"
+			android:key="pref_year">
+			<PreferenceCategory 
+				android:title="Year Group Settings"
+				android:key="year group settings">
+				<CheckBoxPreference 
+					android:title="@string/year_7" 
+					android:key="pref_year7" 
+					android:defaultValue="false"/>
+				<CheckBoxPreference 
+					android:title="@string/year_8" 
+		           	android:key="pref_year8" 
+		           	android:defaultValue="false"/>
+				<CheckBoxPreference 
+					android:title="@string/year_9" 
+					android:key="pref_year9" 
+					android:defaultValue="false"/>
+		       <CheckBoxPreference 
+					android:title="@string/year_10" 
+					android:key="pref_year10" 
+					android:defaultValue="false"/>
+		       <CheckBoxPreference 
+		           	android:title="@string/year_11" 
+		           	android:key="pref_year11" 
+		           	android:defaultValue="false"/>
+		       <CheckBoxPreference 
+					android:title="@string/year_12" 
+					android:key="pref_year12" 
+					android:defaultValue="false"/>
+		       <CheckBoxPreference 
+					android:title="@string/year_13" 
+					android:key="pref_year13" 
+					android:defaultValue="false"/>        
+			</PreferenceCategory>
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory 
+        android:title="About" >
+	    <Preference
+	        android:key="appVersion"
+	        android:summary="View on Play Store" />
+	    <Preference
+	        android:key="bugReport"
+	        android:summary="Tap here to email me if you find a bug or have a suggestion"
+	        android:title="Report a bug" />
+	    <Preference
+	        android:icon="@drawable/banner"
+	        android:key="jonny"
+	        android:title="Developer: Jonathon Fitch" />
+	</PreferenceCategory>
+</PreferenceScreen>

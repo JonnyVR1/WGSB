@@ -1,0 +1,50 @@
+<resources>
+	<style name="Theme.Wgsb" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_wgsb</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Wgsb</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Wgsb</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Wgsb</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Wgsb</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Wgsb</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_wgsb</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_wgsb</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Wgsb</item>
+        <item name="android:editTextStyle">@style/EditTextAppTheme</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewAppTheme</item>
+        <item name="android:actionBarWidgetTheme">@style/Theme.Wgsb.Widget</item>
+    </style>
+
+    <style name="ActionBar.Solid.Wgsb" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/ab_solid_wgsb</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_wgsb</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_wgsb</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Wgsb</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Wgsb" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_wgsb</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Wgsb</item>
+    </style>
+
+    <style name="Theme.Wgsb.Widget" parent="@style/Theme.AppCompat">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Wgsb</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Wgsb</item>
+    </style>
+
+    <style name="EditTextAppTheme" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/wgsb_edit_text_holo_light</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AutoCompleteTextViewAppTheme" parent="android:Widget.AutoCompleteTextView">
+        <item name="android:dropDownSelector">@drawable/wgsb_list_selector_holo_light</item>
+        <item name="android:background">@drawable/wgsb_edit_text_holo_light</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="TextAppearance.wgsb.FloatLabel" parent="android:TextAppearance.Small">
+        <item name="android:textColor">@color/float_label</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

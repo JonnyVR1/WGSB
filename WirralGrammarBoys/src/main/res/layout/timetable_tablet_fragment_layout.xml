@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_logo" >
+    <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/background_light"
+        android:fitsSystemWindows="true"
+        android:clipToPadding="false" >
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" >
+            <FrameLayout android:id="@+id/monday_fragment_container"
+                android:layout_width="270dp"
+                android:layout_height="fill_parent" />
+            <FrameLayout android:id="@+id/tuesday_fragment_container"
+                android:layout_width="270dp"
+                android:layout_height="fill_parent" />
+            <FrameLayout android:id="@+id/wednesday_fragment_container"
+                android:layout_width="270dp"
+                android:layout_height="fill_parent" />
+            <FrameLayout android:id="@+id/thursday_fragment_container"
+                android:layout_width="270dp"
+                android:layout_height="fill_parent" />
+            <FrameLayout android:id="@+id/friday_fragment_container"
+                android:layout_width="270dp"
+                android:layout_height="fill_parent" />
+        </LinearLayout>
+    </HorizontalScrollView>
+</FrameLayout>

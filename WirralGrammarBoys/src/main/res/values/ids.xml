@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="timetable_name_view" />
+    <item type="id" name="timetable_room_view" />
+    <item type="id" name="timetable_time_view" />
+    <item type="id" name="timetable_teacher_view" />
+    <item type="id" name="fragment_container_timetable" />
+</resources>

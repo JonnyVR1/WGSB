@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false">
+    <TextView
+        android:id="@+id/titleTopical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dip"
+        android:layout_marginBottom="8dip"
+        android:paddingTop="8dip"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingBottom="8dip"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/topicalId"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/titleNews"
+        android:textSize="0sp"
+        android:visibility="gone"/>
+</RelativeLayout>

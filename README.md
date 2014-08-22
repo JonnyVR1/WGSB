@@ -1,4 +1,4 @@
-Secure Password Generator for Android
+WGSB Android Application
 ===================================
 
 Android Application for students at Wirral Grammar Boys school to keep up-to-date with news, topical infroamtion, events and to store their timetable and recieve important alerts

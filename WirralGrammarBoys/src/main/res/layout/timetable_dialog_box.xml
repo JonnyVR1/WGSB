@@ -23,12 +23,14 @@
             android:id="@+id/teacher_field"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5" />
+            android:layout_weight="0.5"
+            android:inputType="textCapCharacters" />
         <EditText
             android:id="@+id/room_field"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5" />
+            android:layout_weight="0.5"
+            android:inputType="textCapCharacters" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"

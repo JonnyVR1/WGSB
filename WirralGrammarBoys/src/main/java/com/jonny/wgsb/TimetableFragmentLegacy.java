@@ -22,6 +22,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.InputType;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -470,6 +471,7 @@ public class TimetableFragmentLegacy extends Fragment {
 			teacher.setHint("Teacher");
 			teacher.setEms(6);
 			teacher.setMaxLines(1);
+            teacher.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 			teacher.setText(formerTeacher);
 			idRoom.addView(teacher);
 			editView.addView(idTeacher);
@@ -477,6 +479,7 @@ public class TimetableFragmentLegacy extends Fragment {
 			room.setHint("Room");
 			room.setEms(6);
 			room.setMaxLines(1);
+            room.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 			room.setText(formerRoom);
 			idRoom.addView(room);
 			editView.addView(idRoom);
@@ -730,14 +733,14 @@ public class TimetableFragmentLegacy extends Fragment {
         return (int)(amount * scale + 0.5f);
 	}
 
-	static final String[] SUBJECTS = new String[] {
-		"Registration", "Lunch", "Break", "Free", "Art", "Astronomy", "Biology",
-		"Business Studies", "Chemistry", "Computing", "Design & Technology",
-		"Drama", "Economics", "English", "English Language", "English Literature",
-		"Financial Studies", "Food Technology", "French", "Games", "Geography",
-		"Geology", "History", "ICT", "Law", "Maths", "Maths - Applied", "Maths - Core",
-		"Maths - Decision", "Maths - Statistics", "Maths - Mechanics", "Media Studies",
-		"Music", "Psychology", "PSHE", "Physics", "Physical Education", "Politics",
-		"Science", "Sociology", "Spanish", "Religious Studies"
-	};
+    static final String[] SUBJECTS = new String[] {
+        "Registration", "Lunch", "Break", "Free", "Art", "Astronomy", "Biology",
+        "Business Studies", "Chemistry", "Computing", "Design & Technology",
+        "Drama", "Economics", "English", "English Language", "English Literature",
+        "EPQ", "Financial Studies", "Food Technology", "French", "Games", "General Studies",
+        "Geography", "Geology", "History", "ICT", "Law", "Maths", "Maths - Applied",
+        "Maths - Core", "Maths - Decision", "Maths - Statistics", "Maths - Mechanics",
+        "Media Studies", "Music", "Psychology", "PHSE", "Physics", "Physical Education",
+        "Politics", "Science", "Sociology", "Spanish", "Religious Studies"
+    };
 }

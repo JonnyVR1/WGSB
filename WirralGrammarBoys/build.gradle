@@ -20,11 +20,11 @@ android {
 }
 
 dependencies {
-    compile project(':PreferenceFragment')
-    compile project(':ViewPagerIndicator')
 	compile 'com.android.support:support-v4:20.0.0'
 	compile 'com.android.support:appcompat-v7:20.0.0'
     compile 'com.google.android.gms:play-services:5.2.08'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.squareup.picasso:picasso:2.3.3'
+    compile project(':PreferenceFragment')
+    compile project(':ViewPagerIndicator')
 }

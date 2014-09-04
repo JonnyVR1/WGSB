@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 @SuppressWarnings("deprecation")
 public class TimetableAddSubjectActivity extends ActionBarActivity {
@@ -240,12 +243,14 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
 		topRow.addView(idTextBox);
 		final EditText teacherTextBox = new EditText(this);
 		teacherTextBox.setTag(currentPeriodId);
+        teacherTextBox.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 		teacherTextBox.setHint("Teacher");
 		teacherList.add(teacherTextBox);
 		topRow.addView(teacherTextBox);
 		final EditText roomTextBox = new EditText(this);
 		roomTextBox.setTag(currentPeriodId);
 		roomTextBox.setHint("Room");
+        roomTextBox.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 		roomList.add(roomTextBox);
 		topRow.addView(roomTextBox);
 		final Spinner setWeek = new Spinner(this);
@@ -399,14 +404,14 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
         return (int) (amount * scale + 0.5f);
 	}
 
-	static final String[] SUBJECTS = new String[] { 
-		"Registration", "Lunch", "Break", "Free", "Art", "Astronomy", "Biology",
-		"Business Studies", "Chemistry", "Computing", "Design & Technology",
-		"Drama", "Economics", "English", "English Language", "English Literature",
-		"Financial Studies", "Food Technology", "French", "Games", "Geography",
-		"Geology", "History", "ICT", "Law", "Maths", "Maths - Applied", "Maths - Core",
-		"Maths - Decision", "Maths - Statistics", "Maths - Mechanics", "Media Studies",
-		"Music", "Psychology", "PHSE", "Physics", "Physical Education", "Politics",
-		"Science", "Sociology", "Spanish", "Religious Studies"
-	};
+    static final String[] SUBJECTS = new String[] {
+        "Registration", "Lunch", "Break", "Free", "Art", "Astronomy", "Biology",
+        "Business Studies", "Chemistry", "Computing", "Design & Technology",
+        "Drama", "Economics", "English", "English Language", "English Literature",
+        "EPQ", "Financial Studies", "Food Technology", "French", "Games", "General Studies",
+        "Geography", "Geology", "History", "ICT", "Law", "Maths", "Maths - Applied",
+        "Maths - Core", "Maths - Decision", "Maths - Statistics", "Maths - Mechanics",
+        "Media Studies", "Music", "Psychology", "PHSE", "Physics", "Physical Education",
+        "Politics", "Science", "Sociology", "Spanish", "Religious Studies"
+    };
 }

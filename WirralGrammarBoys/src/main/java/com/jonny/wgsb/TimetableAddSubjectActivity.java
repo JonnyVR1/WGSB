@@ -36,8 +36,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 @SuppressWarnings("deprecation")
 public class TimetableAddSubjectActivity extends ActionBarActivity {
 	List<ArrayAdapter<String>> startAdapterList = new ArrayList<ArrayAdapter<String>>();

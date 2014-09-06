@@ -1,9 +1,5 @@
 package com.jonny.wgsb;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Vector;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -36,6 +32,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.viewpagerindicator.TitlePageIndicator;
+
+import java.util.Calendar;
+import java.util.List;
+import java.util.Vector;
 
 @SuppressLint({"ValidFragment", "NewAPI"})
 @SuppressWarnings("deprecation")

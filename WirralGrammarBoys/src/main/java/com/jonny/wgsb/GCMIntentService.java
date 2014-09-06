@@ -1,7 +1,5 @@
 package com.jonny.wgsb;
 
-import static com.jonny.wgsb.CommonUtilities.displayMessage;
-
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -12,6 +10,8 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import static com.jonny.wgsb.CommonUtilities.displayMessage;
 
 public class GCMIntentService extends IntentService {
     private static final int NOTIFICATION_ID = 1;

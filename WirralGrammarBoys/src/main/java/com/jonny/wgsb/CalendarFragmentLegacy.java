@@ -1,14 +1,5 @@
 package com.jonny.wgsb;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.http.NameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -18,6 +9,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -33,8 +26,15 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD_MR1)
 public class CalendarFragmentLegacy extends Fragment {
@@ -70,11 +70,11 @@ public class CalendarFragmentLegacy extends Fragment {
 		height = metrics.heightPixels;
 		cd = new ConnectionDetector(this.getActivity().getApplicationContext());
 		dbhandler = DatabaseHandler.getInstance(getActivity());
-		setHasOptionsMenu(true);
     	setupActionBar();
 	}
 	
 	private void setupActionBar() {
+        setHasOptionsMenu(true);
 		final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
     	actionBar.setIcon(R.drawable.banner);

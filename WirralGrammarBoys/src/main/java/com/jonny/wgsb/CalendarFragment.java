@@ -1,14 +1,5 @@
 package com.jonny.wgsb;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.http.NameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -19,7 +10,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -28,16 +21,24 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.support.v7.app.ActionBar;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
 
 public class CalendarFragment extends Fragment {
 	private static final String AllCalendarItemsURL = "http://app.wirralgrammarboys.com/get_calendar.php";
@@ -45,6 +46,7 @@ public class CalendarFragment extends Fragment {
 	private static final String CALENDAR = "calendar";
 	private static final String EVENT = "event";
 	private static final String DATE = "date";
+    private ActionBarDrawerToggle mDrawerToggle;
 	private Integer contentAvailable = 1;
 	private Boolean FlagCancelled = false;
 	private GregorianCalendar month, itemMonth;
@@ -72,12 +74,12 @@ public class CalendarFragment extends Fragment {
 		height = metrics.heightPixels;
 		cd = new ConnectionDetector(this.getActivity().getApplicationContext());
 		dbhandler = DatabaseHandler.getInstance(getActivity());
-		setHasOptionsMenu(true);
     	setupActionBar();
 	}
 	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void setupActionBar() {
+        setHasOptionsMenu(true);
 		final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
     	actionBar.setIcon(R.drawable.banner);

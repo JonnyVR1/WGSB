@@ -1,9 +1,5 @@
 package com.jonny.wgsb;
 
-import java.io.File;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -32,14 +28,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
+
+import java.io.File;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import static com.jonny.wgsb.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 
@@ -202,7 +202,6 @@ public class MainActivity extends ActionBarActivity {
 			View view =  inflater.inflate(R.layout.fragment_main, container, false);
             setupActionBar();
             dbhandler = DatabaseHandler.getInstance(getActivity());
-            setHasOptionsMenu(true);
             getOverflowMenu();
             getActivity().registerReceiver(mHandleMessageReceiver, new IntentFilter(DISPLAY_MESSAGE_ACTION));
 			ArrayList<MainDetails> arrayList = GetSearchResults();
@@ -327,6 +326,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         private void setupActionBar() {
+            setHasOptionsMenu(true);
             ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
             actionBar.setIcon(R.drawable.banner);
@@ -451,7 +451,6 @@ public class MainActivity extends ActionBarActivity {
             View view =  inflater.inflate(R.layout.fragment_main, container, false);
             setupActionBar();
             dbhandler = DatabaseHandler.getInstance(getActivity());
-            setHasOptionsMenu(true);
             getOverflowMenu();
             getActivity().registerReceiver(mHandleMessageReceiver, new IntentFilter(DISPLAY_MESSAGE_ACTION));
             ArrayList<MainDetails> arrayList = GetSearchResults();
@@ -583,6 +582,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         private void setupActionBar() {
+            setHasOptionsMenu(true);
             final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
             actionBar.setIcon(R.drawable.banner);

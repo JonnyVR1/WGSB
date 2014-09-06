@@ -1,9 +1,5 @@
 package com.jonny.wgsb;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.support.v7.app.ActionBar;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -13,6 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.view.Gravity;
@@ -32,6 +29,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("deprecation")
 @TargetApi(Build.VERSION_CODES.GINGERBREAD_MR1)

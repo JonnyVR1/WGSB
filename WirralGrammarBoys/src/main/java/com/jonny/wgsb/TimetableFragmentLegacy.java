@@ -1,13 +1,5 @@
 package com.jonny.wgsb;
 
-import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -21,6 +13,10 @@ import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.view.Display;
@@ -41,6 +37,10 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @SuppressWarnings("deprecation")
 @SuppressLint("ValidFragment")
@@ -105,6 +105,7 @@ public class TimetableFragmentLegacy extends Fragment {
 		final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         actionBar.setIcon(R.drawable.banner);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
 	}
 	
 	void refreshView() {
@@ -488,6 +489,7 @@ public class TimetableFragmentLegacy extends Fragment {
 			name.setEms(10);
 			name.setMaxLines(1);
 			name.setText(formerName);
+            name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(TimetableFragmentLegacy.this.getActivity(), R.layout.timetable_list_item, SUBJECTS);
 			name.setAdapter(adapter);
 			editView.addView(name);

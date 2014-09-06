@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -13,8 +15,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 
 public class GCMFragmentSpecific extends Fragment {
     DatabaseHandler dbhandler;
@@ -54,6 +54,7 @@ public class GCMFragmentSpecific extends Fragment {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setupActionBar() {
+        setHasOptionsMenu(true);
         final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         actionBar.setIcon(R.drawable.banner);

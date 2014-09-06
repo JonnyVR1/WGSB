@@ -2,14 +2,14 @@ package com.jonny.wgsb;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 
 public class GCMFragmentSpecificLegacy extends Fragment {
     TextView tDisplay, dDisplay, mDisplay;
@@ -48,6 +48,7 @@ public class GCMFragmentSpecificLegacy extends Fragment {
     }
 
     private void setupActionBar() {
+        setHasOptionsMenu(true);
         final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         actionBar.setIcon(R.drawable.banner);

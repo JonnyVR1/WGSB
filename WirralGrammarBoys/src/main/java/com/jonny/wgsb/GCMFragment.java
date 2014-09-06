@@ -1,8 +1,5 @@
 package com.jonny.wgsb;
 
-import static com.jonny.wgsb.CommonUtilities.DISPLAY_MESSAGE_ACTION;
-import static com.jonny.wgsb.CommonUtilities.SENDER_ID;
-
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -18,6 +15,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,8 +31,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -43,6 +40,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.jonny.wgsb.CommonUtilities.DISPLAY_MESSAGE_ACTION;
+import static com.jonny.wgsb.CommonUtilities.SENDER_ID;
 
 public class GCMFragment extends Fragment {
     private String regId;
@@ -327,6 +327,7 @@ public class GCMFragment extends Fragment {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setupActionBar() {
+        setHasOptionsMenu(true);
         final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         actionBar.setIcon(R.drawable.banner);

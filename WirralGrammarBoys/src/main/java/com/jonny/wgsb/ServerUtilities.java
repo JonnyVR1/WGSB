@@ -1,9 +1,7 @@
 package com.jonny.wgsb;
 
-import static com.jonny.wgsb.CommonUtilities.SERVER_URL;
-import static com.jonny.wgsb.CommonUtilities.SERVER_UPDATE_URL;
-import static com.jonny.wgsb.CommonUtilities.SERVER_UNREGISTER_URL;
-import static com.jonny.wgsb.CommonUtilities.TAG;
+import android.content.Context;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -16,8 +14,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import android.content.Context;
-import android.util.Log;
+import static com.jonny.wgsb.CommonUtilities.SERVER_UNREGISTER_URL;
+import static com.jonny.wgsb.CommonUtilities.SERVER_UPDATE_URL;
+import static com.jonny.wgsb.CommonUtilities.SERVER_URL;
+import static com.jonny.wgsb.CommonUtilities.TAG;
 
 public final class ServerUtilities {
 	private static final int MAX_ATTEMPTS = 5;

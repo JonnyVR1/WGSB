@@ -1,12 +1,12 @@
 package com.jonny.wgsb;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 public class Crypto {
     final private static char[] hexArray = "0123456789ABCDEF".toCharArray();

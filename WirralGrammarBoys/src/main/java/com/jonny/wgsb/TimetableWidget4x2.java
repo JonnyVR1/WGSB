@@ -1,7 +1,5 @@
 package com.jonny.wgsb;
 
-import java.util.Calendar;
-
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -13,6 +11,8 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteException;
 import android.os.Build;
 import android.widget.RemoteViews;
+
+import java.util.Calendar;
 
 public class TimetableWidget4x2 extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {

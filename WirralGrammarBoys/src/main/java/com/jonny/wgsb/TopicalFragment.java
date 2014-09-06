@@ -1,13 +1,5 @@
 package com.jonny.wgsb;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -19,9 +11,11 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.Spanned;
@@ -42,8 +36,14 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.ActionBarDrawerToggle;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class TopicalFragment extends Fragment {
 	private static final String AllTopicalItemsURL = "http://app.wirralgrammarboys.com/get_topical.php";
@@ -97,10 +97,9 @@ public class TopicalFragment extends Fragment {
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		mActionBar = createActionBarHelper();
 		mActionBar.init();
-		mDrawerToggle = new ActionBarDrawerToggle(this.getActivity(), 
-			mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name);
-		mDrawerToggle.syncState();
+		mDrawerToggle = new ActionBarDrawerToggle(this.getActivity(), mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name);
 		mDrawerLayout.openDrawer(topicalListView);
+        mDrawerToggle.syncState();
 		mDrawerLayout.setFocusableInTouchMode(false);
 		if (dbhandler.getTopicalCount() > 0) {
 			getTopicalList();
@@ -147,6 +146,12 @@ public class TopicalFragment extends Fragment {
             mLoadTopicalTask = null;
 		}
 	}
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
+    }
 	
 	boolean onBackPressed() {
 		if (mDrawerLayout.isDrawerOpen(topicalListView)) {
@@ -156,8 +161,8 @@ public class TopicalFragment extends Fragment {
 			return false;
 		}
 	}
-	
-	void internetDialogue(String string) {
+
+    private void internetDialogue(String string) {
 		AlertDialog.Builder alertBox = new AlertDialog.Builder(this.getActivity());
         alertBox.setIcon(R.drawable.fail);
         alertBox.setMessage(string);
@@ -268,7 +273,6 @@ public class TopicalFragment extends Fragment {
                 new String[]{"listID", "listTitle"}, new int[]{R.id.topicalId, R.id.titleTopical});
 		topicalListView.setAdapter(topicalListAdapter);
 		topicalListView.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView idText = (TextView) view.findViewById(R.id.topicalId);
@@ -411,9 +415,18 @@ public class TopicalFragment extends Fragment {
 			mActionBar.setDisplayShowCustomEnabled(true);
 			mActionBar.setDisplayShowTitleEnabled(false);
         	mActionBar.setIcon(R.drawable.banner);
-        	inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        	v = inflater.inflate(R.layout.actionbar_title, null);
-        	mActionTitle = ((TextView) v.findViewById(R.id.title));
+            v = ((LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.actionbar_title, null);
+           /*v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mDrawerLayout.isDrawerOpen(topicalListView)) {
+                        mDrawerLayout.closeDrawer(topicalListView);
+                    } else {
+                        mDrawerLayout.openDrawer(topicalListView);
+                    }
+                }
+            });*/
+            mActionTitle = ((TextView)v.findViewById(R.id.title));
         	mActionTitle.setText(R.string.topical_information);
         	mActionTitle.setMarqueeRepeatLimit(255);
         	mActionTitle.setFocusable(true);

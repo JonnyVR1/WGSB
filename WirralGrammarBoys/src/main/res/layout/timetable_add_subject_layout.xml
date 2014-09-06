@@ -51,7 +51,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Name"
-                            android:maxEms="9" />
+                            android:maxEms="9"
+                            android:inputType="textCapWords" />
                     </com.jonny.wgsb.FloatLabelLayout>
                 </RelativeLayout>
                 <LinearLayout

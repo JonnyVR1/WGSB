@@ -1,8 +1,5 @@
 package com.jonny.wgsb;
 
-import java.io.IOException;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
@@ -18,13 +15,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
-import android.support.v4.preference.PreferenceFragment;
-import android.support.v7.app.ActionBar;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference.OnPreferenceClickListener;
+import android.support.v4.preference.PreferenceFragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +30,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.Toast;
+
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import java.io.IOException;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD_MR1)
 public class SettingsFragmentLegacy extends PreferenceFragment implements OnSharedPreferenceChangeListener {
@@ -99,6 +100,7 @@ public class SettingsFragmentLegacy extends PreferenceFragment implements OnShar
     }
 
     private void setupActionBar() {
+        setHasOptionsMenu(true);
         final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         actionBar.setIcon(R.drawable.banner);

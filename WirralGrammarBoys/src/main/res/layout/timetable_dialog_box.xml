@@ -56,7 +56,8 @@
                 android:id="@+id/name_field"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5" />
+                android:layout_weight="0.5"
+                android:inputType="textCapWords" />
             <CheckBox
                 android:id="@+id/break_box"
                 android:layout_width="70dp"

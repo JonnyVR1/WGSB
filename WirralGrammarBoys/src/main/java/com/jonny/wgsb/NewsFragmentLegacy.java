@@ -1,13 +1,5 @@
 package com.jonny.wgsb;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -22,6 +14,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.Spanned;
@@ -41,9 +34,16 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.support.v7.app.ActionBar;
 
 import com.squareup.picasso.Picasso;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD_MR1)
 public class NewsFragmentLegacy extends Fragment {
@@ -101,10 +101,9 @@ public class NewsFragmentLegacy extends Fragment {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mActionBar = createActionBarHelper();
         mActionBar.init();
-        mDrawerToggle = new ActionBarDrawerToggle(this.getActivity(),
-                mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name);
-        mDrawerToggle.syncState();
+        mDrawerToggle = new ActionBarDrawerToggle(this.getActivity(), mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name);
         mDrawerLayout.openDrawer(newsListView);
+        mDrawerToggle.syncState();
         mDrawerLayout.setFocusableInTouchMode(false);
         if (dbhandler.getNewsCount() > 0) {
             getNewsList();
@@ -116,36 +115,6 @@ public class NewsFragmentLegacy extends Fragment {
             }
         }
         return view;
-    }
-
-    boolean onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(newsListView)) {
-            return true;
-        } else {
-            mDrawerLayout.openDrawer(newsListView);
-            return false;
-        }
-    }
-
-    private void internetDialogue(String string) {
-        AlertDialog.Builder alertBox = new AlertDialog.Builder(this.getActivity());
-        alertBox.setIcon(R.drawable.fail);
-        alertBox.setMessage(string);
-        alertBox.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.setClassName("com.android.settings", "com.android.settings.Settings");
-                startActivity(intent);
-            }
-        });
-        alertBox.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
-        alertBox.show();
     }
 
     @Override
@@ -185,6 +154,21 @@ public class NewsFragmentLegacy extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
+    }
+
+    boolean onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(newsListView)) {
+            return true;
+        } else {
+            mDrawerLayout.openDrawer(newsListView);
+            return false;
+        }
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
         inflater = getActivity().getMenuInflater();
@@ -211,6 +195,27 @@ public class NewsFragmentLegacy extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private void internetDialogue(String string) {
+        AlertDialog.Builder alertBox = new AlertDialog.Builder(this.getActivity());
+        alertBox.setIcon(R.drawable.fail);
+        alertBox.setMessage(string);
+        alertBox.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.setClassName("com.android.settings", "com.android.settings.Settings");
+                startActivity(intent);
+            }
+        });
+        alertBox.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+        alertBox.show();
+    }
+
     private void getNewsList() {
         List<HashMap<String, String>> newsListItems = new ArrayList<HashMap<String, String>>();
         List<News> news = dbhandler.getAllNews();
@@ -225,7 +230,6 @@ public class NewsFragmentLegacy extends Fragment {
                 new String[]{"listID", "listTitle", "listDate"}, new int[]{R.id.newsId, R.id.titleNews, R.id.dateNews});
         newsListView.setAdapter(newsListAdapter);
         newsListView.setOnItemClickListener(new OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView idText = (TextView) view.findViewById(R.id.newsId);
@@ -475,9 +479,18 @@ public class NewsFragmentLegacy extends Fragment {
             mActionBar.setDisplayShowCustomEnabled(true);
             mActionBar.setDisplayShowTitleEnabled(false);
             mActionBar.setIcon(R.drawable.banner);
-            inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.actionbar_title, null);
-            mActionTitle = ((TextView) v.findViewById(R.id.title));
+            v = ((LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.actionbar_title, null);
+            /*v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mDrawerLayout.isDrawerOpen(newsListView)) {
+                        mDrawerLayout.closeDrawer(newsListView);
+                    } else {
+                        mDrawerLayout.openDrawer(newsListView);
+                    }
+                }
+            });*/
+            mActionTitle = ((TextView)v.findViewById(R.id.title));
             mActionTitle.setText(R.string.news);
             mActionTitle.setMarqueeRepeatLimit(255);
             mActionTitle.setFocusable(true);
@@ -492,7 +505,7 @@ public class NewsFragmentLegacy extends Fragment {
         }
 
         private void onDrawerOpened() {
-            mActionBar.setTitle(R.string.news);
+            mActionTitle.setText(R.string.news);
         }
 
         private void setTitle(CharSequence title) {

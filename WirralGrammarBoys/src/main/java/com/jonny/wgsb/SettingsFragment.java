@@ -1,8 +1,5 @@
 package com.jonny.wgsb;
 
-import java.io.IOException;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -21,26 +18,30 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.support.v4.preference.PreferenceFragment;
-import android.support.v7.app.ActionBar;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
-import android.preference.Preference.OnPreferenceClickListener;
+import android.support.v4.preference.PreferenceFragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.Toast;
+
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import java.io.IOException;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
@@ -108,6 +109,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     }
 
     private void setupActionBar() {
+        setHasOptionsMenu(true);
         final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         actionBar.setIcon(R.drawable.banner);

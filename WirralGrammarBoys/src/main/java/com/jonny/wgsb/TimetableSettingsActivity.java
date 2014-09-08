@@ -32,18 +32,18 @@ import android.widget.TextView;
 public class TimetableSettingsActivity extends ActionBarActivity {
     private final static int CONFIRM_DIALOG_ID = 0, RESTORE_DIALOG_ID = 1;
 
-	@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         FrameLayout frame = new FrameLayout(this);
         frame.setId(R.id.fragment_container_timetable);
         setContentView(frame, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		if (savedInstanceState == null) {
-		TimetableSettingsFragment TimetableSettingsFragment = new TimetableSettingsFragment();
-			getSupportFragmentManager().beginTransaction()
+        if (savedInstanceState == null) {
+            TimetableSettingsFragment TimetableSettingsFragment = new TimetableSettingsFragment();
+            getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container_timetable, TimetableSettingsFragment, "TIMETABLE_SETTINGS_FRAGMENT").commit();
-		}
-	}
+        }
+    }
 
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -117,116 +117,116 @@ public class TimetableSettingsActivity extends ActionBarActivity {
         return dialog;
     }
 
-	public static class TimetableSettingsFragment extends PreferenceFragment {
+    public static class TimetableSettingsFragment extends PreferenceFragment {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             return inflater.inflate(R.layout.activity_timetable_settings, container, false);
         }
 
-		@Override
+        @Override
         public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-			setupActionBar();
-			addPreferencesFromResource(R.xml.timetable_settings);
-			setPrefs();
-			setStaticPrefs();
-		}
+            super.onCreate(savedInstanceState);
+            setupActionBar();
+            addPreferencesFromResource(R.xml.timetable_settings);
+            setPrefs();
+            setStaticPrefs();
+        }
 
-		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-		private void setupActionBar() {
-            ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
-			actionBar.setIcon(R.drawable.banner);
-			actionBar.setTitle(R.string.timetable_settings);
-			actionBar.setDisplayHomeAsUpEnabled(true);
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-				setTranslucentStatus(true);
-				SystemBarTintManager tintManager = new SystemBarTintManager(getActivity());
-				tintManager.setStatusBarTintEnabled(true);
-				tintManager.setStatusBarTintColor(Color.parseColor("#FF004890"));
-			}
-		}
+        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+        private void setupActionBar() {
+            ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+            actionBar.setIcon(R.drawable.banner);
+            actionBar.setTitle(R.string.timetable_settings);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                setTranslucentStatus(true);
+                SystemBarTintManager tintManager = new SystemBarTintManager(getActivity());
+                tintManager.setStatusBarTintEnabled(true);
+                tintManager.setStatusBarTintColor(Color.parseColor("#FF004890"));
+            }
+        }
 
-		@TargetApi(19) 
-		private void setTranslucentStatus(boolean on) {
-			Window win = getActivity().getWindow();
-			WindowManager.LayoutParams winParams = win.getAttributes();
-			final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-			if (on) {
-				winParams.flags |= bits;
-			} else {
-				winParams.flags &= ~bits;
-			}
-			win.setAttributes(winParams);
-		}
+        @TargetApi(19)
+        private void setTranslucentStatus(boolean on) {
+            Window win = getActivity().getWindow();
+            WindowManager.LayoutParams winParams = win.getAttributes();
+            final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+            if (on) {
+                winParams.flags |= bits;
+            } else {
+                winParams.flags &= ~bits;
+            }
+            win.setAttributes(winParams);
+        }
 
-		private void setPrefs() {
-			Preference backup = findPreference("backup");
-			Preference clearData = findPreference("clearData");
-			Preference restore = findPreference("restore");
-			ListPreference theme = (ListPreference) findPreference("theme");
-			backup.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-				public boolean onPreferenceClick(Preference preference) {
-					TimetableBackupRestore.backup(getActivity());
-					return true;
-				}
-			});
-			clearData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-				public boolean onPreferenceClick(Preference preference) {
+        private void setPrefs() {
+            Preference backup = findPreference("backup");
+            Preference clearData = findPreference("clearData");
+            Preference restore = findPreference("restore");
+            ListPreference theme = (ListPreference) findPreference("theme");
+            backup.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    TimetableBackupRestore.backup(getActivity());
+                    return true;
+                }
+            });
+            clearData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
                     getActivity().showDialog(CONFIRM_DIALOG_ID);
-					return true;
-				}
-			});
-			restore.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-				public boolean onPreferenceClick(Preference preference) {
+                    return true;
+                }
+            });
+            restore.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
                     getActivity().showDialog(RESTORE_DIALOG_ID);
-					return true;
-				}
-			});
-			theme.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                    return true;
+                }
+            });
+            theme.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
                 public boolean onPreferenceChange(Preference pref, Object key) {
-					ContentResolver cr = getActivity().getContentResolver();
-					ContentValues values = new ContentValues();
-					values.put(TimetableProvider.KEY, "theme");
-					if (key.equals("light")) {
-						values.put(TimetableProvider.NUM, 1);
-					} else {
-						values.put(TimetableProvider.NUM, 2);
-					}
-					cr.update(TimetableProvider.WEEK_URI, values, TimetableProvider.KEY + "='theme'", null);
-					return true;
-				}
-			});
-		}
+                    ContentResolver cr = getActivity().getContentResolver();
+                    ContentValues values = new ContentValues();
+                    values.put(TimetableProvider.KEY, "theme");
+                    if (key.equals("light")) {
+                        values.put(TimetableProvider.NUM, 1);
+                    } else {
+                        values.put(TimetableProvider.NUM, 2);
+                    }
+                    cr.update(TimetableProvider.WEEK_URI, values, TimetableProvider.KEY + "='theme'", null);
+                    return true;
+                }
+            });
+        }
 
-		private void setStaticPrefs() {
-			ListPreference viewStyle = (ListPreference) findPreference("viewStyle");
-			viewStyle.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-				public boolean onPreferenceChange(Preference pref, Object key) {
-					ContentResolver cr = getActivity().getContentResolver();
-					ContentValues values = new ContentValues();
-					values.put(TimetableProvider.KEY, "style");
-					if (key.equals("exp")) {
-						values.put(TimetableProvider.NUM, 1);
-					} else if (key.equals("comp")) {
-						values.put(TimetableProvider.NUM, 2);
-					}
-					cr.update(TimetableProvider.WEEK_URI, values, TimetableProvider.KEY + "='style'", null);
-					return true;
-				}
-			});
-		}
+        private void setStaticPrefs() {
+            ListPreference viewStyle = (ListPreference) findPreference("viewStyle");
+            viewStyle.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                public boolean onPreferenceChange(Preference pref, Object key) {
+                    ContentResolver cr = getActivity().getContentResolver();
+                    ContentValues values = new ContentValues();
+                    values.put(TimetableProvider.KEY, "style");
+                    if (key.equals("exp")) {
+                        values.put(TimetableProvider.NUM, 1);
+                    } else if (key.equals("comp")) {
+                        values.put(TimetableProvider.NUM, 2);
+                    }
+                    cr.update(TimetableProvider.WEEK_URI, values, TimetableProvider.KEY + "='style'", null);
+                    return true;
+                }
+            });
+        }
 
-		@Override
-		public boolean onOptionsItemSelected(MenuItem item) {
-			if (item.getItemId() == android.R.id.home) {
-				Intent intent = new Intent(getActivity(), TimetableTabController.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				return true;
-			} else {
-				return super.onOptionsItemSelected(item);
-			}
-		}
-	}
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            if (item.getItemId() == android.R.id.home) {
+                Intent intent = new Intent(getActivity(), TimetableTabController.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            } else {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+    }
 }

@@ -20,12 +20,12 @@ import static com.jonny.wgsb.CommonUtilities.SERVER_URL;
 import static com.jonny.wgsb.CommonUtilities.TAG;
 
 public final class ServerUtilities {
-	private static final int MAX_ATTEMPTS = 5;
+    private static final int MAX_ATTEMPTS = 5;
     private static final int BACKOFF_MILLI_SECONDS = 2000;
     private static final Random random = new Random();
-	
+
     static void register(final Context context, final String regId, String name, String email, String year7, String year8, String year9,
-    		String year10, String year11, String year12, String year13) {
+                         String year10, String year11, String year12, String year13) {
         Log.i(TAG, "registering device (regId = " + regId + ")");
         String serverUrl = SERVER_URL;
         Map<String, String> params = new HashMap<String, String>();
@@ -68,7 +68,7 @@ public final class ServerUtilities {
     }
 
     static void update(final String regId, String email, String year7, String year8, String year9,
-                         String year10, String year11, String year12, String year13) {
+                       String year10, String year11, String year12, String year13) {
         String serverUrl = SERVER_UPDATE_URL;
         Map<String, String> params = new HashMap<String, String>();
         params.put("regId", regId);
@@ -119,7 +119,7 @@ public final class ServerUtilities {
         }
     }
 
-    private static void post(String endpoint, Map<String, String> params) throws IOException {  
+    private static void post(String endpoint, Map<String, String> params) throws IOException {
         URL url;
         try {
             url = new URL(endpoint);

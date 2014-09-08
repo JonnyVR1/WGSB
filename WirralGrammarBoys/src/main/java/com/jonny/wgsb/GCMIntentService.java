@@ -57,13 +57,13 @@ public class GCMIntentService extends IntentService {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         long when = System.currentTimeMillis();
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-            .setSmallIcon(R.drawable.push_icon)
-            .setContentTitle("WGSB - New Notification")
-            .setStyle(new NotificationCompat.BigTextStyle().bigText(title))
-            .setContentText("New Message: " + title)
-            .setWhen(when)
-            .setAutoCancel(true)
-            .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
+                .setSmallIcon(R.drawable.push_icon)
+                .setContentTitle("WGSB - New Notification")
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(title))
+                .setContentText("New Message: " + title)
+                .setWhen(when)
+                .setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }

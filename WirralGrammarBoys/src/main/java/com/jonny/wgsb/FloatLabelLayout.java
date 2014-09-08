@@ -49,7 +49,8 @@ public final class FloatLabelLayout extends FrameLayout {
     @Override
     public final void addView(@NonNull View child, int index, ViewGroup.LayoutParams params) {
         if (child instanceof EditText) {
-            if (mEditText != null) throw new IllegalArgumentException("We already have an EditText, can only have one");
+            if (mEditText != null)
+                throw new IllegalArgumentException("We already have an EditText, can only have one");
             final LayoutParams lp = new LayoutParams(params);
             lp.gravity = Gravity.BOTTOM;
             lp.topMargin = (int) mLabel.getTextSize();
@@ -57,6 +58,10 @@ public final class FloatLabelLayout extends FrameLayout {
             setEditText((EditText) child);
         }
         super.addView(child, index, params);
+    }
+
+    public EditText getEditText() {
+        return mEditText;
     }
 
     private void setEditText(EditText editText) {
@@ -82,16 +87,12 @@ public final class FloatLabelLayout extends FrameLayout {
         mEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean focused) {
-                if (android.os.Build.VERSION.SDK_INT>= android.os.Build.VERSION_CODES.HONEYCOMB) {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
                     mLabel.setActivated(focused);
                 }
             }
         });
         mLabel.setText(mEditText.getHint());
-    }
-
-    public EditText getEditText() {
-        return mEditText;
     }
 
     public TextView getLabel() {
@@ -109,12 +110,12 @@ public final class FloatLabelLayout extends FrameLayout {
         ViewHelper.setAlpha(mLabel, 1f);
         ViewHelper.setTranslationY(mLabel, 0f);
         ViewPropertyAnimator.animate(mLabel).alpha(0f).translationY(mLabel.getHeight()).setDuration(ANIMATION_DURATION)
-            .setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLabel.setVisibility(View.GONE);
-                }
-            }).start();
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mLabel.setVisibility(View.GONE);
+                    }
+                }).start();
     }
 
     private int dipsToPix(float dps) {

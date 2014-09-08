@@ -46,9 +46,9 @@ import static com.jonny.wgsb.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 public class MainActivity extends ActionBarActivity {
     private Integer id;
 
-	@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         supportInvalidateOptionsMenu();
         id = getIntent().getIntExtra("id", 0);
@@ -57,7 +57,7 @@ public class MainActivity extends ActionBarActivity {
         } else {
             setupLegacy(savedInstanceState, id);
         }
-	}
+    }
 
     @Override
     public void onNewIntent(Intent i) {
@@ -190,30 +190,57 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public static class MainFragment extends Fragment {
+    public static class MainFragment extends Fragment {
+        private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                getActivity().invalidateOptionsMenu();
+            }
+        };
         Context context;
         DatabaseHandler dbhandler;
         ConnectionDetector cd;
-		ListView listView;
-		Button websiteButton, facebookButton, twitterButton;
+        ListView listView;
+        Button websiteButton, facebookButton, twitterButton;
+        OnClickListener handler = new OnClickListener() {
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.website_btn:
+                        Uri website = Uri.parse("http://wirralgrammarboys.com/");
+                        Intent websiteIntent = new Intent(Intent.ACTION_VIEW, website);
+                        startActivity(websiteIntent);
+                        break;
+                    case R.id.facebook_btn:
+                        Uri facebook = Uri.parse("https://www.facebook.com/WirralGSB");
+                        Intent facebookIntent = new Intent(Intent.ACTION_VIEW, facebook);
+                        startActivity(facebookIntent);
+                        break;
+                    case R.id.twitter_btn:
+                        Uri twitter = Uri.parse("https://twitter.com/WGSB");
+                        Intent twitterIntent = new Intent(Intent.ACTION_VIEW, twitter);
+                        startActivity(twitterIntent);
+                        break;
+                }
+            }
+        };
 
         @Override
-	    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) { 
-			View view =  inflater.inflate(R.layout.fragment_main, container, false);
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_main, container, false);
             setupActionBar();
             dbhandler = DatabaseHandler.getInstance(getActivity());
             getOverflowMenu();
             getActivity().registerReceiver(mHandleMessageReceiver, new IntentFilter(DISPLAY_MESSAGE_ACTION));
-			ArrayList<MainDetails> arrayList = GetSearchResults();
-			listView = (ListView) view.findViewById(R.id.main_list);
-			websiteButton = (Button) view.findViewById(R.id.website_btn);
-			facebookButton = (Button) view.findViewById(R.id.facebook_btn);
-			twitterButton = (Button) view.findViewById(R.id.twitter_btn);
-			websiteButton.setOnClickListener(handler);
-			facebookButton.setOnClickListener(handler);
-			twitterButton.setOnClickListener(handler);
-			listView.setAdapter(new MainListBaseAdapter(this.getActivity(), arrayList));
-			listView.setOnItemClickListener(new OnItemClickListener() {
+            ArrayList<MainDetails> arrayList = GetSearchResults();
+            listView = (ListView) view.findViewById(R.id.main_list);
+            websiteButton = (Button) view.findViewById(R.id.website_btn);
+            facebookButton = (Button) view.findViewById(R.id.facebook_btn);
+            twitterButton = (Button) view.findViewById(R.id.twitter_btn);
+            websiteButton.setOnClickListener(handler);
+            facebookButton.setOnClickListener(handler);
+            twitterButton.setOnClickListener(handler);
+            listView.setAdapter(new MainListBaseAdapter(this.getActivity(), arrayList));
+            listView.setOnItemClickListener(new OnItemClickListener() {
 
                 @Override
                 public void onItemClick(AdapterView<?> a, View v, int position, long id) {
@@ -232,7 +259,7 @@ public class MainActivity extends ActionBarActivity {
                             break;
                         case 2:
                             ContentResolver cr = getActivity().getContentResolver();
-                            Cursor cursor = cr.query(TimetableProvider.PERIODS_URI, new String[] { TimetableProvider.ID, TimetableProvider.DAY },
+                            Cursor cursor = cr.query(TimetableProvider.PERIODS_URI, new String[]{TimetableProvider.ID, TimetableProvider.DAY},
                                     TimetableProvider.DAY + "='set_up'", null, null);
                             File dir = new File(Environment.getExternalStorageDirectory(), "WGSB\backup");
                             File file = new File(dir, "backup.txt");
@@ -253,8 +280,8 @@ public class MainActivity extends ActionBarActivity {
                     }
                 }
             });
-			return view;
-		}
+            return view;
+        }
 
         @Override
         public void onResume() {
@@ -327,7 +354,7 @@ public class MainActivity extends ActionBarActivity {
 
         private void setupActionBar() {
             setHasOptionsMenu(true);
-            ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+            ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
             actionBar.setIcon(R.drawable.banner);
             actionBar.setTitle(R.string.app_name);
@@ -372,13 +399,6 @@ public class MainActivity extends ActionBarActivity {
             return dialog;
         }
 
-        private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                getActivity().invalidateOptionsMenu();
-            }
-        };
-
         private void getOverflowMenu() {
             try {
                 ViewConfiguration config = ViewConfiguration.get(getActivity());
@@ -387,34 +407,12 @@ public class MainActivity extends ActionBarActivity {
                     menuKeyField.setAccessible(true);
                     menuKeyField.setBoolean(config, false);
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-		OnClickListener handler = new OnClickListener() {
-			public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.website_btn:
-                        Uri website = Uri.parse("http://wirralgrammarboys.com/");
-                        Intent websiteIntent = new Intent(Intent.ACTION_VIEW, website);
-                        startActivity(websiteIntent);
-                        break;
-                    case R.id.facebook_btn:
-                        Uri facebook = Uri.parse("https://www.facebook.com/WirralGSB");
-                        Intent facebookIntent = new Intent(Intent.ACTION_VIEW, facebook);
-                        startActivity(facebookIntent);
-                        break;
-                    case R.id.twitter_btn:
-                        Uri twitter = Uri.parse("https://twitter.com/WGSB");
-                        Intent twitterIntent = new Intent(Intent.ACTION_VIEW, twitter);
-                        startActivity(twitterIntent);
-                        break;
-				}
-			}
-		};
-	
-		private ArrayList<MainDetails> GetSearchResults() {
+        private ArrayList<MainDetails> GetSearchResults() {
             ArrayList<MainDetails> arrayList = new ArrayList<MainDetails>();
 
             MainDetails mainDetails = new MainDetails();
@@ -439,16 +437,42 @@ public class MainActivity extends ActionBarActivity {
 
             return arrayList;
         }
-	}
+    }
 
     public static class MainFragmentLegacy extends Fragment {
+        private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+            }
+        };
         DatabaseHandler dbhandler;
         ListView listView;
         Button websiteButton, facebookButton, twitterButton;
+        OnClickListener handler = new OnClickListener() {
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.website_btn:
+                        Uri website = Uri.parse("http://wirralgrammarboys.com/");
+                        Intent websiteIntent = new Intent(Intent.ACTION_VIEW, website);
+                        startActivity(websiteIntent);
+                        break;
+                    case R.id.facebook_btn:
+                        Uri facebook = Uri.parse("https://www.facebook.com/WirralGSB");
+                        Intent facebookIntent = new Intent(Intent.ACTION_VIEW, facebook);
+                        startActivity(facebookIntent);
+                        break;
+                    case R.id.twitter_btn:
+                        Uri twitter = Uri.parse("https://twitter.com/WGSB");
+                        Intent twitterIntent = new Intent(Intent.ACTION_VIEW, twitter);
+                        startActivity(twitterIntent);
+                        break;
+                }
+            }
+        };
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view =  inflater.inflate(R.layout.fragment_main, container, false);
+            View view = inflater.inflate(R.layout.fragment_main, container, false);
             setupActionBar();
             dbhandler = DatabaseHandler.getInstance(getActivity());
             getOverflowMenu();
@@ -481,7 +505,7 @@ public class MainActivity extends ActionBarActivity {
                             break;
                         case 2:
                             ContentResolver cr = getActivity().getContentResolver();
-                            Cursor cursor = cr.query(TimetableProvider.PERIODS_URI, new String[] { TimetableProvider.ID, TimetableProvider.DAY },
+                            Cursor cursor = cr.query(TimetableProvider.PERIODS_URI, new String[]{TimetableProvider.ID, TimetableProvider.DAY},
                                     TimetableProvider.DAY + "='set_up'", null, null);
                             File dir = new File(Environment.getExternalStorageDirectory(), "WGSB\backup");
                             File file = new File(dir, "backup.txt");
@@ -583,7 +607,7 @@ public class MainActivity extends ActionBarActivity {
 
         private void setupActionBar() {
             setHasOptionsMenu(true);
-            final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+            final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
             actionBar.setIcon(R.drawable.banner);
             actionBar.setTitle(R.string.app_name);
@@ -610,12 +634,6 @@ public class MainActivity extends ActionBarActivity {
             return dialog;
         }
 
-        private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-            }
-        };
-
         private void getOverflowMenu() {
             try {
                 ViewConfiguration config = ViewConfiguration.get(getActivity());
@@ -624,32 +642,10 @@ public class MainActivity extends ActionBarActivity {
                     menuKeyField.setAccessible(true);
                     menuKeyField.setBoolean(config, false);
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
-        OnClickListener handler = new OnClickListener() {
-            public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.website_btn:
-                        Uri website = Uri.parse("http://wirralgrammarboys.com/");
-                        Intent websiteIntent = new Intent(Intent.ACTION_VIEW, website);
-                        startActivity(websiteIntent);
-                        break;
-                    case R.id.facebook_btn:
-                        Uri facebook = Uri.parse("https://www.facebook.com/WirralGSB");
-                        Intent facebookIntent = new Intent(Intent.ACTION_VIEW, facebook);
-                        startActivity(facebookIntent);
-                        break;
-                    case R.id.twitter_btn:
-                        Uri twitter = Uri.parse("https://twitter.com/WGSB");
-                        Intent twitterIntent = new Intent(Intent.ACTION_VIEW, twitter);
-                        startActivity(twitterIntent);
-                        break;
-                }
-            }
-        };
 
         private ArrayList<MainDetails> GetSearchResults() {
             ArrayList<MainDetails> arrayList = new ArrayList<MainDetails>();

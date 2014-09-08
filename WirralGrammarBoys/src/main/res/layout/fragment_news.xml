@@ -1,64 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
-	<android.support.v4.widget.DrawerLayout
-		android:id="@+id/news_drawer_layout"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent">
-		<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/news_drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/news_scroll_view"
-		    android:layout_width="match_parent"
-			android:layout_height="fill_parent">
-			<LinearLayout
-			    android:layout_width="fill_parent"
-			    android:layout_height="wrap_content"
-			    android:orientation="vertical"
-			    android:id="@+id/news_right_layout">
-			    <TextView
-			        android:id="@+id/titleArticleNews"
-			        android:layout_width="fill_parent"
-			        android:layout_height="wrap_content"
-			        android:textSize="20sp"
-			        android:textStyle="bold"
-			        android:gravity="center"
-			        android:paddingTop="10dip"
-			        android:paddingLeft="10dip"
-			        android:paddingRight="10dip" />
-			    <TextView
-			        android:id="@+id/dateArticleNews"
-			        android:layout_width="fill_parent"
-			        android:layout_height="wrap_content"
-			        android:paddingTop="10dip"
-			        android:paddingLeft="10dip"
-			        android:paddingRight="10dip" />
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent">
+
+            <LinearLayout
+                android:id="@+id/news_right_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/titleArticleNews"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingTop="10dip"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dateArticleNews"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingTop="10dip" />
+
                 <ImageView
                     android:id="@+id/storyNewsImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="8dip"
                     android:layout_marginLeft="10dip"
-                    android:paddingRight="10dip"/>
-			    <TextView
-			        android:id="@+id/storyArticleNews"
-			        android:layout_width="fill_parent"
-			        android:layout_height="wrap_content"
-			        android:paddingTop="8dip"
-			        android:paddingLeft="10dip"
-			        android:paddingRight="10dip" />
-			</LinearLayout>
-		</ScrollView>
-		<ListView 
-			android:id="@+id/news_list"
-			android:clickable="true"
-			android:orientation="vertical"
-			android:layout_width="300dp"
-	        android:layout_height="fill_parent"
-	        android:layout_gravity="start"
-	        android:background="#FFFFFF"
-	        android:choiceMode="singleChoice">
-		</ListView>   
-	</android.support.v4.widget.DrawerLayout>
+                    android:paddingRight="10dip"
+                    android:paddingTop="8dip" />
+
+                <TextView
+                    android:id="@+id/storyArticleNews"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingTop="8dip" />
+            </LinearLayout>
+        </ScrollView>
+
+        <ListView
+            android:id="@+id/news_list"
+            android:layout_width="300dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="start"
+            android:background="#FFFFFF"
+            android:choiceMode="singleChoice"
+            android:clickable="true"
+            android:orientation="vertical"></ListView>
+    </android.support.v4.widget.DrawerLayout>
 </FrameLayout>

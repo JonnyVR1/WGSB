@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<style name="Theme.Wgsb" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+
+    <style name="Theme.Wgsb" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_wgsb</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Wgsb</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Wgsb</item>
@@ -12,10 +13,10 @@
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Wgsb</item>
         <item name="android:editTextStyle">@style/EditTextAppTheme</item>
         <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewAppTheme</item>
-		<item name="android:windowTranslucentStatus">true</item>
-		<item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>
         <item name="android:windowBackground">@color/blue_logo</item>
-		<item name="android:fitsSystemWindows">true</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:actionBarWidgetTheme">@style/Theme.Wgsb.Widget</item>
     </style>
 

@@ -2,38 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:clipToPadding="false"
     android:fitsSystemWindows="true"
-    android:clipToPadding="false" >
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/titleNews"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dip"
+            android:gravity="left"
             android:paddingLeft="12dip"
             android:paddingRight="8dip"
-            android:gravity="left"
+            android:paddingTop="8dip"
             android:textSize="14sp"
             android:textStyle="bold" />
+
         <TextView
             android:id="@+id/newsId"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/titleNews"
             android:textSize="0sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </RelativeLayout>
+
     <TextView
         android:id="@+id/dateNews"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="right"
         android:paddingBottom="8dip"
         android:paddingLeft="8dip"
         android:paddingRight="45dip"
-        android:gravity="right"
         android:textSize="12sp"
         android:textStyle="italic" />
 </LinearLayout>

@@ -23,7 +23,7 @@ public class GCMFragmentSpecific extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_gcm_specific, container, false);
+        View view = inflater.inflate(R.layout.fragment_gcm_specific, container, false);
         setupActionBar();
         final Integer id = getArguments().getInt("id", 1);
         dbhandler = DatabaseHandler.getInstance(getActivity());
@@ -45,7 +45,7 @@ public class GCMFragmentSpecific extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             getActivity().getSupportFragmentManager().popBackStack();
             return true;
         }
@@ -55,7 +55,7 @@ public class GCMFragmentSpecific extends Fragment {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setupActionBar() {
         setHasOptionsMenu(true);
-        final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         actionBar.setIcon(R.drawable.banner);
         actionBar.setTitle("Notifications");

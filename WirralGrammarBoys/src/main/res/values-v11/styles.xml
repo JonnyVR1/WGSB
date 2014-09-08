@@ -11,12 +11,12 @@
         <item name="actionModeBackground">@drawable/cab_background_top_wgsb</item>
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_wgsb</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Wgsb</item>
-		<item name="android:editTextStyle">@style/EditTextAppTheme</item>
+        <item name="android:editTextStyle">@style/EditTextAppTheme</item>
         <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewAppTheme</item>
         <item name="actionBarWidgetTheme">@style/Theme.Wgsb.Widget</item>
     </style>
-	
-	<style name="ActionBar.Solid.Wgsb" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+
+    <style name="ActionBar.Solid.Wgsb" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="background">@drawable/ab_solid_wgsb</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_wgsb</item>
         <item name="backgroundSplit">@drawable/ab_bottom_solid_wgsb</item>
@@ -27,11 +27,11 @@
         <item name="background">@drawable/ab_transparent_wgsb</item>
         <item name="progressBarStyle">@style/ProgressBar.Wgsb</item>
     </style>
-	
-    <style name="PopupMenu.Wgsb" parent="@style/Widget.AppCompat.PopupMenu">	
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_wgsb</item>	
+
+    <style name="PopupMenu.Wgsb" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_wgsb</item>
     </style>
-	
+
     <style name="DropDownListView.Wgsb" parent="@style/Widget.AppCompat.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_wgsb</item>
     </style>
@@ -39,17 +39,17 @@
     <style name="ActionBarTabStyle.Wgsb" parent="@style/Widget.AppCompat.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_wgsb</item>
     </style>
-	
+
     <style name="DropDownNav.Wgsb" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_background_ab_wgsb</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_wgsb</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_wgsb</item>
     </style>
-    
+
     <style name="ProgressBar.Wgsb" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_wgsb</item>
     </style>
-    
+
     <style name="ActionButton.CloseMode.Wgsb" parent="@style/Widget.AppCompat.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_wgsb</item>
     </style>
@@ -59,17 +59,17 @@
         <item name="dropDownListViewStyle">@style/DropDownListView.Wgsb</item>
     </style>
 
-	<style name="EditTextAppTheme" parent="android:Widget.EditText">
+    <style name="EditTextAppTheme" parent="android:Widget.EditText">
         <item name="android:background">@drawable/wgsb_edit_text_holo_light</item>
         <item name="android:textColor">@color/black</item>
-	</style>
+    </style>
 
     <style name="AutoCompleteTextViewAppTheme" parent="android:Widget.AutoCompleteTextView">
         <item name="android:dropDownSelector">@drawable/wgsb_list_selector_holo_light</item>
         <item name="android:background">@drawable/wgsb_edit_text_holo_light</item>
         <item name="android:textColor">#000000</item>
     </style>
-	
+
     <style name="TextAppearance.wgsb.FloatLabel" parent="android:TextAppearance.Small">
         <item name="android:textColor">@color/float_label</item>
         <item name="android:textSize">14sp</item>

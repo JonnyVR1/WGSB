@@ -3,10 +3,10 @@ package com.jonny.wgsb;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
- 
+
 public class ConnectionDetector {
     private Context context;
- 
+
     ConnectionDetector(Context context) {
         this.context = context;
     }

@@ -46,15 +46,15 @@ import java.io.IOException;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
     static final String TAG = "WGSB:GCM";
-    private String email, year7, year8, year9, year10, year11, year12, year13, regId;
     Integer changed = 0;
-    private SwitchPreference mPush;
-    private Preference mYear, appVersion, bugReport, jonny;
-    private Context mContext;
     GoogleCloudMessaging gcm;
     DatabaseHandler dbhandler;
     AsyncTask<Void, Void, Void> mUpdateTask, mUnregisterTask;
-    
+    private String email, year7, year8, year9, year10, year11, year12, year13, regId;
+    private SwitchPreference mPush;
+    private Preference mYear, appVersion, bugReport, jonny;
+    private Context mContext;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_settings, container, false);
@@ -68,7 +68,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         dbhandler = DatabaseHandler.getInstance(mContext);
         addPreferencesFromResource(R.xml.pref_settings);
         PreferenceScreen preferencescreen = getPreferenceScreen();
-        mPush = (SwitchPreference)preferencescreen.findPreference("pref_push");
+        mPush = (SwitchPreference) preferencescreen.findPreference("pref_push");
         mYear = preferencescreen.findPreference("pref_year");
         appVersion = preferencescreen.findPreference("appVersion");
         bugReport = preferencescreen.findPreference("bugReport");
@@ -110,7 +110,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 
     private void setupActionBar() {
         setHasOptionsMenu(true);
-        final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         actionBar.setIcon(R.drawable.banner);
         actionBar.setTitle(R.string.settings);
@@ -122,8 +122,8 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
             tintManager.setStatusBarTintColor(Color.parseColor("#FF004890"));
         }
     }
-    
-    @TargetApi(19) 
+
+    @TargetApi(19)
     private void setTranslucentStatus(boolean on) {
         Window win = getActivity().getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
@@ -145,7 +145,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
             mYear.setSelectable(false);
         }
     }
-    
+
     private void setStaticPrefs() {
         String versionName;
         try {
@@ -174,14 +174,14 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
                 MailTo mt = MailTo.parse("mailto:14FitchJ@wirralgrammarboys.com");
                 Intent reportEmail = new Intent(Intent.ACTION_SEND);
                 reportEmail.setType("message/rfc822");
-                reportEmail.putExtra(Intent.EXTRA_EMAIL, new String[] {mt.getTo()});
+                reportEmail.putExtra(Intent.EXTRA_EMAIL, new String[]{mt.getTo()});
                 reportEmail.putExtra(Intent.EXTRA_SUBJECT, "WGSB bug report");
-                reportEmail.putExtra(Intent.EXTRA_TEXT, "WGSB Version: " + versionName + 
-                    "<br></br>Android Version: " + android.os.Build.VERSION.RELEASE
-                    + "<br></br>Device: " + android.os.Build.MODEL
-                    + "<br></br>How I found the bug: "
-                    + "<br></br>Description of bug: "
-                    + "<br></br>If the bug is visual, attached screenshots would be brilliant! :)");
+                reportEmail.putExtra(Intent.EXTRA_TEXT, "WGSB Version: " + versionName +
+                        "<br></br>Android Version: " + android.os.Build.VERSION.RELEASE
+                        + "<br></br>Device: " + android.os.Build.MODEL
+                        + "<br></br>How I found the bug: "
+                        + "<br></br>Description of bug: "
+                        + "<br></br>If the bug is visual, attached screenshots would be brilliant! :)");
                 try {
                     startActivity(Intent.createChooser(reportEmail, "Send email..."));
                 } catch (ActivityNotFoundException ex) {
@@ -206,7 +206,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("pref_push")) {
             setPrefs();
@@ -225,9 +225,9 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
                 unRegister();
             }
         } else if (key.equals("pref_year7") || key.equals("pref_year8") || key.equals("pref_year9")
-            || key.equals("pref_year10") || key.equals("pref_year11")|| key.equals("pref_year12")
-            || key.equals("pref_year11")) {
-                changed = 1;
+                || key.equals("pref_year10") || key.equals("pref_year11") || key.equals("pref_year12")
+                || key.equals("pref_year11")) {
+            changed = 1;
         }
     }
 
@@ -254,7 +254,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         }
         return registrationId;
     }
-    
+
     void updateDetails() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         String yes = mContext.getString(R.string.gcm_yes);
@@ -304,7 +304,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     private void unRegister() {
         mUnregisterTask = new AsyncTask<Void, Void, Void>() {
             @Override
-            protected  Void doInBackground(Void... params) {
+            protected Void doInBackground(Void... params) {
                 regId = getRegistrationId();
                 ServerUtilities.unregister(regId);
                 dbhandler.deleteAllRegId();
@@ -358,12 +358,12 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
                     if (containerParent instanceof LinearLayout) {
                         (containerParent).setOnClickListener(dismissDialogClickListener);
                     } else {
-                        ((FrameLayout)homeBtnContainer).setOnClickListener(dismissDialogClickListener);
+                        ((FrameLayout) homeBtnContainer).setOnClickListener(dismissDialogClickListener);
                     }
                 } else {
                     homeBtn.setOnClickListener(dismissDialogClickListener);
                 }
-            }    
+            }
         }
     }
 }

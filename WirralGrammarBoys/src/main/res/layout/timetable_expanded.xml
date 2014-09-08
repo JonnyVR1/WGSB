@@ -2,62 +2,79 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingRight="16dp"
-    android:paddingLeft="16dp" >
-	<LinearLayout android:id="@+id/main_expanded"
-	    android:orientation="vertical"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" >
-	    <LinearLayout android:id="@+id/period_expanded"
-	        android:orientation="horizontal"
-	        android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"
-	    	android:paddingTop="4dp"
-	    	android:paddingBottom="4dp" >
-	        <TextView android:id="@+id/id_expanded"
-	            android:maxLength="2"
-	            android:layout_width="40dp"
-	            android:layout_height="fill_parent"
-	            android:gravity="center"
-	            android:text="1" />
-	        <View android:id="@+id/ver_line"
-		        android:layout_height="fill_parent"
-		        android:layout_width="1dp"
-		        android:background="#FF909090" />
-	        <RelativeLayout android:paddingLeft="4dp"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content" >
-	            <TextView android:id="@+id/name_expanded"
-			        android:layout_width="wrap_content"
-			    	android:layout_height="wrap_content"
-			    	android:text="Chemistry"
-			    	android:textStyle="bold" />
-	            <TextView
-	                android:id="@+id/room_expanded"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_alignParentRight="true"
-	                android:layout_alignParentTop="true"
-	                android:text="CL3" />
-	            <TextView
-	                android:id="@+id/time_expanded"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_alignParentRight="true"
-	                android:layout_below="@+id/room_expanded"
-	                android:text="9:00" />
-	            <TextView
-	                android:id="@+id/teacher_expanded"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_toLeftOf="@id/room_expanded"
-	                android:layout_below="@+id/name_expanded"
-	                android:text="Dr. Bromley" />
-	        </RelativeLayout>
-	    </LinearLayout>
-	    <View android:id="@+id/hor_line"
-	        android:layout_height="1dp"
-	        android:layout_width="fill_parent"
-	        android:background="#FF909090" />
-	</LinearLayout>
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <LinearLayout
+        android:id="@+id/main_expanded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/period_expanded"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp">
+
+            <TextView
+                android:id="@+id/id_expanded"
+                android:layout_width="40dp"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:maxLength="2"
+                android:text="1" />
+
+            <View
+                android:id="@+id/ver_line"
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="#FF909090" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp">
+
+                <TextView
+                    android:id="@+id/name_expanded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chemistry"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/room_expanded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:text="CL3" />
+
+                <TextView
+                    android:id="@+id/time_expanded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/room_expanded"
+                    android:text="9:00" />
+
+                <TextView
+                    android:id="@+id/teacher_expanded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name_expanded"
+                    android:layout_toLeftOf="@id/room_expanded"
+                    android:text="Dr. Bromley" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/hor_line"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#FF909090" />
+    </LinearLayout>
 </ScrollView>

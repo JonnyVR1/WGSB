@@ -7,37 +7,37 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 public class TimetablePagerAdapter extends FragmentPagerAdapter {
-	private List<Fragment> fragments;
+    private List<Fragment> fragments;
 
-	TimetablePagerAdapter(FragmentManager fm, List<Fragment> fragments2) {
-		super(fm);
-		this.fragments = fragments2;
-	}
+    TimetablePagerAdapter(FragmentManager fm, List<Fragment> fragments2) {
+        super(fm);
+        this.fragments = fragments2;
+    }
 
-	@Override
+    @Override
     public Fragment getItem(int position) {
-		return this.fragments.get(position);
-	}
+        return this.fragments.get(position);
+    }
 
-	@Override
+    @Override
     public int getCount() {
-		return this.fragments.size();
-	}
-	
-	@Override
+        return this.fragments.size();
+    }
+
+    @Override
     public CharSequence getPageTitle(int position) {
-		switch(position) {
-			case 0: 
-				return "Monday";
-			case 1: 
-				return "Tuesday";
-			case 2: 
-				return "Wednesday";
-			case 3: 
-				return "Thursday";
-			case 4: 
-				return "Friday";
-		}
-		return null;
+        switch (position) {
+            case 0:
+                return "Monday";
+            case 1:
+                return "Tuesday";
+            case 2:
+                return "Wednesday";
+            case 3:
+                return "Thursday";
+            case 4:
+                return "Friday";
+        }
+        return null;
     }
 }

@@ -41,209 +41,224 @@ import java.util.List;
 import java.util.Locale;
 
 public class CalendarFragment extends Fragment {
-	private static final String AllCalendarItemsURL = "http://app.wirralgrammarboys.com/get_calendar.php";
-	private static final String TAG_SUCCESS = "success";
-	private static final String CALENDAR = "calendar";
-	private static final String EVENT = "event";
-	private static final String DATE = "date";
-    private ActionBarDrawerToggle mDrawerToggle;
-	private Integer contentAvailable = 1;
-	private Boolean FlagCancelled = false;
-	private GregorianCalendar month, itemMonth;
-	private CalendarAdapter adapter;
-	private Handler handler;
-	private ArrayList<String> items;
+    private static final String AllCalendarItemsURL = "http://app.wirralgrammarboys.com/get_calendar.php";
+    private static final String TAG_SUCCESS = "success";
+    private static final String CALENDAR = "calendar";
+    private static final String EVENT = "event";
+    private static final String DATE = "date";
     static int height;
-    private Boolean taskSuccess;
-	JSONParser jParser = new JSONParser();
-	JSONArray calendarItems = null;
-	DatabaseHandler dbhandler;
-	ProgressDialog mProgress;
+    JSONParser jParser = new JSONParser();
+    JSONArray calendarItems = null;
+    DatabaseHandler dbhandler;
+    ProgressDialog mProgress;
     RelativeLayout previous;
     RelativeLayout next;
-	ConnectionDetector cd;
-	GridView gridview;
-	TextView title;
+    ConnectionDetector cd;
+    GridView gridview;
+    TextView title;
     AsyncTask<Void, Integer, Void> mLoadCalendarTask;
-									
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		DisplayMetrics metrics = new DisplayMetrics();
-		getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-		height = metrics.heightPixels;
-		cd = new ConnectionDetector(this.getActivity().getApplicationContext());
-		dbhandler = DatabaseHandler.getInstance(getActivity());
-    	setupActionBar();
-	}
-	
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private void setupActionBar() {
+    private ActionBarDrawerToggle mDrawerToggle;
+    private Integer contentAvailable = 1;
+    private Boolean FlagCancelled = false;
+    private GregorianCalendar month, itemMonth;
+    private CalendarAdapter adapter;
+    private Handler handler;
+    private ArrayList<String> items;
+    private Runnable calendarUpdater = new Runnable() {
+        @Override
+        public void run() {
+            items.clear();
+            for (int i = 0; i < 7; i++) {
+                itemMonth.add(GregorianCalendar.DATE, 1);
+                List<Calendar> calendar = dbhandler.getAllCalendar();
+                for (Calendar c : calendar) {
+                    items.add(c.getDate());
+                }
+            }
+            adapter.setItems(items);
+            adapter.notifyDataSetChanged();
+        }
+    };
+    private Boolean taskSuccess;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        height = metrics.heightPixels;
+        cd = new ConnectionDetector(this.getActivity().getApplicationContext());
+        dbhandler = DatabaseHandler.getInstance(getActivity());
+        setupActionBar();
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void setupActionBar() {
         setHasOptionsMenu(true);
-		final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
-    	actionBar.setIcon(R.drawable.banner);
-    	actionBar.setTitle(R.string.calendar);
-    	actionBar.setDisplayHomeAsUpEnabled(true);
-    	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-        	setTranslucentStatus(true);
+        actionBar.setIcon(R.drawable.banner);
+        actionBar.setTitle(R.string.calendar);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
             SystemBarTintManager tintManager = new SystemBarTintManager(getActivity());
             tintManager.setStatusBarTintEnabled(true);
             tintManager.setStatusBarTintColor(Color.parseColor("#FF004890"));
         }
-	}
-	
-	@TargetApi(19) 
-	private void setTranslucentStatus(boolean on) {
-		Window win = getActivity().getWindow();
-		WindowManager.LayoutParams winParams = win.getAttributes();
-		final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-		if (on) {
-			winParams.flags |= bits;
-		} else {
-			winParams.flags &= ~bits;
-		}
-		win.setAttributes(winParams);
-	}
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-		previous = (RelativeLayout) view.findViewById(R.id.previousMonth);
+    @TargetApi(19)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getActivity().getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        previous = (RelativeLayout) view.findViewById(R.id.previousMonth);
         next = (RelativeLayout) view.findViewById(R.id.nextMonth);
-		title = (TextView) view.findViewById(R.id.title);
-		gridview = (GridView) view.findViewById(R.id.gridview);
-		month = (GregorianCalendar) GregorianCalendar.getInstance();
-		Locale.setDefault(Locale.UK);
-		itemMonth = (GregorianCalendar) month.clone();
-		items = new ArrayList<String>();
-		adapter = new CalendarAdapter(getActivity(), month);
-		gridview.setAdapter(adapter);
-		handler = new Handler();
-    	if (dbhandler.getCalendarCount() == 0) {
-			if (cd.isConnectingToInternet()) {
+        title = (TextView) view.findViewById(R.id.title);
+        gridview = (GridView) view.findViewById(R.id.gridview);
+        month = (GregorianCalendar) GregorianCalendar.getInstance();
+        Locale.setDefault(Locale.UK);
+        itemMonth = (GregorianCalendar) month.clone();
+        items = new ArrayList<String>();
+        adapter = new CalendarAdapter(getActivity(), month);
+        gridview.setAdapter(adapter);
+        handler = new Handler();
+        if (dbhandler.getCalendarCount() == 0) {
+            if (cd.isConnectingToInternet()) {
                 loadCalendar();
-			} else {
+            } else {
                 internetDialogue(getResources().getString(R.string.no_internet));
-			}
-		} else {
-        	refreshCalendar();
-		}
-		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
-		previous.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setPreviousMonth();
-				refreshCalendar();
-			}
-		});
-		next.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setNextMonth();
-				refreshCalendar();
-			}
-		});
-		gridview.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				((CalendarAdapter) parent.getAdapter()).setSelected(v);
-				String selectedGridDate = CalendarAdapter.dayString.get(position);
-				String[] separatedTime = selectedGridDate.split("-");
-				String gridValueString = separatedTime[0].replaceFirst("^0*", "");
-				int gridValue = Integer.parseInt(gridValueString);
-				if ((gridValue > 10) && (position < 8)) {
-					setPreviousMonth();
-					refreshCalendar();
-				} else if ((gridValue < 12) && (position > 28)) {
-					setNextMonth();
-					refreshCalendar();
-				}
-				if (items.contains(selectedGridDate)){
-					String events = null;
-					String dateString = null;
-					List<Calendar> calendar = dbhandler.getAllCalendarAtDate(selectedGridDate);
-					for(Calendar c : calendar) {
-						if (events == null)	events = "- " + c.getEvent();
-						else events = events + "\n\n- " + c.getEvent();
-						dateString = c.getDateString();
-					}
-					AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-					alertDialog.setTitle("Events on " + dateString);
-					alertDialog.setMessage(events);
-					alertDialog.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					});
-					alertDialog.show();
-				}
-				((CalendarAdapter) parent.getAdapter()).setSelected(v);
-			}
-		});
-		return view;
-	}
-	
-	@Override
+            }
+        } else {
+            refreshCalendar();
+        }
+        title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
+        previous.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setPreviousMonth();
+                refreshCalendar();
+            }
+        });
+        next.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setNextMonth();
+                refreshCalendar();
+            }
+        });
+        gridview.setOnItemClickListener(new OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                ((CalendarAdapter) parent.getAdapter()).setSelected(v);
+                String selectedGridDate = CalendarAdapter.dayString.get(position);
+                String[] separatedTime = selectedGridDate.split("-");
+                String gridValueString = separatedTime[0].replaceFirst("^0*", "");
+                int gridValue = Integer.parseInt(gridValueString);
+                if ((gridValue > 10) && (position < 8)) {
+                    setPreviousMonth();
+                    refreshCalendar();
+                } else if ((gridValue < 12) && (position > 28)) {
+                    setNextMonth();
+                    refreshCalendar();
+                }
+                if (items.contains(selectedGridDate)) {
+                    String events = null;
+                    String dateString = null;
+                    List<Calendar> calendar = dbhandler.getAllCalendarAtDate(selectedGridDate);
+                    for (Calendar c : calendar) {
+                        if (events == null) events = "- " + c.getEvent();
+                        else events = events + "\n\n- " + c.getEvent();
+                        dateString = c.getDateString();
+                    }
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                    alertDialog.setTitle("Events on " + dateString);
+                    alertDialog.setMessage(events);
+                    alertDialog.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }
+                ((CalendarAdapter) parent.getAdapter()).setSelected(v);
+            }
+        });
+        return view;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-		if (contentAvailable == 0) {
-			if(cd.isConnectingToInternet()) {
+        if (contentAvailable == 0) {
+            if (cd.isConnectingToInternet()) {
                 loadCalendar();
-	  		} else {
+            } else {
                 internetDialogue(getResources().getString(R.string.no_internet));
-	  		}
-	  	}
-	}
-	
-	@Override
+            }
+        }
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
-		if (dbhandler.getCalendarCount() == 0) {
-			contentAvailable = 0;
-		} else {
-			contentAvailable = 1;
-		}
-		if (mLoadCalendarTask != null && mLoadCalendarTask.getStatus() == AsyncTask.Status.PENDING) {
-			FlagCancelled = true;
+        if (dbhandler.getCalendarCount() == 0) {
+            contentAvailable = 0;
+        } else {
+            contentAvailable = 1;
+        }
+        if (mLoadCalendarTask != null && mLoadCalendarTask.getStatus() == AsyncTask.Status.PENDING) {
+            FlagCancelled = true;
             mLoadCalendarTask.cancel(true);
             mLoadCalendarTask = null;
-		} else if (mLoadCalendarTask != null && mLoadCalendarTask.getStatus() == AsyncTask.Status.RUNNING){
-			FlagCancelled = true;
+        } else if (mLoadCalendarTask != null && mLoadCalendarTask.getStatus() == AsyncTask.Status.RUNNING) {
+            FlagCancelled = true;
             mLoadCalendarTask.cancel(true);
             mLoadCalendarTask = null;
-		} else if (mLoadCalendarTask != null && mLoadCalendarTask.getStatus() == AsyncTask.Status.FINISHED){
-			FlagCancelled = true;
+        } else if (mLoadCalendarTask != null && mLoadCalendarTask.getStatus() == AsyncTask.Status.FINISHED) {
+            FlagCancelled = true;
             mLoadCalendarTask = null;
-		}
-	}
-	
-	@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.calendar, menu);
-	}
+        }
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.calendarRefresh) {
-			if(cd.isConnectingToInternet()) {
-				loadCalendar();
-	  		} else {
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.calendar, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.calendarRefresh) {
+            if (cd.isConnectingToInternet()) {
+                loadCalendar();
+            } else {
                 internetDialogue(getResources().getString(R.string.no_internet_refresh));
-	  		}
-		} else if (item.getItemId() == R.id.settings) {
+            }
+        } else if (item.getItemId() == R.id.settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
             getActivity().getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
                     .replace(R.id.fragment_container, settingsFragment, "SETTINGS_FRAGMENT").addToBackStack(null).commit();
             return true;
-		} else if (item.getItemId() == android.R.id.home){
+        } else if (item.getItemId() == android.R.id.home) {
             getActivity().getSupportFragmentManager().popBackStack();
             return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void internetDialogue(String string) {
         AlertDialog.Builder alertBox = new AlertDialog.Builder(this.getActivity());
@@ -285,7 +300,7 @@ public class CalendarFragment extends Fragment {
                 try {
                     JSONObject json = jParser.makeHttpRequest(AllCalendarItemsURL, params);
                     int success = json.getInt(TAG_SUCCESS);
-                    if(success == 1) {
+                    if (success == 1) {
                         calendarItems = json.getJSONArray(CALENDAR);
                         int progressCount = 0;
                         mProgress.setMax(calendarItems.length());
@@ -299,7 +314,7 @@ public class CalendarFragment extends Fragment {
                             String dayDateString = (new StringBuilder(dayDateInt + getDayNumberSuffix(Integer.parseInt(splitDate[0])))).toString();
                             String monthDateString = getMonthName(Integer.parseInt(splitDate[1]));
                             String yearDateString = splitDate[2];
-                            String dateString = dayDateString + " " + monthDateString + " " +  yearDateString;
+                            String dateString = dayDateString + " " + monthDateString + " " + yearDateString;
                             if (date.length() != 10) {
                                 if (splitDate[0].length() != 2) {
                                     splitDate[0] = "0" + splitDate[0];
@@ -343,7 +358,8 @@ public class CalendarFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         refreshCalendar();
-                        if (!taskSuccess) internetDialogue(getResources().getString(R.string.no_working_connection));
+                        if (!taskSuccess)
+                            internetDialogue(getResources().getString(R.string.no_working_connection));
                     }
                 });
             }
@@ -366,72 +382,56 @@ public class CalendarFragment extends Fragment {
             month.set(GregorianCalendar.MONTH, month.get(GregorianCalendar.MONTH) - 1);
         }
     }
-	
-	private String getDayNumberSuffix(int day) {
-	    if (day >= 11 && day <= 13) {
-	        return "th";
-	    }
-	    switch (day % 10) {
-	    case 1:
-	        return "st";
-	    case 2:
-	        return "nd";
-	    case 3:
-	        return "rd";
-	    default:
-	        return "th";
-	    }
-	}
-	
-	private String getMonthName(int day) {
-	    switch (day) {
-	    case 1:
-	        return "January";
-	    case 2:
-	        return "February";
-	    case 3:
-	        return "March";
-	    case 4:
-	        return "April";
-	    case 5:
-	        return "May";
-	    case 6:
-	        return "June";
-	    case 7:
-	        return "July";
-	    case 8:
-	        return "August";
-	    case 9:
-	        return "September";
-	    case 10:
-	        return "October";
-	    case 11:
-	        return "November";
-	    default:
-	        return "December";
-	    }
-	}
 
-	private void refreshCalendar() {
-		adapter.refreshDays();
-		adapter.notifyDataSetChanged();
-		handler.post(calendarUpdater);
-		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
-	}
+    private String getDayNumberSuffix(int day) {
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+        switch (day % 10) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
+    }
 
-	private Runnable calendarUpdater = new Runnable() {
-		@Override
-		public void run() {
-			items.clear();
-			for(int i = 0; i < 7; i++) {
-				itemMonth.add(GregorianCalendar.DATE, 1);
-				List<Calendar> calendar = dbhandler.getAllCalendar();
-				for(Calendar c : calendar) {
-					items.add(c.getDate());
-				}
-			}
-			adapter.setItems(items);
-			adapter.notifyDataSetChanged();
-		}
-	};
+    private String getMonthName(int day) {
+        switch (day) {
+            case 1:
+                return "January";
+            case 2:
+                return "February";
+            case 3:
+                return "March";
+            case 4:
+                return "April";
+            case 5:
+                return "May";
+            case 6:
+                return "June";
+            case 7:
+                return "July";
+            case 8:
+                return "August";
+            case 9:
+                return "September";
+            case 10:
+                return "October";
+            case 11:
+                return "November";
+            default:
+                return "December";
+        }
+    }
+
+    private void refreshCalendar() {
+        adapter.refreshDays();
+        adapter.notifyDataSetChanged();
+        handler.post(calendarUpdater);
+        title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
+    }
 }

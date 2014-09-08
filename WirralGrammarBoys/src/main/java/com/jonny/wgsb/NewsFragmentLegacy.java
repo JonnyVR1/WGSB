@@ -61,12 +61,6 @@ public class NewsFragmentLegacy extends Fragment {
     private static final String ADMINIMAGES_DIR_URL = "http://wirralgrammarboys.com/admin/images/";
     private static final String NUNTIUS_DIR_URL = "http://wirralgrammarboys.com/general/nuntius";
     private static final String UPLOADS_DIR_URL = "http://wirralgrammarboys.com/uploads/";
-    private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
-    private ActionBarHelper mActionBar;
-    private Integer contentAvailable = 1;
-    private Boolean FlagCancelled = false;
-    private Boolean taskSuccess;
     JSONParser jParser = new JSONParser();
     JSONArray newsItems = null;
     ProgressDialog mProgress;
@@ -77,6 +71,12 @@ public class NewsFragmentLegacy extends Fragment {
     DatabaseHandler dbhandler;
     ConnectionDetector cd;
     AsyncTask<Void, Integer, Void> mLoadNewsTask;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarHelper mActionBar;
+    private Integer contentAvailable = 1;
+    private Boolean FlagCancelled = false;
+    private Boolean taskSuccess;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -170,7 +170,7 @@ public class NewsFragmentLegacy extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
+        super.onCreateOptionsMenu(menu, inflater);
         inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.news, menu);
     }
@@ -295,7 +295,8 @@ public class NewsFragmentLegacy extends Fragment {
                             } else {
                                 dbhandler.updateNews(new News(id, title, story, imageSrc, date));
                             }
-                            if (cd.isWiFiConnected()) Picasso.with(getActivity()).load(imageSrc).resize(770, 550).fetch();
+                            if (cd.isWiFiConnected())
+                                Picasso.with(getActivity()).load(imageSrc).resize(770, 550).fetch();
                             if (isCancelled() || FlagCancelled) break;
                             progressCount++;
                             publishProgress((int) (progressCount * 100 / newsItems.length()));
@@ -325,7 +326,8 @@ public class NewsFragmentLegacy extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         getNewsList();
-                        if (!taskSuccess) internetDialogue(getResources().getString(R.string.no_working_connection));
+                        if (!taskSuccess)
+                            internetDialogue(getResources().getString(R.string.no_working_connection));
                     }
                 });
             }
@@ -359,117 +361,118 @@ public class NewsFragmentLegacy extends Fragment {
         }
         return story;
     }
-    
+
     private String buildDate(String date) {
         String[] splitDate = splitStringEvery(date, 2);
         Integer dayDateInt = Integer.parseInt(splitDate[0]);
         String dayDateString = (new StringBuilder(dayDateInt + getDayNumberSuffix(Integer.parseInt(splitDate[0])))).toString();
         String monthDateString = getMonthName(Integer.parseInt(splitDate[1]));
         String yearDateString = splitDate[2] + splitDate[3];
-        date = dayDateString + " " + monthDateString + " " +  yearDateString;
+        date = dayDateString + " " + monthDateString + " " + yearDateString;
         return date;
     }
-	
-	private String[] splitStringEvery(String s, int interval) {
-	    int arrayLength = (int) Math.ceil(((s.length() / (double)interval)));
-	    String[] result = new String[arrayLength];
-	    int j = 0;
-	    int lastIndex = result.length - 1;
-	    for (int i = 0; i < lastIndex; i++) {
-	        result[i] = s.substring(j, j + interval);
-	        j += interval;
-	    }
-	    result[lastIndex] = s.substring(j);
-	    return result;
-	}
-	
-	private String getDayNumberSuffix(int day) {
-	    if (day >= 11 && day <= 13) {
-	        return "th";
-	    }
-	    switch (day % 10) {
-	    case 1:
-	        return "st";
-	    case 2:
-	        return "nd";
-	    case 3:
-	        return "rd";
-	    default:
-	        return "th";
-	    }
-	}
-	
-	private String getMonthName(int monthNo) {
-	    switch (monthNo) {
-	    case 1:
-	        return "January";
-	    case 2:
-	        return "February";
-	    case 3:
-	        return "March";
-	    case 4:
-	        return "April";
-	    case 5:
-	        return "May";
-	    case 6:
-	        return "June";
-	    case 7:
-	        return "July";
-	    case 8:
-	        return "August";
-	    case 9:
-	        return "September";
-	    case 10:
-	        return "October";
-	    case 11:
-	        return "November";
-	    default:
-	        return "December";
-	    }
-	}
-	@Override
+
+    private String[] splitStringEvery(String s, int interval) {
+        int arrayLength = (int) Math.ceil(((s.length() / (double) interval)));
+        String[] result = new String[arrayLength];
+        int j = 0;
+        int lastIndex = result.length - 1;
+        for (int i = 0; i < lastIndex; i++) {
+            result[i] = s.substring(j, j + interval);
+            j += interval;
+        }
+        result[lastIndex] = s.substring(j);
+        return result;
+    }
+
+    private String getDayNumberSuffix(int day) {
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+        switch (day % 10) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
+    }
+
+    private String getMonthName(int monthNo) {
+        switch (monthNo) {
+            case 1:
+                return "January";
+            case 2:
+                return "February";
+            case 3:
+                return "March";
+            case 4:
+                return "April";
+            case 5:
+                return "May";
+            case 6:
+                return "June";
+            case 7:
+                return "July";
+            case 8:
+                return "August";
+            case 9:
+                return "September";
+            case 10:
+                return "October";
+            case 11:
+                return "November";
+            default:
+                return "December";
+        }
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		mDrawerToggle.onConfigurationChanged(newConfig);
-	}
-	
-	public class DrawerListener implements DrawerLayout.DrawerListener {
-		@Override
-        public void onDrawerOpened(View drawerView) {
-			mDrawerToggle.onDrawerOpened(drawerView);
-            mActionBar.onDrawerOpened();
-		}
-
-		@Override
-        public void onDrawerClosed(View drawerView) {
-			mDrawerToggle.onDrawerClosed(drawerView);
-            mActionBar.onDrawerClosed();
-		}
-
-		@Override
-        public void onDrawerSlide(View drawerView, float slideOffset) {
-			mDrawerToggle.onDrawerSlide(drawerView, slideOffset);
-		}
-
-		@Override
-        public void onDrawerStateChanged(int newState) {
-			mDrawerToggle.onDrawerStateChanged(newState);
-		}
-	}
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
 
     private ActionBarHelper createActionBarHelper() {
         return new ActionBarHelper();
     }
 
+    public class DrawerListener implements DrawerLayout.DrawerListener {
+        @Override
+        public void onDrawerOpened(View drawerView) {
+            mDrawerToggle.onDrawerOpened(drawerView);
+            mActionBar.onDrawerOpened();
+        }
+
+        @Override
+        public void onDrawerClosed(View drawerView) {
+            mDrawerToggle.onDrawerClosed(drawerView);
+            mActionBar.onDrawerClosed();
+        }
+
+        @Override
+        public void onDrawerSlide(View drawerView, float slideOffset) {
+            mDrawerToggle.onDrawerSlide(drawerView, slideOffset);
+        }
+
+        @Override
+        public void onDrawerStateChanged(int newState) {
+            mDrawerToggle.onDrawerStateChanged(newState);
+        }
+    }
+
     public class ActionBarHelper {
         private final ActionBar mActionBar;
-        private CharSequence mTitle;
         LayoutInflater inflater;
         TextView mActionTitle;
         View v;
+        private CharSequence mTitle;
 
         private ActionBarHelper() {
-            mActionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+            mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
             mActionBar.setIcon(R.drawable.banner);
         }
 
@@ -479,7 +482,7 @@ public class NewsFragmentLegacy extends Fragment {
             mActionBar.setDisplayShowCustomEnabled(true);
             mActionBar.setDisplayShowTitleEnabled(false);
             mActionBar.setIcon(R.drawable.banner);
-            v = ((LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.actionbar_title, null);
+            v = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.actionbar_title, null);
             /*v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -490,7 +493,7 @@ public class NewsFragmentLegacy extends Fragment {
                     }
                 }
             });*/
-            mActionTitle = ((TextView)v.findViewById(R.id.title));
+            mActionTitle = ((TextView) v.findViewById(R.id.title));
             mActionTitle.setText(R.string.news);
             mActionTitle.setMarqueeRepeatLimit(255);
             mActionTitle.setFocusable(true);

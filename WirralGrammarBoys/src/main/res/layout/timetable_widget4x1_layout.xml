@@ -4,16 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/appwidget_dark_bg_clickable"
-    android:padding="@dimen/widget_margin" >
+    android:padding="@dimen/widget_margin">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginBottom="4dp"
-        android:orientation="vertical" >
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/widget4x1_now_name"
             android:layout_width="wrap_content"
@@ -21,36 +23,42 @@
             android:text="Loading..."
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
+
         <TextView
             android:id="@+id/widget4x1_now_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF" />
+
         <TextView
             android:id="@+id/widget4x1_now_teacher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-       	android:layout_alignParentRight="true"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
         android:layout_marginBottom="8dp"
-        android:orientation="vertical" >
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/widget4x1_next_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF" />
+
         <TextView
             android:id="@+id/widget4x1_next_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF" />
+
         <TextView
             android:id="@+id/widget4x1_next_teacher"
             android:layout_width="wrap_content"

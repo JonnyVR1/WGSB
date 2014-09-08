@@ -1,21 +1,21 @@
 package com.jonny.wgsb;
 
 public class MainDetails {
-	private int imageNumber, name;
+    private int imageNumber, name;
 
-	int getImageNumber() {
-		return imageNumber;
-	}
+    int getImageNumber() {
+        return imageNumber;
+    }
 
-	int getName() {
-		return name;
-	}
+    void setImageNumber(int paramInt) {
+        this.imageNumber = paramInt;
+    }
 
-	void setImageNumber(int paramInt) {
-		this.imageNumber = paramInt;
-	}
+    int getName() {
+        return name;
+    }
 
-	void setName(int paramInt) {
-		this.name = paramInt;
-	}
+    void setName(int paramInt) {
+        this.name = paramInt;
+    }
 }

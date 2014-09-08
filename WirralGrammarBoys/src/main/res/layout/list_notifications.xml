@@ -2,45 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
     android:background="@drawable/gcm_list_item_selector"
-    android:clipToPadding="false" >
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/readNotification"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="0sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/notificationId"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/readNotification"
             android:textSize="0sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </RelativeLayout>
+
     <TextView
         android:id="@+id/titleNotification"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dip"
+        android:gravity="left"
         android:paddingLeft="12dip"
         android:paddingRight="8dip"
-        android:gravity="left"
+        android:paddingTop="8dip"
         android:textSize="18sp"
         android:textStyle="bold" />
+
     <TextView
         android:id="@+id/dateNotification"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="right"
         android:paddingBottom="8dip"
         android:paddingLeft="8dip"
         android:paddingRight="20dip"
-        android:gravity="right"
         android:textSize="14sp"
         android:textStyle="italic" />
 </LinearLayout>

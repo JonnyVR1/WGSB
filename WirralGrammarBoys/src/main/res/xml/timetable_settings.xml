@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <PreferenceCategory android:title="Style" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Style">
         <ListPreference
             android:defaultValue="light"
             android:dialogTitle="Choose theme"
@@ -20,7 +20,7 @@
             android:summary="More detail, or more compact"
             android:title="Change detail level" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Backup and Restore" >
+    <PreferenceCategory android:title="Backup and Restore">
         <Preference
             android:icon="@android:drawable/ic_menu_save"
             android:key="backup"

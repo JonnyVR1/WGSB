@@ -40,9 +40,20 @@ import static com.jonny.wgsb.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 import static com.jonny.wgsb.CommonUtilities.SENDER_ID;
 
 public class GCMFragmentLegacy extends Fragment {
-    private String regId;
-    private static String name, email, year7, year8, year9, year10, year11, year12, year13;
     private final static String TAG = "WGSB:GCM";
+    private static String name, email, year7, year8, year9, year10, year11, year12, year13;
+    private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            dbhandler.getWritableDatabase();
+            if (dbhandler.getNotificationsCount() > 0) {
+                tDisplay.setText("Touch an item to view the message");
+                getNotificationsList();
+            } else {
+                tDisplay.setText("There are no notifications to display");
+            }
+        }
+    };
     TextView tDisplay;
     GoogleCloudMessaging gcm;
     Context context;
@@ -50,10 +61,20 @@ public class GCMFragmentLegacy extends Fragment {
     DatabaseHandler dbhandler;
     ConnectionDetector cd;
     ListView notificationsListView;
+    private String regId;
+
+    private static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException("Could not get package name: " + e);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_gcm, container, false);
+        View view = inflater.inflate(R.layout.fragment_gcm, container, false);
         setupActionBar();
         cd = new ConnectionDetector(getActivity().getApplicationContext());
         dbhandler = DatabaseHandler.getInstance(getActivity());
@@ -114,7 +135,7 @@ public class GCMFragmentLegacy extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             getActivity().getSupportFragmentManager().popBackStack();
             return true;
         }
@@ -133,7 +154,7 @@ public class GCMFragmentLegacy extends Fragment {
     private void getNotificationsList() {
         final List<HashMap<String, String>> notificationsListItems = new ArrayList<HashMap<String, String>>();
         List<Notifications> notifications = dbhandler.getAllNotifications();
-        for(Notifications n : notifications) {
+        for (Notifications n : notifications) {
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("listID", n.getID().toString());
             map.put("listRead", n.getRead().toString());
@@ -183,7 +204,7 @@ public class GCMFragmentLegacy extends Fragment {
                 alertBox.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        switch(which) {
+                        switch (which) {
                             case 0:
                                 if (read == 0) {
                                     dbhandler.updateNotifications(new Notifications(notificationId, 1));
@@ -251,15 +272,6 @@ public class GCMFragmentLegacy extends Fragment {
         }
     }
 
-    private static int getAppVersion(Context context) {
-        try {
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            return packageInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            throw new RuntimeException("Could not get package name: " + e);
-        }
-    }
-
     private String getRegistrationId(Context context) {
         String registrationId = dbhandler.getRegId();
         if (registrationId.isEmpty()) {
@@ -307,22 +319,9 @@ public class GCMFragmentLegacy extends Fragment {
         }
     }
 
-    private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            dbhandler.getWritableDatabase();
-            if (dbhandler.getNotificationsCount() > 0) {
-                tDisplay.setText("Touch an item to view the message");
-                getNotificationsList();
-            } else {
-                tDisplay.setText("There are no notifications to display");
-            }
-        }
-    };
-
     private void setupActionBar() {
         setHasOptionsMenu(true);
-        final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         actionBar.setIcon(R.drawable.banner);
         actionBar.setTitle("Notifications");

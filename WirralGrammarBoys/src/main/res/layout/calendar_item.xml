@@ -5,15 +5,16 @@
     android:background="@drawable/calendar_cell"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="2dip" >
+    android:padding="2dip">
+
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#0000D7"
         android:textSize="14sp"
-        android:textStyle="bold" >
-    </TextView>
+        android:textStyle="bold"></TextView>
+
     <ImageView
         android:id="@+id/date_icon"
         android:layout_width="wrap_content"

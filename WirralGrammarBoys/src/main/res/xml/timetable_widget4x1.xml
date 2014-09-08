@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="294dp"
-    android:minHeight="40dp"
-    android:updatePeriodMillis="300000"
     android:initialLayout="@layout/timetable_widget4x1_layout"
-    android:resizeMode="horizontal|vertical">
-</appwidget-provider>
+    android:minHeight="40dp"
+    android:minWidth="294dp"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="300000"></appwidget-provider>

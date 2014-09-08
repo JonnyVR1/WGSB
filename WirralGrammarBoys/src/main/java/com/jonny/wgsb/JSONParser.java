@@ -15,11 +15,11 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
- 
+
 public class JSONParser {
-	static InputStream is = null;
-	static JSONObject jObj = null;
-	static String json = "";
+    static InputStream is = null;
+    static JSONObject jObj = null;
+    static String json = "";
 
     JSONObject makeHttpRequest(String url, List<NameValuePair> params) {
         HttpParams httpParameters = new BasicHttpParams();

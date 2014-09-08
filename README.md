@@ -18,7 +18,9 @@ This application uses [SystemBarTint Library](https://github.com/jgilfelt/System
 
 [NineOldAndroids Library](https://github.com/JakeWharton/NineOldAndroids/) by [Jake Wharton](https://github.com/JakeWharton),
 
-[Picasso Library](https://github.com/square/picasso/) by [Square community](https://github.com/square).
+[Picasso Library](https://github.com/square/picasso/) by [Square community](https://github.com/square),
+
+[FloatLabelLayout Gist](https://gist.github.com/chrisbanes/11247418) by [Chris Banes](https://gist.github.com/chrisbanes).
 
 The Timetable part is loosely based on [Timetablr](https://bitbucket.org/ravrahn/timetable) by [Owen Cassidy](https://github.com/ravrahn)
 

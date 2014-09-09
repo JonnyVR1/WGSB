@@ -377,7 +377,7 @@ public class TimetableTabControllerLegacy extends ActionBarActivity implements V
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(TimetableTabControllerLegacy.this);
-            builder.setTitle(getString(R.string.compact_detail));
+            builder.setTitle(getString(R.string.select_compact_detail));
             builder.setItems(R.array.secondary, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
                     ContentResolver cr = getContentResolver();

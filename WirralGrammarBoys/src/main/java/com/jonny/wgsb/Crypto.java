@@ -8,7 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-public class Crypto {
+class Crypto {
     final private static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     static String SHA512(String string, Context context) throws NoSuchAlgorithmException {

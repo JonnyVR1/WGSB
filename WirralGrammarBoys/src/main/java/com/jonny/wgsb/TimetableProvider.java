@@ -163,6 +163,7 @@ public class TimetableProvider extends ContentProvider {
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
     }
+
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         sUriMatcher.addURI(PROVIDER_NAME, PERIODS_TABLE_NAME, PERIODS);

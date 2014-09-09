@@ -52,6 +52,6 @@
             android:clickable="true"
             android:clipToPadding="false"
             android:fitsSystemWindows="true"
-            android:orientation="vertical"></ListView>
+            android:orientation="vertical" />
     </android.support.v4.widget.DrawerLayout>
 </FrameLayout>

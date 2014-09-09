@@ -23,7 +23,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@drawable/arrow_left" />
+                android:background="@drawable/arrow_left"
+                android:contentDescription="@string/previous" />
         </RelativeLayout>
 
         <TextView
@@ -46,7 +47,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@drawable/arrow_right" />
+                android:background="@drawable/arrow_right"
+                android:contentDescription="@string/next" />
         </RelativeLayout>
     </RelativeLayout>
 

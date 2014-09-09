@@ -19,7 +19,7 @@ import static com.jonny.wgsb.CommonUtilities.SERVER_UPDATE_URL;
 import static com.jonny.wgsb.CommonUtilities.SERVER_URL;
 import static com.jonny.wgsb.CommonUtilities.TAG;
 
-public final class ServerUtilities {
+final class ServerUtilities {
     private static final int MAX_ATTEMPTS = 5;
     private static final int BACKOFF_MILLI_SECONDS = 2000;
     private static final Random random = new Random();

@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainListBaseAdapter extends BaseAdapter {
+class MainListBaseAdapter extends BaseAdapter {
     private static ArrayList<MainDetails> mainDetailArrayList;
-    private Integer[] imgId;
-    private LayoutInflater l_Inflater;
+    final private Integer[] imgId;
+    final private LayoutInflater l_Inflater;
 
     MainListBaseAdapter(Context paramContext, ArrayList<MainDetails> paramArrayList) {
         Integer[] arrayOfInteger = new Integer[5];

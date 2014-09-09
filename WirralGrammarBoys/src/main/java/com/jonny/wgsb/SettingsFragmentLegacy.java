@@ -157,7 +157,7 @@ public class SettingsFragmentLegacy extends PreferenceFragment implements OnShar
                 try {
                     startActivity(Intent.createChooser(reportEmail, "Send email..."));
                 } catch (ActivityNotFoundException ex) {
-                    Toast.makeText(mContext, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.email_no_clients, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }

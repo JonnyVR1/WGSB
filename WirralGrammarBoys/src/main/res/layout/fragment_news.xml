@@ -44,6 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
+                    android:contentDescription="@string/news_image"
                     android:paddingRight="10dip"
                     android:paddingTop="8dip" />
 
@@ -65,6 +66,6 @@
             android:background="#FFFFFF"
             android:choiceMode="singleChoice"
             android:clickable="true"
-            android:orientation="vertical"></ListView>
+            android:orientation="vertical" />
     </android.support.v4.widget.DrawerLayout>
 </FrameLayout>

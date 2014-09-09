@@ -56,11 +56,11 @@
         <activity
             android:name=".TimetableSettingsActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Wgsb"></activity>
+            android:theme="@style/Theme.Wgsb" />
         <activity
             android:name=".TimetableSettingsActivityLegacy"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Wgsb"></activity>
+            android:theme="@style/Theme.Wgsb" />
         <activity
             android:name=".TimetableTabController"
             android:label="@string/app_name"

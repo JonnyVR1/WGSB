@@ -14,7 +14,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class TimetableBackupRestore {
+class TimetableBackupRestore {
 
     static void backup(Context mContext) {
         ContentResolver cr = mContext.getContentResolver();
@@ -82,13 +82,13 @@ public class TimetableBackupRestore {
                 writer.append(text);
                 writer.flush();
                 writer.close();
-                Toast.makeText(mContext, "Backup successful!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.backup_successful, Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
-                Toast.makeText(mContext, "Backup failed - If you can see this, report it as a bug!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.backup_failed_bug, Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(mContext, "Backup failed - Your SD card couldn't be written to", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, R.string.backup_failed_sd, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -100,11 +100,11 @@ public class TimetableBackupRestore {
         try {
             File dir = new File(Environment.getExternalStorageDirectory(), "WGSB/backup");
             if (!dir.exists()) {
-                Toast.makeText(mContext, "Restore failed - Directory not found (/sdcard/WGSB/backup/", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.restore_failed_dir, Toast.LENGTH_SHORT).show();
             }
             File file = new File(dir, "backup.txt");
             if (!file.exists()) {
-                Toast.makeText(mContext, "Restore failed - Backup file not found (/sdcard/WGSB/backup/backup.txt)", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.restore_failed_file, Toast.LENGTH_SHORT).show();
             }
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
@@ -141,14 +141,14 @@ public class TimetableBackupRestore {
                     values.put(TimetableProvider.NUM, Integer.parseInt(weekValues[1]));
                     cr.insert(TimetableProvider.WEEK_URI, values);
                 } else {
-                    Toast.makeText(mContext, "Restore failed - Invalid backup file", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.restore_failed_invalid, Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(mContext, "Restore successful!", Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, R.string.restore_success, Toast.LENGTH_SHORT);
             }
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(mContext, "Restore failed - Your SD card couldn't be read from", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, R.string.restore_failed_read, Toast.LENGTH_LONG).show();
         }
         pd.dismiss();
     }

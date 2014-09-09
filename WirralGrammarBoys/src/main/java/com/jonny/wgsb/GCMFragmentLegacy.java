@@ -255,7 +255,7 @@ public class GCMFragmentLegacy extends Fragment {
             if (regId.isEmpty() && name == null) {
                 if (cd.isConnectingToInternet()) {
                     if (dbhandler.getNotificationsCount() != 0) dbhandler.deleteAllNotifications();
-                    Toast.makeText(getActivity(), "Push notifications need to be on to show alerts", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.push_nned_on, Toast.LENGTH_SHORT).show();
                     SettingsFragment settingsFragment = new SettingsFragment();
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)

@@ -22,18 +22,15 @@ import android.widget.EditText;
 import java.security.NoSuchAlgorithmException;
 
 public class RegisterFragment extends Fragment {
-    AlertDialogManager alert = new AlertDialogManager();
-    String yes = "yes", no = "no";
-    ConnectionDetector cd;
-    EditText txtName, txtEmail;
-    Button btnRegister;
+    private AlertDialogManager alert = new AlertDialogManager();
+    private EditText txtName, txtEmail;
     private String year7, year8, year9, year10, year11, year12, year13;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         setupActionBar();
-        cd = new ConnectionDetector(getActivity().getApplicationContext());
+        ConnectionDetector cd = new ConnectionDetector(getActivity().getApplicationContext());
         if (!cd.isConnectingToInternet()) {
             alert.showAlertDialog(getActivity(), "Internet Connection Error", "Please connect to a working Internet connection", false);
             getActivity().getSupportFragmentManager().popBackStack();
@@ -42,7 +39,7 @@ public class RegisterFragment extends Fragment {
         txtEmail = (EditText) view.findViewById(R.id.txtEmail);
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         getPrefs(preferences);
-        btnRegister = (Button) view.findViewById(R.id.btnRegister);
+        Button btnRegister = (Button) view.findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -82,6 +79,8 @@ public class RegisterFragment extends Fragment {
         Boolean pref_year11 = preferences.getBoolean("pref_year11", false);
         Boolean pref_year12 = preferences.getBoolean("pref_year12", false);
         Boolean pref_year13 = preferences.getBoolean("pref_year13", false);
+        String yes = "yes";
+        String no = "no";
         if (pref_year7) year7 = yes;
         else year7 = no;
         if (pref_year8) year8 = yes;

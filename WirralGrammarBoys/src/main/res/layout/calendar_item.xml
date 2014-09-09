@@ -13,12 +13,13 @@
         android:layout_height="wrap_content"
         android:textColor="#0000D7"
         android:textSize="14sp"
-        android:textStyle="bold"></TextView>
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/date_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/calendar"
         android:src="@drawable/dot"
         android:visibility="gone" />
 </LinearLayout>

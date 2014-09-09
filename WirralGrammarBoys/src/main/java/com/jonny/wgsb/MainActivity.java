@@ -191,18 +191,7 @@ public class MainActivity extends ActionBarActivity {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class MainFragment extends Fragment {
-        private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                getActivity().invalidateOptionsMenu();
-            }
-        };
-        Context context;
-        DatabaseHandler dbhandler;
-        ConnectionDetector cd;
-        ListView listView;
-        Button websiteButton, facebookButton, twitterButton;
-        OnClickListener handler = new OnClickListener() {
+        final OnClickListener handler = new OnClickListener() {
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.website_btn:
@@ -223,6 +212,15 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         };
+        private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                getActivity().invalidateOptionsMenu();
+            }
+        };
+        DatabaseHandler dbhandler;
+        ListView listView;
+        Button websiteButton, facebookButton, twitterButton;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -384,7 +382,7 @@ public class MainActivity extends ActionBarActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             AlertDialog alert;
             final CharSequence[] bool = {getString(R.string.yes), getString(R.string.no)};
-            builder.setTitle(R.string.restore_deleted_backup);
+            builder.setTitle(R.string.restore_detected_backup);
             builder.setItems(bool, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
                     if (item == 0) {
@@ -440,15 +438,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public static class MainFragmentLegacy extends Fragment {
-        private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-            }
-        };
-        DatabaseHandler dbhandler;
-        ListView listView;
-        Button websiteButton, facebookButton, twitterButton;
-        OnClickListener handler = new OnClickListener() {
+        final OnClickListener handler = new OnClickListener() {
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.website_btn:
@@ -469,6 +459,14 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         };
+        private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+            }
+        };
+        DatabaseHandler dbhandler;
+        ListView listView;
+        Button websiteButton, facebookButton, twitterButton;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -618,7 +616,7 @@ public class MainActivity extends ActionBarActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             AlertDialog alert;
             final CharSequence[] bool = {getString(R.string.yes), getString(R.string.no)};
-            builder.setTitle(R.string.restore_deleted_backup);
+            builder.setTitle(R.string.restore_detected_backup);
             builder.setItems(bool, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
                     if (item == 0) {

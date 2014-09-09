@@ -1,6 +1,6 @@
 package com.jonny.wgsb;
 
-public class TimetableWidgetContent {
+class TimetableWidgetContent {
     String nextName, nextTeacher, nextRoom, nextStart, nextEnd, nowName, nowTeacher, nowRoom, nowStart, nowEnd;
 
     TimetableWidgetContent(String nextName, String nextTeacher, String nextRoom, String nextStart, String nextEnd, String nowName, String nowTeacher, String nowRoom, String nowStart, String nowEnd) {

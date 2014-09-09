@@ -121,7 +121,6 @@ public class TimetableWidget4x1 extends AppWidgetProvider {
                 e.printStackTrace();
                 nextName = "Nothing";
                 nextTeacher = " - ";
-                ;
                 nextRoom = "";
                 nowName = "Nothing";
                 nowTeacher = " - ";

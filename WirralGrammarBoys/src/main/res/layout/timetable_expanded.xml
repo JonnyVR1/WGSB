@@ -24,8 +24,7 @@
                 android:layout_width="40dp"
                 android:layout_height="fill_parent"
                 android:gravity="center"
-                android:maxLength="2"
-                android:text="1" />
+                android:maxLength="2" />
 
             <View
                 android:id="@+id/ver_line"
@@ -42,7 +41,6 @@
                     android:id="@+id/name_expanded"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chemistry"
                     android:textStyle="bold" />
 
                 <TextView
@@ -50,24 +48,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:text="CL3" />
+                    android:layout_alignParentTop="true" />
 
                 <TextView
                     android:id="@+id/time_expanded"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@+id/room_expanded"
-                    android:text="9:00" />
+                    android:layout_below="@+id/room_expanded" />
 
                 <TextView
                     android:id="@+id/teacher_expanded"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/name_expanded"
-                    android:layout_toLeftOf="@id/room_expanded"
-                    android:text="Dr. Bromley" />
+                    android:layout_toLeftOf="@id/room_expanded" />
             </RelativeLayout>
         </LinearLayout>
 

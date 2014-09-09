@@ -37,38 +37,34 @@ import android.view.ViewConfiguration;
  */
 public class UnderlinePageIndicator extends View implements PageIndicator {
     private static final int INVALID_POINTER = -1;
+    private int mActivePointerId = INVALID_POINTER;
     private static final int FADE_FRAME_MS = 30;
-
     private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
     private boolean mFades;
     private int mFadeDelay;
     private int mFadeLength;
     private int mFadeBy;
+    private final Runnable mFadeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!mFades) return;
 
+            final int alpha = Math.max(mPaint.getAlpha() - mFadeBy, 0);
+            mPaint.setAlpha(alpha);
+            invalidate();
+            if (alpha > 0) {
+                postDelayed(this, FADE_FRAME_MS);
+            }
+        }
+    };
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener mListener;
     private int mScrollState;
     private int mCurrentPage;
     private float mPositionOffset;
-
     private int mTouchSlop;
     private float mLastMotionX = -1;
-    private int mActivePointerId = INVALID_POINTER;
     private boolean mIsDragging;
-
-    private final Runnable mFadeRunnable = new Runnable() {
-      @Override public void run() {
-        if (!mFades) return;
-
-        final int alpha = Math.max(mPaint.getAlpha() - mFadeBy, 0);
-        mPaint.setAlpha(alpha);
-        invalidate();
-        if (alpha > 0) {
-          postDelayed(this, FADE_FRAME_MS);
-        }
-      }
-    };
 
     public UnderlinePageIndicator(Context context) {
         this(context, null);
@@ -100,7 +96,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
 
         Drawable background = a.getDrawable(R.styleable.UnderlinePageIndicator_android_background);
         if (background != null) {
-          setBackgroundDrawable(background);
+            setBackgroundDrawable(background);
         }
 
         a.recycle();
@@ -277,7 +273,8 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
         mViewPager.setOnPageChangeListener(this);
         invalidate();
         post(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 if (mFades) {
                     post(mFadeRunnable);
                 }
@@ -354,7 +351,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        SavedState savedState = (SavedState)state;
+        SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         mCurrentPage = savedState.currentPage;
         requestLayout();
@@ -369,6 +366,18 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
     }
 
     static class SavedState extends BaseSavedState {
+        @SuppressWarnings("UnusedDeclaration")
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
         int currentPage;
 
         public SavedState(Parcelable superState) {
@@ -385,18 +394,5 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
             super.writeToParcel(dest, flags);
             dest.writeInt(currentPage);
         }
-
-        @SuppressWarnings("UnusedDeclaration")
-        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
     }
 }

@@ -363,7 +363,7 @@ public class NewsFragmentLegacy extends Fragment {
     }
 
     private String buildDate(String date) {
-        String[] splitDate = splitStringEvery(date, 2);
+        String[] splitDate = splitStringEvery(date);
         Integer dayDateInt = Integer.parseInt(splitDate[0]);
         String dayDateString = (new StringBuilder(dayDateInt + getDayNumberSuffix(Integer.parseInt(splitDate[0])))).toString();
         String monthDateString = getMonthName(Integer.parseInt(splitDate[1]));
@@ -372,14 +372,14 @@ public class NewsFragmentLegacy extends Fragment {
         return date;
     }
 
-    private String[] splitStringEvery(String s, int interval) {
-        int arrayLength = (int) Math.ceil(((s.length() / (double) interval)));
+    private String[] splitStringEvery(String s) {
+        int arrayLength = (int) Math.ceil(((s.length() / (double) 2)));
         String[] result = new String[arrayLength];
         int j = 0;
         int lastIndex = result.length - 1;
         for (int i = 0; i < lastIndex; i++) {
-            result[i] = s.substring(j, j + interval);
-            j += interval;
+            result[i] = s.substring(j, j + 2);
+            j += 2;
         }
         result[lastIndex] = s.substring(j);
         return result;

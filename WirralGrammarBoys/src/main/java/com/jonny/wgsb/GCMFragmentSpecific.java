@@ -17,8 +17,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 public class GCMFragmentSpecific extends Fragment {
-    DatabaseHandler dbhandler;
-    TextView tDisplay, dDisplay, mDisplay;
     Context context;
 
     @Override
@@ -26,14 +24,14 @@ public class GCMFragmentSpecific extends Fragment {
         View view = inflater.inflate(R.layout.fragment_gcm_specific, container, false);
         setupActionBar();
         final Integer id = getArguments().getInt("id", 1);
-        dbhandler = DatabaseHandler.getInstance(getActivity());
+        DatabaseHandler dbhandler = DatabaseHandler.getInstance(getActivity());
         Notifications notifications = dbhandler.getNotification(id);
         final String title = notifications.getTitle();
         final String date = notifications.getDate();
         final String message = notifications.getMessage();
-        tDisplay = (TextView) view.findViewById(R.id.tDisplay);
-        dDisplay = (TextView) view.findViewById(R.id.dDisplay);
-        mDisplay = (TextView) view.findViewById(R.id.mDisplay);
+        TextView tDisplay = (TextView) view.findViewById(R.id.tDisplay);
+        TextView dDisplay = (TextView) view.findViewById(R.id.dDisplay);
+        TextView mDisplay = (TextView) view.findViewById(R.id.mDisplay);
         if (title == null) tDisplay.setVisibility(View.INVISIBLE);
         else tDisplay.setText(title);
         if (date == null) dDisplay.setVisibility(View.INVISIBLE);

@@ -23,13 +23,14 @@
             android:background="#9033B5E5"
             android:gravity="center"
             android:maxLength="3"
-            android:text="Now"
+            android:text="@string/now"
             android:textColor="#FFFFFFFF" />
 
         <ImageView
             android:layout_width="1dp"
             android:layout_height="fill_parent"
-            android:background="#FF909090" />
+            android:background="#FF909090"
+            android:contentDescription="@string/background" />
 
         <RelativeLayout
             android:id="@+id/widget4x2_now_rel"
@@ -41,7 +42,6 @@
                 android:id="@+id/widget4x2_now_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Subject 1"
                 android:textColor="#FFFFFFFF"
                 android:textStyle="bold" />
 
@@ -52,7 +52,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:paddingRight="8dp"
-                android:text="Room XX"
                 android:textColor="#FFFFFFFF" />
 
             <TextView
@@ -62,7 +61,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/widget4x2_now_room"
                 android:paddingRight="8dp"
-                android:text="XX:XX"
                 android:textColor="#FFFFFFFF" />
 
             <TextView
@@ -72,7 +70,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/widget4x2_now_name"
                 android:paddingRight="8dp"
-                android:text=""
                 android:textColor="#FFFFFFFF" />
         </RelativeLayout>
     </LinearLayout>
@@ -80,7 +77,8 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="#FF909090" />
+        android:background="#FF909090"
+        android:contentDescription="@string/background" />
 
     <LinearLayout
         android:id="@+id/widget4x2_next"
@@ -96,13 +94,14 @@
             android:layout_height="fill_parent"
             android:gravity="center"
             android:maxLength="4"
-            android:text="Next"
+            android:text="@string/next"
             android:textColor="#FFFFFFFF" />
 
         <ImageView
             android:layout_width="1dp"
             android:layout_height="fill_parent"
-            android:background="#FF909090" />
+            android:background="#FF909090"
+            android:contentDescription="@string/background" />
 
         <RelativeLayout
             android:id="@+id/widget4x2_next_rel"
@@ -114,7 +113,6 @@
                 android:id="@+id/widget4x2_next_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Subject 2"
                 android:textColor="#FFFFFFFF"
                 android:textStyle="bold" />
 
@@ -125,7 +123,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:paddingRight="8dp"
-                android:text="Room XY"
                 android:textColor="#FFFFFFFF" />
 
             <TextView
@@ -135,7 +132,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/widget4x2_next_room"
                 android:paddingRight="8dp"
-                android:text="XX:YY"
                 android:textColor="#FFFFFFFF" />
 
             <TextView
@@ -145,7 +141,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/widget4x2_next_name"
                 android:paddingRight="8dp"
-                android:text=""
                 android:textColor="#FFFFFFFF" />
         </RelativeLayout>
     </LinearLayout>
@@ -153,7 +148,8 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="#FF909090" />
+        android:background="#FF909090"
+        android:contentDescription="@string/background" />
 
     <LinearLayout
         android:id="@+id/widget4x2_then"
@@ -169,13 +165,14 @@
             android:layout_height="fill_parent"
             android:gravity="center"
             android:maxLength="4"
-            android:text="Then"
+            android:text="@string/then"
             android:textColor="#FFFFFFFF" />
 
         <ImageView
             android:layout_width="1dp"
             android:layout_height="fill_parent"
-            android:background="#FF909090" />
+            android:background="#FF909090"
+            android:contentDescription="@string/background" />
 
         <RelativeLayout
             android:id="@+id/widget4x2_then_rel"
@@ -187,7 +184,6 @@
                 android:id="@+id/widget4x2_then_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Subject 3"
                 android:textColor="#FFFFFFFF"
                 android:textStyle="bold" />
 
@@ -198,7 +194,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:paddingRight="8dp"
-                android:text="Room YY"
                 android:textColor="#FFFFFFFF" />
 
             <TextView
@@ -208,7 +203,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/widget4x2_then_room"
                 android:paddingRight="8dp"
-                android:text="XY:XX"
                 android:textColor="#FFFFFFFF" />
 
             <TextView
@@ -218,7 +212,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/widget4x2_then_name"
                 android:paddingRight="8dp"
-                android:text=""
                 android:textColor="#FFFFFFFF" />
         </RelativeLayout>
     </LinearLayout>

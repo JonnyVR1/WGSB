@@ -1,8 +1,8 @@
 package com.jonny.wgsb;
 
-public class TimetableWidgetWeekData {
-    String day, nextDay;
-    int weekNo, nextWeekNo;
+class TimetableWidgetWeekData {
+    final String day, nextDay;
+    final int weekNo, nextWeekNo;
 
     TimetableWidgetWeekData(String day, String nextDay, int weekNo, int nextWeekNo) {
         this.day = day;

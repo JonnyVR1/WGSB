@@ -30,5 +30,5 @@
         android:drawSelectorOnTop="true"
         android:longClickable="true"
         android:orientation="vertical"
-        android:padding="8dip"></ListView>
+        android:padding="8dip" />
 </LinearLayout>

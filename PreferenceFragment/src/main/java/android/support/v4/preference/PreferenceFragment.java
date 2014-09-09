@@ -7,6 +7,7 @@ import android.os.Message;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.support.v4.app.Fragment;
 import android.support.v4.preferencefragment.R;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -14,14 +15,9 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.support.v4.app.Fragment;
 
 public abstract class PreferenceFragment extends Fragment implements PreferenceManagerCompat.OnPreferenceTreeClickListener {
-	private static final String PREFERENCES_TAG = "android:preferences";
-    private PreferenceManager mPreferenceManager;
-    private ListView mList;
-    private boolean mHavePrefs;
-    private boolean mInitDone;
+    private static final String PREFERENCES_TAG = "android:preferences";
     private static final int FIRST_REQUEST_CODE = 100;
     private static final int MSG_BIND_PREFERENCES = 1;
     private Handler mHandler = new Handler() {
@@ -34,28 +30,41 @@ public abstract class PreferenceFragment extends Fragment implements PreferenceM
             }
         }
     };
+    private PreferenceManager mPreferenceManager;
+    private ListView mList;
     final private Runnable mRequestFocus = new Runnable() {
         public void run() {
             mList.focusableViewAvailable(mList);
         }
     };
+    private boolean mHavePrefs;
+    private boolean mInitDone;
+    private OnKeyListener mListOnKeyListener = new OnKeyListener() {
 
-    public interface OnPreferenceStartFragmentCallback {
-        boolean onPreferenceStartFragment(PreferenceFragment caller, Preference pref);
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            Object selectedItem = mList.getSelectedItem();
+            if (selectedItem instanceof Preference) {
+                View selectedView = mList.getSelectedView();
+                return false;
+            }
+            return false;
+        }
+
+    };
+
+    @Override
+    public void onCreate(Bundle paramBundle) {
+        super.onCreate(paramBundle);
+        mPreferenceManager = PreferenceManagerCompat.newInstance(getActivity(), FIRST_REQUEST_CODE);
+        PreferenceManagerCompat.setFragment(mPreferenceManager, this);
     }
-	
+
     @Override
-	public void onCreate(Bundle paramBundle) {
-		super.onCreate(paramBundle);
-		mPreferenceManager = PreferenceManagerCompat.newInstance(getActivity(), FIRST_REQUEST_CODE);
-		PreferenceManagerCompat.setFragment(mPreferenceManager, this);
-	}
-	
-    @Override
-	public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle) {
-		return paramLayoutInflater.inflate(R.layout.preference_list_fragment, paramViewGroup, false);
-	}
-    
+    public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle) {
+        return paramLayoutInflater.inflate(R.layout.preference_list_fragment, paramViewGroup, false);
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -69,34 +78,34 @@ public abstract class PreferenceFragment extends Fragment implements PreferenceM
             }
         }
     }
-    
+
     @Override
     public void onStart() {
         super.onStart();
         PreferenceManagerCompat.setOnPreferenceTreeClickListener(mPreferenceManager, this);
     }
-    
+
     @Override
-	public void onStop() {
-		super.onStop();
-		PreferenceManagerCompat.dispatchActivityStop(mPreferenceManager);
-		PreferenceManagerCompat.setOnPreferenceTreeClickListener(mPreferenceManager, null);
-	}
-    
+    public void onStop() {
+        super.onStop();
+        PreferenceManagerCompat.dispatchActivityStop(mPreferenceManager);
+        PreferenceManagerCompat.setOnPreferenceTreeClickListener(mPreferenceManager, null);
+    }
+
     @Override
-	public void onDestroyView() {
-		mList = null;
-		mHandler.removeCallbacks(mRequestFocus);
-		mHandler.removeMessages(MSG_BIND_PREFERENCES);
-		super.onDestroyView();
-	}
-    
+    public void onDestroyView() {
+        mList = null;
+        mHandler.removeCallbacks(mRequestFocus);
+        mHandler.removeMessages(MSG_BIND_PREFERENCES);
+        super.onDestroyView();
+    }
+
     @Override
-	public void onDestroy() {
-		super.onDestroy();
-		PreferenceManagerCompat.dispatchActivityDestroy(mPreferenceManager);
-	}
-    
+    public void onDestroy() {
+        super.onDestroy();
+        PreferenceManagerCompat.dispatchActivityDestroy(mPreferenceManager);
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -107,15 +116,19 @@ public abstract class PreferenceFragment extends Fragment implements PreferenceM
             outState.putBundle(PREFERENCES_TAG, container);
         }
     }
-    
+
     @Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         PreferenceManagerCompat.dispatchActivityResult(mPreferenceManager, requestCode, resultCode, data);
-	}
+    }
 
     public PreferenceManager getPreferenceManager() {
         return mPreferenceManager;
+    }
+
+    public PreferenceScreen getPreferenceScreen() {
+        return PreferenceManagerCompat.getPreferenceScreen(mPreferenceManager);
     }
 
     public void setPreferenceScreen(PreferenceScreen preferenceScreen) {
@@ -123,10 +136,6 @@ public abstract class PreferenceFragment extends Fragment implements PreferenceM
             mHavePrefs = true;
             if (mInitDone) postBindPreferences();
         }
-    }
-
-    public PreferenceScreen getPreferenceScreen() {
-        return PreferenceManagerCompat.getPreferenceScreen(mPreferenceManager);
     }
 
     public void addPreferencesFromIntent(Intent intent) {
@@ -140,8 +149,8 @@ public abstract class PreferenceFragment extends Fragment implements PreferenceM
     }
 
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-    	if (getActivity() instanceof OnPreferenceStartFragmentCallback)
-            return ((OnPreferenceStartFragmentCallback)getActivity()).onPreferenceStartFragment( this, preference);
+        if (getActivity() instanceof OnPreferenceStartFragmentCallback)
+            return ((OnPreferenceStartFragmentCallback) getActivity()).onPreferenceStartFragment(this, preference);
         return false;
     }
 
@@ -149,16 +158,17 @@ public abstract class PreferenceFragment extends Fragment implements PreferenceM
         if (mPreferenceManager == null) return null;
         return mPreferenceManager.findPreference(key);
     }
-    
+
     private void requirePreferenceManager() {
-        if (mPreferenceManager == null) throw new RuntimeException("This should be called after super.onCreate.");
+        if (mPreferenceManager == null)
+            throw new RuntimeException("This should be called after super.onCreate.");
     }
-	
+
     private void postBindPreferences() {
         if (mHandler.hasMessages(MSG_BIND_PREFERENCES)) return;
         mHandler.obtainMessage(MSG_BIND_PREFERENCES).sendToTarget();
     }
-    
+
     private void bindPreferences() {
         final PreferenceScreen preferenceScreen = getPreferenceScreen();
         if (preferenceScreen != null) preferenceScreen.bind(getListView());
@@ -177,26 +187,16 @@ public abstract class PreferenceFragment extends Fragment implements PreferenceM
         if (!(rawListView instanceof ListView)) {
             throw new RuntimeException(
                     "Content has view with id attribute 'android.R.id.list' "
-                    + "that is not a ListView class");
+                            + "that is not a ListView class");
         }
-        mList = (ListView)rawListView;
+        mList = (ListView) rawListView;
         if (mList == null)
             throw new RuntimeException("Your content must have a ListView whose id attribute is " + "'android.R.id.list'");
         mList.setOnKeyListener(mListOnKeyListener);
         mHandler.post(mRequestFocus);
     }
 
-    private OnKeyListener mListOnKeyListener = new OnKeyListener() {
-
-        @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-            Object selectedItem = mList.getSelectedItem();
-            if (selectedItem instanceof Preference) {
-				View selectedView = mList.getSelectedView();
-                return false;
-            }
-            return false;
-        }
-
-    };
+    public interface OnPreferenceStartFragmentCallback {
+        boolean onPreferenceStartFragment(PreferenceFragment caller, Preference pref);
+    }
 }

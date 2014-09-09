@@ -40,7 +40,7 @@
     <string name="ok">OK</string>
     <string name="previous">Previous</string>
     <string name="push">Push Notifications</string>
-    <string name="push_nned_on">Push notifications need to be on to show alerts</string>
+    <string name="push_need_on">Push notifications need to be on to show alerts</string>
     <string name="push_summary">Toggle whether to receive push message alerts.</string>
     <string name="refresh">Refresh</string>
     <string name="register">Register</string>

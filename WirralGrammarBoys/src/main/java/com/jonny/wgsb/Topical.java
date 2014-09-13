@@ -1,6 +1,6 @@
 package com.jonny.wgsb;
 
-public class Topical {
+class Topical {
     Integer _id, _red;
     String _title, _story;
 

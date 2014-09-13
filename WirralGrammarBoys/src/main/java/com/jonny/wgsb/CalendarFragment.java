@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -57,7 +56,6 @@ public class CalendarFragment extends Fragment {
     GridView gridview;
     TextView title;
     AsyncTask<Void, Integer, Void> mLoadCalendarTask;
-    private ActionBarDrawerToggle mDrawerToggle;
     private Integer contentAvailable = 1;
     private Boolean FlagCancelled = false;
     private GregorianCalendar month, itemMonth;

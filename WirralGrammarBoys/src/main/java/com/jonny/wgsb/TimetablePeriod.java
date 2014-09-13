@@ -1,6 +1,6 @@
 package com.jonny.wgsb;
 
-public class TimetablePeriod {
+class TimetablePeriod {
     String startString, endString, teacher, id, name, room, day;
     boolean isBreak;
     int _id, end, start, length;

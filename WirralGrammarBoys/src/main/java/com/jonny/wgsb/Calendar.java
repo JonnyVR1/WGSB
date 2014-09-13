@@ -1,6 +1,6 @@
 package com.jonny.wgsb;
 
-public class Calendar {
+class Calendar {
     Integer _id;
     String _event, _date, _dateString;
 

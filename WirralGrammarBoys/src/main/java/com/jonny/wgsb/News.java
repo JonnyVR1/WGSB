@@ -1,6 +1,6 @@
 package com.jonny.wgsb;
 
-public class News {
+class News {
     Integer _id;
     String _title, _imageSrc, _story, _date;
 

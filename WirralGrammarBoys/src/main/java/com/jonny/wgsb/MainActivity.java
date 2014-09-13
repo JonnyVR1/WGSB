@@ -50,6 +50,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getOverflowMenu();
         supportInvalidateOptionsMenu();
         id = getIntent().getIntExtra("id", 0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -189,6 +190,19 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    private void getOverflowMenu() {
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class MainFragment extends Fragment {
         final OnClickListener handler = new OnClickListener() {
@@ -227,7 +241,6 @@ public class MainActivity extends ActionBarActivity {
             View view = inflater.inflate(R.layout.fragment_main, container, false);
             setupActionBar();
             dbhandler = DatabaseHandler.getInstance(getActivity());
-            getOverflowMenu();
             getActivity().registerReceiver(mHandleMessageReceiver, new IntentFilter(DISPLAY_MESSAGE_ACTION));
             ArrayList<MainDetails> arrayList = GetSearchResults();
             listView = (ListView) view.findViewById(R.id.main_list);
@@ -397,19 +410,6 @@ public class MainActivity extends ActionBarActivity {
             return dialog;
         }
 
-        private void getOverflowMenu() {
-            try {
-                ViewConfiguration config = ViewConfiguration.get(getActivity());
-                Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-                if (menuKeyField != null) {
-                    menuKeyField.setAccessible(true);
-                    menuKeyField.setBoolean(config, false);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
         private ArrayList<MainDetails> GetSearchResults() {
             ArrayList<MainDetails> arrayList = new ArrayList<MainDetails>();
 
@@ -473,7 +473,6 @@ public class MainActivity extends ActionBarActivity {
             View view = inflater.inflate(R.layout.fragment_main, container, false);
             setupActionBar();
             dbhandler = DatabaseHandler.getInstance(getActivity());
-            getOverflowMenu();
             getActivity().registerReceiver(mHandleMessageReceiver, new IntentFilter(DISPLAY_MESSAGE_ACTION));
             ArrayList<MainDetails> arrayList = GetSearchResults();
             listView = (ListView) view.findViewById(R.id.main_list);
@@ -630,19 +629,6 @@ public class MainActivity extends ActionBarActivity {
             alert = builder.create();
             dialog = alert;
             return dialog;
-        }
-
-        private void getOverflowMenu() {
-            try {
-                ViewConfiguration config = ViewConfiguration.get(getActivity());
-                Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-                if (menuKeyField != null) {
-                    menuKeyField.setAccessible(true);
-                    menuKeyField.setBoolean(config, false);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         private ArrayList<MainDetails> GetSearchResults() {

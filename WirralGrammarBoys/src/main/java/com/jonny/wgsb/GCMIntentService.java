@@ -1,13 +1,11 @@
 package com.jonny.wgsb;
 
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -48,20 +46,19 @@ public class GCMIntentService extends IntentService {
     }
 
     private void sendNotification(Integer id, String title) {
-        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(this);
         Intent notificationIntent = new Intent();
         notificationIntent.setClass(this, MainActivity.class);
         notificationIntent.putExtra("id", id).putExtra("notification", true);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        long when = System.currentTimeMillis();
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.push_icon)
                 .setContentTitle("WGSB - New Notification")
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(title))
                 .setContentText("New Message: " + title)
-                .setWhen(when)
+                .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
+                .setDefaults(NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE);
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }

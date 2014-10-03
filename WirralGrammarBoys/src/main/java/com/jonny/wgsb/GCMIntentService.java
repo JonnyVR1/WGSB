@@ -13,6 +13,7 @@ import static com.jonny.wgsb.CommonUtilities.displayMessage;
 
 public class GCMIntentService extends IntentService {
     private static final int NOTIFICATION_ID = 1;
+    private DatabaseHandler dbhandler = DatabaseHandler.getInstance(this);
 
     public GCMIntentService() {
         super("GCMIntentService");
@@ -24,7 +25,6 @@ public class GCMIntentService extends IntentService {
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
         String messageType = gcm.getMessageType(intent);
         if (!extras.isEmpty()) {
-            DatabaseHandler dbhandler = DatabaseHandler.getInstance(this);
             String date = extras.getString("date");
             String title = extras.getString("title");
             String message = extras.getString("message");
@@ -38,27 +38,31 @@ public class GCMIntentService extends IntentService {
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 Integer read = 0;
                 dbhandler.addNotification(new Notifications(id, title, date, message, read));
-                sendNotification(id, title);
+                sendNotification(id, title, message);
                 displayMessage(this, message);
             }
         }
         GCMBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    private void sendNotification(Integer id, String title) {
+    private void sendNotification(Integer id, String title, String message) {
         NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(this);
         Intent notificationIntent = new Intent();
         notificationIntent.setClass(this, MainActivity.class);
         notificationIntent.putExtra("id", id).putExtra("notification", true);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        /*NotificationCompat.Action markAsReadAction = new NotificationCompat.Action.Builder(R.drawable.ic_action,
+                "Mark as read", dbhandler.updateNotifications(new Notifications(id, 1)))
+                .build();*/
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.push_icon)
-                .setContentTitle("WGSB - New Notification")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(title))
-                .setContentText("New Message: " + title)
+                .setContentTitle("WGSB " + title)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+                .setContentText(message)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
-                .setDefaults(NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE);
+                .setDefaults(NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
+                /*.extend(new NotificationCompat.WearableExtender().addAction(markAsReadAction))*/;
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }

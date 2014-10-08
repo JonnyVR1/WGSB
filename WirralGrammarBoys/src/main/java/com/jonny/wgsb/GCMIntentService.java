@@ -56,7 +56,7 @@ public class GCMIntentService extends IntentService {
                 .build();*/
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.push_icon)
-                .setContentTitle("WGSB - " + title)
+                .setContentTitle(title)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                 .setContentText(message)
                 .setWhen(System.currentTimeMillis())

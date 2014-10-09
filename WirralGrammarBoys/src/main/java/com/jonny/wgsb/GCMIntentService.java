@@ -36,8 +36,7 @@ public class GCMIntentService extends IntentService {
                 id = 1;
             }
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-                Integer read = 0;
-                dbhandler.addNotification(new Notifications(id, title, date, message, read));
+                dbhandler.addNotification(new Notifications(id, title, date, message, 0));
                 sendNotification(id, title, message);
                 displayMessage(this, message);
             }

@@ -1,2 +1,2 @@
-include 'ViewPagerIndicator', 'PreferenceFragment'
-include 'WirralGrammarBoys'
+include ':android'
+include ':libraries:ViewPagerIndicator', ':libraries:PreferenceFragment', ':libraries:FloatingActionButton'

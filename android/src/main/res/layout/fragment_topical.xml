@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jonny.wgsb.material.ui.widget.MultiSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/topical_right_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_material_light"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/topical_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="start"
+            android:background="#FFFFFF"
+            android:choiceMode="singleChoice"
+            android:clickable="true"
+            android:orientation="vertical" />
+    </LinearLayout>
+</com.jonny.wgsb.material.ui.widget.MultiSwipeRefreshLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="settings"
+        android:title="Settings">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_push"
+            android:summary="@string/push_summary"
+            android:title="@string/push" />
+        <Preference
+            android:key="pref_year"
+            android:summary="@string/year_summary"
+            android:title="@string/year" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="About">
+        <Preference
+            android:key="appVersion"
+            android:summary="View on Play Store" />
+        <Preference
+            android:key="bugReport"
+            android:summary="Tap here to email me if you find a bug or have a suggestion"
+            android:title="Report a bug" />
+        <Preference
+            android:icon="@drawable/ic_launcher"
+            android:key="jonny"
+            android:title="Developer: Jonathon Fitch" />
+    </PreferenceCategory>
+</PreferenceScreen>

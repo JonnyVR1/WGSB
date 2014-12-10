@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="widget_margin">8dp</dimen>
+    <dimen name="line_thickness">1dp</dimen>
+    <dimen name="id_width">40dp</dimen>
+    <dimen name="actionBarSize">56dp</dimen>
+    <dimen name="fab_radius">28dp</dimen>
+    <dimen name="fab_default_shadow_radius">5dp</dimen>
+    <dimen name="fab_default_shadow_dy">2dp</dimen>
+    <dimen name="nav_drawer_width_custom">310dp</dimen>
+</resources>

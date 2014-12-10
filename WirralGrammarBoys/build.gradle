@@ -1,17 +1,22 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion '20.0.0'
+    compileSdkVersion 21
+    buildToolsVersion '21.1.1'
     defaultConfig {
         minSdkVersion 10
-        targetSdkVersion 20
+        targetSdkVersion 21
     }
     buildTypes {
         release {
-            runProguard true
+            minifyEnabled true
             proguardFiles 'proguard-rules.pro'
-            zipAlign true
+            zipAlignEnabled true
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            zipAlignEnabled true
         }
     }
     lintOptions {
@@ -20,9 +25,9 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:20.0.0'
-    compile 'com.android.support:appcompat-v7:20.0.0'
-    compile 'com.google.android.gms:play-services:5.0.89'
+    compile 'com.android.support:support-v4:21.0.2'
+    compile 'com.android.support:appcompat-v7:21.0.2'
+    compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.squareup.picasso:picasso:2.3.4'
     compile project(':PreferenceFragment')

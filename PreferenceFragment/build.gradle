@@ -9,13 +9,11 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            proguardFiles 'proguard-rules.pro'
+            minifyEnabled false
             zipAlignEnabled true
         }
         debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             zipAlignEnabled true
         }
     }

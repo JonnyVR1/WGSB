@@ -1,22 +1,20 @@
 package com.jonny.wgsb;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -27,8 +25,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
@@ -75,6 +71,7 @@ public class TopicalFragment extends Fragment {
     private ActionBarHelper mActionBar;
     private Integer contentAvailable = 1;
     private Boolean FlagCancelled = false, taskSuccess;
+    private Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,8 +93,8 @@ public class TopicalFragment extends Fragment {
         mDrawerLayout.setDrawerListener(new DrawerListener());
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mActionBar = createActionBarHelper();
-        mActionBar.init();
-        mDrawerToggle = new ActionBarDrawerToggle(this.getActivity(), mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name);
+        mActionBar.init(view);
+        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, toolbar, R.string.app_name, R.string.app_name);
         mDrawerLayout.openDrawer(topicalListView);
         mDrawerToggle.syncState();
         mDrawerLayout.setFocusableInTouchMode(false);
@@ -116,6 +113,8 @@ public class TopicalFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        mActionBar = createActionBarHelper();
+        mActionBar.init(getView());
         if (contentAvailable == 0) {
             if (cd.isConnectingToInternet()) {
                 loadTopical();
@@ -266,8 +265,8 @@ public class TopicalFragment extends Fragment {
         List<Topical> topical = dbhandler.getAllTopical();
         for (Topical t : topical) {
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("listID", t.getID().toString());
-            map.put("listTitle", t.getTitle());
+            map.put("listID", t.id.toString());
+            map.put("listTitle", t.title);
             topicalListItems.add(map);
         }
         ListAdapter topicalListAdapter = new SimpleAdapter(getActivity(), topicalListItems, R.layout.list_topical_nav_drawer,
@@ -279,8 +278,8 @@ public class TopicalFragment extends Fragment {
                 TextView idText = (TextView) view.findViewById(R.id.topicalId);
                 Integer topicalId = Integer.parseInt(idText.getText().toString());
                 Topical articleTopical = dbhandler.getTopical(topicalId);
-                String articleTitle = articleTopical.getTitle();
-                String articleStory = articleTopical.getStory();
+                String articleTitle = articleTopical.title;
+                String articleStory = articleTopical.story;
                 Spanned htmlSpan;
                 htmlSpan = Html.fromHtml(articleStory);
                 mActionBar.setTitle(articleTitle);
@@ -377,7 +376,7 @@ public class TopicalFragment extends Fragment {
         @Override
         public void onDrawerOpened(View drawerView) {
             mDrawerToggle.onDrawerOpened(drawerView);
-            mActionBar.onDrawerOpened();
+            //mActionBar.onDrawerOpened();
         }
 
         @Override
@@ -398,24 +397,18 @@ public class TopicalFragment extends Fragment {
     }
 
     public class ActionBarHelper {
-        private final ActionBar mActionBar;
         LayoutInflater inflater;
         TextView mActionTitle;
         View v;
         private CharSequence mTitle;
 
-        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-        private ActionBarHelper() {
-            mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-            mActionBar.setIcon(R.drawable.banner);
-        }
-
-        private void init() {
-            mActionBar.setDisplayHomeAsUpEnabled(true);
-            mActionBar.setHomeButtonEnabled(true);
+        private void init(View view) {
+            toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+            toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+            ((ActionBarActivity) getActivity()).setSupportActionBar(toolbar);
+            ActionBar mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
             mActionBar.setDisplayShowCustomEnabled(true);
             mActionBar.setDisplayShowTitleEnabled(false);
-            mActionBar.setIcon(R.drawable.banner);
             v = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.actionbar_title, null);
            /*v.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -428,41 +421,22 @@ public class TopicalFragment extends Fragment {
                 }
             });*/
             mActionTitle = ((TextView) v.findViewById(R.id.title));
-            mActionTitle.setText(R.string.topical_information);
+            //mActionTitle.setText(R.string.topical_information);
             mActionTitle.setMarqueeRepeatLimit(255);
             mActionTitle.setFocusable(true);
             mActionTitle.setSingleLine(true);
             mActionTitle.setFocusableInTouchMode(true);
             mActionTitle.requestFocus();
             mActionBar.setCustomView(v);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                setTranslucentStatus(true);
-                SystemBarTintManager tintManager = new SystemBarTintManager(getActivity());
-                tintManager.setStatusBarTintEnabled(true);
-                tintManager.setStatusBarTintColor(Color.parseColor("#FF004890"));
-            }
-        }
-
-        @TargetApi(19)
-        private void setTranslucentStatus(boolean on) {
-            Window win = getActivity().getWindow();
-            WindowManager.LayoutParams winParams = win.getAttributes();
-            final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-            if (on) {
-                winParams.flags |= bits;
-            } else {
-                winParams.flags &= ~bits;
-            }
-            win.setAttributes(winParams);
         }
 
         private void onDrawerClosed() {
             if (mTitle != null) mActionTitle.setText(mTitle);
         }
 
-        private void onDrawerOpened() {
+        /*private void onDrawerOpened() {
             mActionTitle.setText(R.string.topical_information);
-        }
+        }*/
 
         private void setTitle(CharSequence title) {
             mTitle = title;

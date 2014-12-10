@@ -1,52 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/colorPrimaryDark">
 
-    <com.jonny.wgsb.FloatLabelLayout
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="35dp"
-        app:floatLabelTextAppearance="@style/TextAppearance.wgsb.FloatLabel">
+        android:layout_height="match_parent"
+        android:background="@color/background_material_light"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/txtName"
+        <com.jonny.wgsb.FloatLabelLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="35dp"
+            app:floatLabelTextAppearance="@style/TextAppearance.wgsb.FloatLabel">
+
+            <EditText
+                android:id="@+id/txtName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/full_name"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:nextFocusDown="@+id/btnRegister" />
+        </com.jonny.wgsb.FloatLabelLayout>
+
+        <com.jonny.wgsb.FloatLabelLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            app:floatLabelTextAppearance="@style/TextAppearance.wgsb.FloatLabel">
+
+            <EditText
+                android:id="@+id/txtEmail"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress" />
+        </com.jonny.wgsb.FloatLabelLayout>
+
+        <Button
+            android:id="@+id/btnRegister"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:hint="@string/full_name"
-            android:imeOptions="actionNext"
-            android:inputType="textCapWords"
-            android:nextFocusDown="@+id/btnRegister" />
-    </com.jonny.wgsb.FloatLabelLayout>
-
-    <com.jonny.wgsb.FloatLabelLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        app:floatLabelTextAppearance="@style/TextAppearance.wgsb.FloatLabel">
-
-        <EditText
-            android:id="@+id/txtEmail"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/email"
-            android:imeOptions="actionDone"
-            android:inputType="textEmailAddress" />
-    </com.jonny.wgsb.FloatLabelLayout>
-
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/register" />
-</LinearLayout>
+            android:layout_margin="10dp"
+            android:text="@string/register" />
+    </LinearLayout>
+</FrameLayout>

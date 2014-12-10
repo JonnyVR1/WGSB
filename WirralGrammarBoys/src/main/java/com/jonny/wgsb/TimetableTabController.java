@@ -1,7 +1,6 @@
 package com.jonny.wgsb;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -11,23 +10,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,7 +32,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
 
-@SuppressLint({"ValidFragment", "NewAPI"})
+@SuppressLint({"NewApi", "ValidFragment"})
 @SuppressWarnings("deprecation")
 public class TimetableTabController extends ActionBarActivity implements ViewPager.OnPageChangeListener {
     private final static int CONFIRM_DIALOG_ID = 0, RESTORE_DIALOG_ID = 1;
@@ -86,8 +81,6 @@ public class TimetableTabController extends ActionBarActivity implements ViewPag
         } else {
             weekString = ("B");
         }
-        final ActionBar actionBar = getSupportActionBar();
-        setupActionBar(actionBar, weekString);
         Calendar cal = Calendar.getInstance();
         weekDay = cal.get(Calendar.DAY_OF_WEEK);
         if (weekDay == 1 || weekDay == 7) {
@@ -103,7 +96,7 @@ public class TimetableTabController extends ActionBarActivity implements ViewPag
         String friWeek = "fri_" + weekNo;
         int width;
         Display display = getWindowManager().getDefaultDisplay();
-        if (android.os.Build.VERSION.SDK_INT >= 13) {
+        if (CompatUtils.isNotLegacyApi13()) {
             Point metrics = new Point();
             display.getSize(metrics);
             width = metrics.x;
@@ -113,28 +106,22 @@ public class TimetableTabController extends ActionBarActivity implements ViewPag
         if (width >= dp(540)) {
             tablet = true;
         }
-        Bundle mon = new Bundle();
+
+        Bundle mon = new Bundle(), tues = new Bundle(), wed = new Bundle(), thurs = new Bundle(), fri = new Bundle();
         mon.putString("day", monWeek);
         monday.setArguments(mon);
-
-        Bundle tues = new Bundle();
         tues.putString("day", tuesWeek);
         tuesday.setArguments(tues);
-
-        Bundle wed = new Bundle();
         wed.putString("day", wedWeek);
         wednesday.setArguments(wed);
-
-        Bundle thurs = new Bundle();
         thurs.putString("day", thursWeek);
         thursday.setArguments(thurs);
-
-        Bundle fri = new Bundle();
         fri.putString("day", friWeek);
         friday.setArguments(fri);
 
         if (tablet) {
             setContentView(R.layout.timetable_tablet_fragment_layout);
+            setupActionBar(weekString);
             getSupportFragmentManager().beginTransaction().add(R.id.monday_fragment_container, monday).commit();
             days[0] = monday;
             getSupportFragmentManager().beginTransaction().add(R.id.tuesday_fragment_container, tuesday).commit();
@@ -147,16 +134,22 @@ public class TimetableTabController extends ActionBarActivity implements ViewPag
             days[4] = friday;
         } else {
             setContentView(R.layout.timetable_tabs_viewpager_layout);
+            setupActionBar(weekString);
             LinearLayout container = (LinearLayout) findViewById(R.id.pager_container);
             View viewPager = findViewById(R.id.pager);
-            if (theme == 1) {
-                viewPager.setBackgroundColor(0xFFE8E8E8);
-            } else if (theme == 2 && android.os.Build.VERSION.SDK_INT < 11) {
-                viewPager.setBackgroundColor(0xFF000000);
-            }
             initialiseViewPager();
             mViewPager.setPageMargin(dp(8));
             titleIndicator = (TitlePageIndicator) findViewById(R.id.titles);
+            if (theme == 1) {
+                viewPager.setBackgroundColor(0xFFE8E8E8);
+                container.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                if (CompatUtils.isNotLegacyApi11()) {
+                    mViewPager.setPageMarginDrawable(R.color.colorPrimary);
+                }
+            } else if (theme == 2 && !CompatUtils.isNotLegacyApi11()) {
+                viewPager.setBackgroundColor(0xFF000000);
+                container.setBackgroundColor(0xFF000000);
+            }
             if (extras != null) {
                 titleIndicator.setViewPager(mViewPager, extras.getInt("tab"));
             } else {
@@ -165,50 +158,21 @@ public class TimetableTabController extends ActionBarActivity implements ViewPag
             titleIndicator.setSelectedBold(true);
             titleIndicator.setFooterColor(0xFF33B5E5);
             titleIndicator.setTextSize(dp(14));
-            if (theme == 1) {
-                container.setBackgroundColor(0xFF004890);
-                if (android.os.Build.VERSION.SDK_INT >= 11) {
-                    mViewPager.setPageMarginDrawable(R.color.blue_logo);
-                }
-            } else if (theme == 2 && android.os.Build.VERSION.SDK_INT < 11) {
-                container.setBackgroundColor(0xFF000000);
+        }
+    }
+
+    private void setupActionBar(String weekString) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Timetable - Week " + weekString);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        setSupportActionBar(toolbar);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TimetableTabController.this, TimetableAddSubjectActivity.class));
             }
-        }
-    }
-
-    private void setupActionBar(ActionBar actionBar, String weekString) {
-        actionBar.setIcon(R.drawable.banner);
-        actionBar.setTitle("Timetable - Week " + weekString);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_wgsb));
-        actionBar.setSplitBackgroundDrawable(getResources().getDrawable(R.drawable.ab_bottom_solid_wgsb));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintColor(Color.parseColor("#FF004890"));
-        }
-    }
-
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
-    }
-
-    protected void onSaveInstanceState(Bundle outState) {
-        try {
-            super.onSaveInstanceState(outState);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     private void initialiseViewPager() {
@@ -256,7 +220,7 @@ public class TimetableTabController extends ActionBarActivity implements ViewPag
         } catch (CursorIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

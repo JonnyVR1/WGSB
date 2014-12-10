@@ -1,18 +1,16 @@
 package com.jonny.wgsb;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,8 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
@@ -70,7 +66,7 @@ public class CalendarFragment extends Fragment {
                 itemMonth.add(GregorianCalendar.DATE, 1);
                 List<Calendar> calendar = dbhandler.getAllCalendar();
                 for (Calendar c : calendar) {
-                    items.add(c.getDate());
+                    items.add(c.date);
                 }
             }
             adapter.setItems(items);
@@ -87,41 +83,22 @@ public class CalendarFragment extends Fragment {
         height = metrics.heightPixels;
         cd = new ConnectionDetector(this.getActivity().getApplicationContext());
         dbhandler = DatabaseHandler.getInstance(getActivity());
-        setupActionBar();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void setupActionBar() {
+    private void setupActionBar(View view) {
         setHasOptionsMenu(true);
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
-        actionBar.setIcon(R.drawable.banner);
-        actionBar.setTitle(R.string.calendar);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-            SystemBarTintManager tintManager = new SystemBarTintManager(getActivity());
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintColor(Color.parseColor("#FF004890"));
-        }
-    }
-
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getActivity().getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.calendar);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        ((ActionBarActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBar mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        setupActionBar(view);
         previous = (RelativeLayout) view.findViewById(R.id.previousMonth);
         next = (RelativeLayout) view.findViewById(R.id.nextMonth);
         title = (TextView) view.findViewById(R.id.title);
@@ -176,9 +153,9 @@ public class CalendarFragment extends Fragment {
                     String dateString = null;
                     List<Calendar> calendar = dbhandler.getAllCalendarAtDate(selectedGridDate);
                     for (Calendar c : calendar) {
-                        if (events == null) events = "- " + c.getEvent();
-                        else events = events + "\n\n- " + c.getEvent();
-                        dateString = c.getDateString();
+                        if (events == null) events = "- " + c.event;
+                        else events = events + "\n\n- " + c.event;
+                        dateString = c.dateString;
                     }
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                     alertDialog.setTitle("Events on " + dateString);

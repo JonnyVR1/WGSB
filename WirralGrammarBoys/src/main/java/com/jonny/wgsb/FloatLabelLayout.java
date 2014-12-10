@@ -1,5 +1,6 @@
 package com.jonny.wgsb;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
@@ -20,9 +21,11 @@ import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
+@SuppressLint("NewApi")
+@SuppressWarnings("unused")
 public final class FloatLabelLayout extends FrameLayout {
     private static final long ANIMATION_DURATION = 150;
-    private static final float DEFAULT_PADDING_LEFT_RIGHT_DP = 12f;
+    private static final float DEFAULT_PADDING_LEFT_RIGHT_DP = 4f;
     private EditText mEditText;
     private TextView mLabel;
 
@@ -49,8 +52,7 @@ public final class FloatLabelLayout extends FrameLayout {
     @Override
     public final void addView(@NonNull View child, int index, ViewGroup.LayoutParams params) {
         if (child instanceof EditText) {
-            if (mEditText != null)
-                throw new IllegalArgumentException("We already have an EditText, can only have one");
+            if (mEditText != null) throw new IllegalArgumentException("We already have an EditText, can only have one");
             final LayoutParams lp = new LayoutParams(params);
             lp.gravity = Gravity.BOTTOM;
             lp.topMargin = (int) mLabel.getTextSize();
@@ -87,9 +89,7 @@ public final class FloatLabelLayout extends FrameLayout {
         mEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean focused) {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-                    mLabel.setActivated(focused);
-                }
+                if (CompatUtils.isNotLegacyHoneyComb())  mLabel.setActivated(focused);
             }
         });
         mLabel.setText(mEditText.getHint());

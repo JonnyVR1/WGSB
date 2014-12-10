@@ -1,54 +1,16 @@
 package com.jonny.wgsb;
 
 class Calendar {
-    Integer _id;
-    String _event, _date, _dateString;
+    Integer id;
+    String event, date, dateString;
 
     Calendar() {
     }
 
     Calendar(Integer id, String event, String date, String dateString) {
-        this._id = id;
-        this._event = event;
-        this._date = date;
-        this._dateString = dateString;
-    }
-
-    Calendar(String event, String date, String dateString) {
-        this._event = event;
-        this._date = date;
-        this._dateString = dateString;
-    }
-
-    Integer getID() {
-        return this._id;
-    }
-
-    void setID(Integer id) {
-        this._id = id;
-    }
-
-    String getEvent() {
-        return this._event;
-    }
-
-    void setEvent(String event) {
-        this._event = event;
-    }
-
-    String getDate() {
-        return this._date;
-    }
-
-    void setDate(String date) {
-        this._date = date;
-    }
-
-    String getDateString() {
-        return this._dateString;
-    }
-
-    void setDateString(String dateString) {
-        this._dateString = dateString;
+        this.id = id;
+        this.event = event;
+        this.date = date;
+        this.dateString = dateString;
     }
 }

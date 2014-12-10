@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:appCompat="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_menu">
+    android:id="@+id/timetable_menu">
     <item
         android:id="@+id/menu_switch_week"
         android:icon="@android:drawable/ic_menu_set_as"
         android:title="@string/switch_weeks"
-        appCompat:showAsAction="ifRoom|withText" />
+        appCompat:showAsAction="never" />
     <item
         android:id="@+id/menu_refresh"
         android:icon="@drawable/ic_menu_refresh"
         android:title="@string/refresh"
-        appCompat:showAsAction="ifRoom|withText" />
+        appCompat:showAsAction="never" />
     <item
         android:id="@+id/menu_add_period"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/add_subject"
-        appCompat:showAsAction="always|withText" />
+        appCompat:showAsAction="never" />
     <item
         android:id="@+id/menu_today"
         android:icon="@android:drawable/ic_menu_today"
         android:title="@string/today"
-        appCompat:showAsAction="ifRoom|withText" />
+        appCompat:showAsAction="never" />
     <item
         android:id="@+id/menu_compact"
         android:icon="@drawable/ic_menu_chat_dashboard"
         android:title="@string/compact_detail"
-        appCompat:showAsAction="ifRoom|withText" />
+        appCompat:showAsAction="never" />
     <item
         android:id="@+id/menu_preferences"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/timetable_settings"
-        appCompat:showAsAction="ifRoom" />
+        appCompat:showAsAction="never" />
 </menu>

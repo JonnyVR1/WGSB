@@ -75,10 +75,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     void addCalendar(Calendar calendar) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, calendar.getID());
-        values.put(KEY_EVENT, calendar.getEvent());
-        values.put(KEY_DATE, calendar.getDate());
-        values.put(KEY_DATESTRING, calendar.getDateString());
+        values.put(KEY_ID, calendar.id);
+        values.put(KEY_EVENT, calendar.event);
+        values.put(KEY_DATE, calendar.date);
+        values.put(KEY_DATESTRING, calendar.dateString);
         db.insert(TABLE_CALENDAR, null, values);
         db.close();
     }
@@ -87,11 +87,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     void addNews(News news) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, news.getID());
-        values.put(KEY_TITLE, news.getTitle());
-        values.put(KEY_STORY, news.getStory());
-        values.put(KEY_DATE, news.getDate());
-        values.put(KEY_IMAGE_SRC, news.getImageSrc());
+        values.put(KEY_ID, news.id);
+        values.put(KEY_TITLE, news.title);
+        values.put(KEY_STORY, news.story);
+        values.put(KEY_DATE, news.date);
+        values.put(KEY_IMAGE_SRC, news.imageSrc);
         db.insert(TABLE_NEWS, null, values);
         db.close();
     }
@@ -99,11 +99,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     void addNotification(Notifications Notifications) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, Notifications.getID());
-        values.put(KEY_TITLE, Notifications.getTitle());
-        values.put(KEY_NOTIFICATION_MESSAGE, Notifications.getMessage());
-        values.put(KEY_DATE, Notifications.getDate());
-        values.put(KEY_NOTIFICATION_READ, Notifications.getRead());
+        values.put(KEY_ID, Notifications.id);
+        values.put(KEY_TITLE, Notifications.title);
+        values.put(KEY_NOTIFICATION_MESSAGE, Notifications.message);
+        values.put(KEY_DATE, Notifications.date);
+        values.put(KEY_NOTIFICATION_READ, Notifications.read);
         db.insert(TABLE_NOTIFICATIONS, null, values);
         db.close();
     }
@@ -120,10 +120,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     void addTopical(Topical topical) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, topical.getID());
-        values.put(KEY_TITLE, topical.getTitle());
-        values.put(KEY_STORY, topical.getStory());
-        values.put(KEY_RED, topical.getRed());
+        values.put(KEY_ID, topical.id);
+        values.put(KEY_TITLE, topical.title);
+        values.put(KEY_STORY, topical.story);
+        values.put(KEY_RED, topical.red);
         db.insert(TABLE_TOPICAL, null, values);
         db.close();
     }
@@ -236,10 +236,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Calendar calendar = new Calendar();
-                calendar.setID(cursor.getInt(0));
-                calendar.setEvent(cursor.getString(1));
-                calendar.setDate(cursor.getString(2));
-                calendar.setDateString(cursor.getString(3));
+                calendar.id = cursor.getInt(0);
+                calendar.event = cursor.getString(1);
+                calendar.date = cursor.getString(2);
+                calendar.dateString = cursor.getString(3);
                 calendarList.add(calendar);
             } while (cursor.moveToNext());
         }
@@ -256,10 +256,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Calendar calendar = new Calendar();
-                calendar.setID(cursor.getInt(0));
-                calendar.setEvent(cursor.getString(1));
-                calendar.setDate(cursor.getString(2));
-                calendar.setDateString(cursor.getString(3));
+                calendar.id = cursor.getInt(0);
+                calendar.event = cursor.getString(1);
+                calendar.date = cursor.getString(2);
+                calendar.dateString = cursor.getString(3);
                 calendarList.add(calendar);
             } while (cursor.moveToNext());
         }
@@ -275,11 +275,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 News news = new News();
-                news.setID(cursor.getInt(0));
-                news.setTitle(cursor.getString(1));
-                news.setStory(cursor.getString(2));
-                news.setImageSrc(cursor.getString(3));
-                news.setDate(cursor.getString(4));
+                news.id = cursor.getInt(0);
+                news.title = cursor.getString(1);
+                news.story = cursor.getString(2);
+                news.imageSrc = cursor.getString(3);
+                news.date = cursor.getString(4);
                 newsList.add(news);
             } while (cursor.moveToNext());
         }
@@ -295,11 +295,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Notifications notifications = new Notifications();
-                notifications.setID(cursor.getInt(0));
-                notifications.setTitle(cursor.getString(1));
-                notifications.setDate(cursor.getString(2));
-                notifications.setMessage(cursor.getString(3));
-                notifications.setRead(cursor.getInt(4));
+                notifications.id = cursor.getInt(0);
+                notifications.title = cursor.getString(1);
+                notifications.date = cursor.getString(2);
+                notifications.message = cursor.getString(3);
+                notifications.read = cursor.getInt(4);
                 notificationsList.add(notifications);
             } while (cursor.moveToNext());
         }
@@ -315,10 +315,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Topical topical = new Topical();
-                topical.setID(cursor.getInt(0));
-                topical.setTitle(cursor.getString(1));
-                topical.setStory(cursor.getString(2));
-                topical.setRed(cursor.getInt(3));
+                topical.id = cursor.getInt(0);
+                topical.title = cursor.getString(1);
+                topical.story = cursor.getString(2);
+                topical.red = cursor.getInt(3);
                 topicalList.add(topical);
             } while (cursor.moveToNext());
         }
@@ -377,29 +377,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     void updateCalendar(Calendar calendar) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_EVENT, calendar.getEvent());
-        values.put(KEY_DATE, calendar.getDate());
-        values.put(KEY_DATESTRING, calendar.getDateString());
-        db.update(TABLE_CALENDAR, values, KEY_ID + " = ?", new String[]{String.valueOf(calendar.getID())});
+        values.put(KEY_EVENT, calendar.event);
+        values.put(KEY_DATE, calendar.date);
+        values.put(KEY_DATESTRING, calendar.dateString);
+        db.update(TABLE_CALENDAR, values, KEY_ID + " = ?", new String[]{String.valueOf(calendar.id)});
         db.close();
     }
 
     void updateNews(News news) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_TITLE, news.getTitle());
-        values.put(KEY_STORY, news.getStory());
-        values.put(KEY_IMAGE_SRC, news.getImageSrc());
-        values.put(KEY_DATE, news.getDate());
-        db.update(TABLE_NEWS, values, KEY_ID + " = ?", new String[]{String.valueOf(news.getID())});
+        values.put(KEY_TITLE, news.title);
+        values.put(KEY_STORY, news.story);
+        values.put(KEY_IMAGE_SRC, news.imageSrc);
+        values.put(KEY_DATE, news.date);
+        db.update(TABLE_NEWS, values, KEY_ID + " = ?", new String[]{String.valueOf(news.id)});
         db.close();
     }
 
     void updateNotifications(Notifications notifications) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_NOTIFICATION_READ, notifications.getRead());
-        db.update(TABLE_NOTIFICATIONS, values, KEY_ID + " = ?", new String[]{String.valueOf(notifications.getID())});
+        values.put(KEY_NOTIFICATION_READ, notifications.read);
+        db.update(TABLE_NOTIFICATIONS, values, KEY_ID + " = ?", new String[]{String.valueOf(notifications.id)});
         db.close();
     }
 
@@ -415,10 +415,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     void updateTopical(Topical topical) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_TITLE, topical.getTitle());
-        values.put(KEY_STORY, topical.getStory());
-        values.put(KEY_RED, topical.getRed());
-        db.update(TABLE_TOPICAL, values, KEY_ID + " = ?", new String[]{String.valueOf(topical.getID())});
+        values.put(KEY_TITLE, topical.title);
+        values.put(KEY_STORY, topical.story);
+        values.put(KEY_RED, topical.red);
+        db.update(TABLE_TOPICAL, values, KEY_ID + " = ?", new String[]{String.valueOf(topical.id)});
         db.close();
     }
 }

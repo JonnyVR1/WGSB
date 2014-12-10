@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="year group settings"
+        android:title="Year Group Settings">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_year7"
+            android:title="@string/year_7" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_year8"
+            android:title="@string/year_8" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_year9"
+            android:title="@string/year_9" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_year10"
+            android:title="@string/year_10" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_year11"
+            android:title="@string/year_11" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_year12"
+            android:title="@string/year_12" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_year13"
+            android:title="@string/year_13" />
+    </PreferenceCategory>
+</PreferenceScreen>

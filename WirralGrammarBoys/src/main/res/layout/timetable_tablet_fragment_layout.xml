@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_logo">
+    android:background="@color/colorPrimaryDark"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true">
 
-    <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <HorizontalScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/background_light"
-        android:clipToPadding="false"
-        android:fitsSystemWindows="true">
+        android:layout_marginTop="@dimen/actionBarSize"
+        android:background="@color/background_material_light">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:background="@color/background_material_light"
             android:orientation="horizontal">
 
             <FrameLayout
@@ -42,4 +49,15 @@
                 android:layout_height="fill_parent" />
         </LinearLayout>
     </HorizontalScrollView>
+
+    <com.jonny.wgsb.FloatingActionButton
+        android:id="@+id/fabbutton"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:drawable="@drawable/ic_add_black_24dp"
+        app:fabColor="@color/colorFab" />
 </FrameLayout>

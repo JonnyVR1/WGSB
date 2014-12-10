@@ -7,7 +7,7 @@
     <string name="backup_failed_bug">Backup failed- If you can see this, report it as a bug!</string>
     <string name="backup_failed_sd">Backup failed - Your SD card could not be written to</string>
     <string name="backup_successful">Backup successful!</string>
-    <string name="news">News</string>
+    <string name="blank_text" />
     <string name="calendar">Calendar</string>
     <string name="cancel">Cancel</string>
     <string name="clear_data">Clear all data?</string>
@@ -29,6 +29,7 @@
     <string name="loading">Loading…</string>
     <string name="monday_caps">MONDAY</string>
     <string name="name">Name</string>
+    <string name="news">News</string>
     <string name="news_image">News Image</string>
     <string name="next">Next</string>
     <string name="no">No</string>

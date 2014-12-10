@@ -1,21 +1,17 @@
 package com.jonny.wgsb;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -29,7 +25,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
-        setupActionBar();
+        setupActionBar(view);
         ConnectionDetector cd = new ConnectionDetector(getActivity().getApplicationContext());
         if (!cd.isConnectingToInternet()) {
             alert.showAlertDialog(getActivity(), "Internet Connection Error", "Please connect to a working Internet connection", false);
@@ -106,33 +102,15 @@ public class RegisterFragment extends Fragment {
         return string;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void setupActionBar() {
+    private void setupActionBar(View view) {
         setHasOptionsMenu(true);
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
-        actionBar.setIcon(R.drawable.banner);
-        actionBar.setTitle(R.string.register);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-            SystemBarTintManager tintManager = new SystemBarTintManager(getActivity());
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintColor(Color.parseColor("#FF004890"));
-        }
-    }
-
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getActivity().getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        toolbar.setTitle(R.string.register);
+        ((ActionBarActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBar mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+        mActionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

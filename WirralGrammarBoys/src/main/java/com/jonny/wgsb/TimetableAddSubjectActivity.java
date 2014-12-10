@@ -1,25 +1,21 @@
 package com.jonny.wgsb;
 
-import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -82,7 +78,6 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupActionBar();
         ContentResolver cr = getContentResolver();
         Cursor t = cr.query(TimetableProvider.WEEK_URI, new String[]{
                 TimetableProvider.ID, TimetableProvider.NUM}, TimetableProvider.KEY + "='theme'", null, null);
@@ -94,14 +89,10 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
             setTheme(R.style.Dark);
             theme = 2;
         }
+        t.close();
         setContentView(R.layout.timetable_add_subject_layout);
+        setupActionBar();
         RelativeLayout main = (RelativeLayout) findViewById(R.id.add_subject_layout_container);
-
-        if (theme == 1 && android.os.Build.VERSION.SDK_INT < 11) {
-            main.setBackgroundColor(0xFFFFFFFF);
-        } else if (theme == 2 && android.os.Build.VERSION.SDK_INT < 11) {
-            main.setBackgroundColor(0xFF000000);
-        }
 
         final LinearLayout mondayLayout = (LinearLayout) findViewById(R.id.monday_layout);
         final LinearLayout tuesdayLayout = (LinearLayout) findViewById(R.id.tuesday_layout);
@@ -110,13 +101,17 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
         final LinearLayout fridayLayout = (LinearLayout) findViewById(R.id.friday_layout);
 
         final AutoCompleteTextView nameEdit = (AutoCompleteTextView) findViewById(R.id.name_autocomplete);
-        if (t.getInt(1) == 1 && android.os.Build.VERSION.SDK_INT < 11) {
-            nameEdit.setTextColor(0xFF000000);
-        }
-        if (t.getInt(1) == 2) {
+
+        if (!CompatUtils.isNotLegacyApi11()){
+            if (theme == 1) {
+                main.setBackgroundColor(0xFFFFFFFF);
+                nameEdit.setTextColor(0xFF000000);
+            } else if (theme == 2) {
+                main.setBackgroundColor(0xFF000000);
+            }
+        } else if (theme == 2) {
             findViewById(R.id.bottom_bar).setBackgroundColor(0x00000000);
         }
-        t.close();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.timetable_list_item, SUBJECTS);
         nameEdit.setAdapter(adapter);
         final CheckBox breakCheck = (CheckBox) findViewById(R.id.break_check);
@@ -191,7 +186,7 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
                     }
                 }
                 String refresh = "To see changes, press refresh";
-                if (android.os.Build.VERSION.SDK_INT < 11) {
+                if (!CompatUtils.isNotLegacyApi11()) {
                     refresh = "Press Menu > Refresh to see changes";
                 }
                 Toast.makeText(TimetableAddSubjectActivity.this, refresh, Toast.LENGTH_SHORT).show();
@@ -209,30 +204,13 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
     }
 
     private void setupActionBar() {
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
-        actionBar.setIcon(R.drawable.banner);
-        actionBar.setTitle("Add Subject");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintColor(Color.parseColor("#FF004890"));
-        }
-    }
-
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.add_subject);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        setSupportActionBar(toolbar);
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+        mActionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

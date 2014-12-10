@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteException;
-import android.os.Build;
 import android.widget.RemoteViews;
 
 import java.util.Calendar;
@@ -17,14 +16,8 @@ import java.util.Calendar;
 public class TimetableWidget4x2 extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
-        Intent intent;
         for (int appWidgetId : appWidgetIds) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                intent = new Intent(context, TimetableTabController.class);
-            } else {
-                intent = new Intent(context, TimetableTabControllerLegacy.class);
-            }
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, TimetableTabController.class), 0);
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.timetable_widget4x2_layout);
             views.setOnClickPendingIntent(R.id.widget4x2, pendingIntent);
             TimetableWidgetWeekData weekStuff = weekStuff(context);

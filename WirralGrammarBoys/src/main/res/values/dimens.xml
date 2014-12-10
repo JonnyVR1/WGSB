@@ -8,4 +8,8 @@
     <dimen name="widget_margin">8dp</dimen>
     <dimen name="line_thickness">1dp</dimen>
     <dimen name="id_width">40dp</dimen>
+    <dimen name="actionBarSize">56dp</dimen>
+    <dimen name="fab_radius">28dp</dimen>
+    <dimen name="fab_default_shadow_radius">5dp</dimen>
+    <dimen name="fab_default_shadow_dy">2dp</dimen>
 </resources>

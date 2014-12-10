@@ -1,7 +1,6 @@
 package com.jonny.wgsb;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -9,16 +8,12 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.view.Display;
 import android.view.Gravity;
@@ -28,8 +23,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
@@ -46,8 +39,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 @SuppressWarnings("deprecation")
-@SuppressLint("ValidFragment")
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+@SuppressLint({"NewApi", "ValidFragment"})
 public class TimetableFragment extends Fragment {
     static final String[] SUBJECTS = new String[]{
             "Registration", "Lunch", "Break", "Free", "Art", "Astronomy", "Biology",
@@ -99,7 +91,6 @@ public class TimetableFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        setupActionBar();
         LinearLayout all = new LinearLayout(getActivity());
         all.setOrientation(LinearLayout.VERTICAL);
         all.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -128,32 +119,6 @@ public class TimetableFragment extends Fragment {
             }
         };
         timer.scheduleAtFixedRate(tt, 0, 300000);
-    }
-
-    private void setupActionBar() {
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        actionBar.setIcon(R.drawable.banner);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-            SystemBarTintManager tintManager = new SystemBarTintManager(getActivity());
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintColor(Color.parseColor("#FF004890"));
-        }
-    }
-
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getActivity().getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
     }
 
     void refreshView() {
@@ -202,7 +167,7 @@ public class TimetableFragment extends Fragment {
         }
         int width;
         Display display = getActivity().getWindowManager().getDefaultDisplay();
-        if (android.os.Build.VERSION.SDK_INT >= 13) {
+        if (CompatUtils.isNotLegacyApi13()) {
             Point metrics = new Point();
             display.getSize(metrics);
             width = metrics.x;
@@ -227,7 +192,7 @@ public class TimetableFragment extends Fragment {
         main.setGravity(Gravity.CENTER_HORIZONTAL);
         int size;
         Display display = getActivity().getWindowManager().getDefaultDisplay();
-        if (android.os.Build.VERSION.SDK_INT >= 13) {
+        if (CompatUtils.isNotLegacyApi13()) {
             Point metrics = new Point();
             display.getSize(metrics);
             size = metrics.x;
@@ -322,15 +287,6 @@ public class TimetableFragment extends Fragment {
             c.moveToNext();
         }
         c.close();
-        if (main.getChildCount() == 0) {
-            TextView empty = new TextView(getActivity());
-            if (android.os.Build.VERSION.SDK_INT > 11) {
-                empty.setText("Press + to get started");
-            } else {
-                empty.setText("Press Menu > Add Subject to get started");
-            }
-            main.addView(empty);
-        }
     }
 
     private LinearLayout expandedItem(TimetablePeriod currentPeriod) {

@@ -10,4 +10,9 @@
     <color name="background_light">#FFEDEDED</color>
     <color name="blue_logo">#FF004890</color>
     <color name="blue_float">#FF046FD9</color>
+    <color name="colorPrimary">#FF3F51B5</color>
+    <color name="colorPrimaryDark">#FF303F9F</color>
+    <!--<color name="colorPrimaryDark">#FF3949AB</color>-->
+    <color name="colorAccent">#FFFFA441</color>
+    <color name="colorFab">#FFFFE641</color>
 </resources>

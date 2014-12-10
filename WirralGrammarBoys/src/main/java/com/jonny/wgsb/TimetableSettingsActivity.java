@@ -1,6 +1,5 @@
 package com.jonny.wgsb;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -8,8 +7,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -18,12 +15,11 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.support.v4.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
@@ -121,43 +117,26 @@ public class TimetableSettingsActivity extends ActionBarActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.activity_timetable_settings, container, false);
+            View view = inflater.inflate(R.layout.activity_timetable_settings, container, false);
+            setupActionBar(view);
+            return view;
         }
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setupActionBar();
             addPreferencesFromResource(R.xml.timetable_settings);
             setPrefs();
             setStaticPrefs();
         }
 
-        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-        private void setupActionBar() {
-            ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-            actionBar.setIcon(R.drawable.banner);
-            actionBar.setTitle(R.string.timetable_settings);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                setTranslucentStatus(true);
-                SystemBarTintManager tintManager = new SystemBarTintManager(getActivity());
-                tintManager.setStatusBarTintEnabled(true);
-                tintManager.setStatusBarTintColor(Color.parseColor("#FF004890"));
-            }
-        }
-
-        @TargetApi(19)
-        private void setTranslucentStatus(boolean on) {
-            Window win = getActivity().getWindow();
-            WindowManager.LayoutParams winParams = win.getAttributes();
-            final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-            if (on) {
-                winParams.flags |= bits;
-            } else {
-                winParams.flags &= ~bits;
-            }
-            win.setAttributes(winParams);
+        private void setupActionBar(View view) {
+            Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+            toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+            toolbar.setTitle(R.string.timetable_settings);
+            ((ActionBarActivity) getActivity()).setSupportActionBar(toolbar);
+			ActionBar mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+			mActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
         private void setPrefs() {

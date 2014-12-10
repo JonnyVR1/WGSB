@@ -1,7 +1,5 @@
 package com.jonny.wgsb;
 
-import android.annotation.TargetApi;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -11,88 +9,74 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Color;
 import android.net.MailTo;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.preference.SwitchPreference;
 import android.support.v4.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
 
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
-    static final String TAG = "WGSB:GCM";
     Integer changed = 0;
     GoogleCloudMessaging gcm;
     DatabaseHandler dbhandler;
     AsyncTask<Void, Void, Void> mUpdateTask, mUnregisterTask;
     private String email, year7, year8, year9, year10, year11, year12, year13, regId;
-    private SwitchPreference mPush;
+    private CheckBoxPreference mPush;
     private Preference mYear, appVersion, bugReport, jonny;
     private Context mContext;
+    private Toolbar toolbar;
+    private static String mTitle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        setupActionBar();
+        return view;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
-        setupActionBar();
         dbhandler = DatabaseHandler.getInstance(mContext);
-        addPreferencesFromResource(R.xml.pref_settings);
-        PreferenceScreen preferencescreen = getPreferenceScreen();
-        mPush = (SwitchPreference) preferencescreen.findPreference("pref_push");
-        mYear = preferencescreen.findPreference("pref_year");
-        appVersion = preferencescreen.findPreference("appVersion");
-        bugReport = preferencescreen.findPreference("bugReport");
-        jonny = preferencescreen.findPreference("jonny");
-        setPrefs();
-        setStaticPrefs();
         savedInstanceState = getArguments();
         if (savedInstanceState != null) {
             String startScreen = savedInstanceState.getString("PREFERENCE_SCREEN_KEY");
             if (startScreen != null) {
                 savedInstanceState.remove("PREFERENCE_SCREEN_KEY");
-                final Preference preference = findPreference(startScreen);
-                final PreferenceScreen preferenceScreen = getPreferenceScreen();
-                final ListAdapter listAdapter = preferenceScreen.getRootAdapter();
-                final int itemsCount = listAdapter.getCount();
-                int itemNumber;
-                for (itemNumber = 0; itemNumber < itemsCount; ++itemNumber) {
-                    if (listAdapter.getItem(itemNumber).equals(preference)) {
-                        preferenceScreen.onItemClick(null, null, itemNumber, 0);
-                        break;
-                    }
-                }
-                initializeActionBar((PreferenceScreen) preference);
+                addPreferencesFromResource(R.xml.pref_year);
+                mTitle = getString(R.string.year);
             }
+        } else {
+            addPreferencesFromResource(R.xml.pref_settings);
+            PreferenceScreen preferencescreen = getPreferenceScreen();
+            mPush = (CheckBoxPreference) preferencescreen.findPreference("pref_push");
+            mYear = preferencescreen.findPreference("pref_year");
+            appVersion = preferencescreen.findPreference("appVersion");
+            bugReport = preferencescreen.findPreference("bugReport");
+            jonny = preferencescreen.findPreference("jonny");
+            mTitle = getString(R.string.settings);
+            setPrefs();
+            setStaticPrefs();
         }
     }
 
@@ -110,30 +94,12 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 
     private void setupActionBar() {
         setHasOptionsMenu(true);
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
-        actionBar.setIcon(R.drawable.banner);
-        actionBar.setTitle(R.string.settings);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-            SystemBarTintManager tintManager = new SystemBarTintManager(getActivity());
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintColor(Color.parseColor("#FF004890"));
-        }
-    }
-
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getActivity().getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        toolbar.setTitle(mTitle);
+        ((ActionBarActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBar mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+        mActionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void setPrefs() {
@@ -147,14 +113,14 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     }
 
     private void setStaticPrefs() {
-        String versionName;
+        final String[] versionName = new String[1];
         try {
-            versionName = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName;
+            versionName[0] = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName;
         } catch (NameNotFoundException e) {
-            versionName = "IS BROKEN WHAT HAVE YOU DONE";
+            versionName[0] = "null";
             e.printStackTrace();
         }
-        appVersion.setTitle(getResources().getString(R.string.app_name) + " " + versionName);
+        appVersion.setTitle(getResources().getString(R.string.app_name) + " " + versionName[0]);
         appVersion.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.jonny.wgsb")));
@@ -163,12 +129,11 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         });
         bugReport.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                String versionName;
                 try {
-                    versionName = mContext.getApplicationContext().getPackageManager().getPackageInfo(
+                    versionName[0] = mContext.getApplicationContext().getPackageManager().getPackageInfo(
                             mContext.getApplicationContext().getPackageName(), 0).versionName;
                 } catch (NameNotFoundException e) {
-                    versionName = "Unknown";
+                    versionName[0] = "Unknown";
                     e.printStackTrace();
                 }
                 MailTo mt = MailTo.parse("mailto:14FitchJ@wirralgrammarboys.com");
@@ -176,12 +141,11 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
                 reportEmail.setType("message/rfc822");
                 reportEmail.putExtra(Intent.EXTRA_EMAIL, new String[]{mt.getTo()});
                 reportEmail.putExtra(Intent.EXTRA_SUBJECT, "WGSB bug report");
-                reportEmail.putExtra(Intent.EXTRA_TEXT, "WGSB Version: " + versionName +
-                        "<br></br>Android Version: " + android.os.Build.VERSION.RELEASE
-                        + "<br></br>Device: " + android.os.Build.MODEL
-                        + "<br></br>How I found the bug: "
-                        + "<br></br>Description of bug: "
-                        + "<br></br>If the bug is visual, attached screenshots would be brilliant! :)");
+                reportEmail.putExtra(Intent.EXTRA_TEXT, "WGSB Version: " + versionName[0] +
+                        "<br></br>Android Version: " + android.os.Build.VERSION.RELEASE +
+                        "<br></br>Device: " + android.os.Build.MODEL +
+                        "<br></br>How I found the bug: " + "<br></br>Description of bug: " +
+                        "<br></br>If the bug is visual, attached screenshots would be brilliant! :)");
                 try {
                     startActivity(Intent.createChooser(reportEmail, "Send email..."));
                 } catch (ActivityNotFoundException ex) {
@@ -216,10 +180,9 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
                 Bundle args = new Bundle();
                 args.putString("PREFERENCE_SCREEN_KEY", "pref_year");
                 settingsFragment.setArguments(args);
-                getActivity().getSupportFragmentManager().popBackStack();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
-                        .replace(R.id.fragment_container, settingsFragment, "SETTINGS_FRAGMENT").addToBackStack(null).commit();
+                        .replace(R.id.fragment_container, settingsFragment, "SETTINGS_FRAGMENT_YEAR").addToBackStack(null).commit();
             } else {
                 changed = 0;
                 unRegister();
@@ -243,13 +206,13 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     String getRegistrationId() {
         String registrationId = dbhandler.getRegId();
         if (registrationId.equals("")) {
-            Log.i(TAG, "Registration not found.");
+            Log.i(CommonUtilities.TAG, "Registration not found.");
             return registrationId;
         }
         int registeredVersion = dbhandler.getRegIdAppVersion();
         int currentVersion = getAppVersion();
         if (registeredVersion != currentVersion) {
-            Log.i(TAG, "App version changed.");
+            Log.i(CommonUtilities.TAG, "App version changed.");
             return "";
         }
         return registrationId;
@@ -315,9 +278,9 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
                     e.printStackTrace();
                 }
                 mUnregisterTask.execute(null, null, null);
-                Intent unregIntent = new Intent("com.google.android.c2dm.intent.UNREGISTER");
-                unregIntent.putExtra("app", PendingIntent.getBroadcast(mContext, 0, new Intent(), 0));
-                mContext.startService(unregIntent);
+                Intent unregisterIntent = new Intent("com.google.android.c2dm.intent.UNREGISTER");
+                unregisterIntent.putExtra("app", PendingIntent.getBroadcast(mContext, 0, new Intent(), 0));
+                mContext.startService(unregisterIntent);
                 return null;
             }
 
@@ -330,40 +293,15 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         super.onPreferenceTreeClick(preferenceScreen, preference);
-        if (preference instanceof PreferenceScreen) {
-            initializeActionBar((PreferenceScreen) preference);
+        if (preference == mYear) {
+            SettingsFragment settingsFragment = new SettingsFragment();
+            Bundle args = new Bundle();
+            args.putString("PREFERENCE_SCREEN_KEY", "pref_year");
+            settingsFragment.setArguments(args);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
+                    .replace(R.id.fragment_container, settingsFragment, "SETTINGS_FRAGMENT_YEAR").addToBackStack(null).commit();
         }
         return false;
-    }
-
-    private void initializeActionBar(PreferenceScreen preferenceScreen) {
-        final Dialog dialog = preferenceScreen.getDialog();
-        if (dialog != null) {
-            dialog.getActionBar().setDisplayHomeAsUpEnabled(true);
-            dialog.getActionBar().setIcon(R.drawable.banner);
-            dialog.getActionBar().setTitle(R.string.year);
-            dialog.getActionBar().setDisplayHomeAsUpEnabled(true);
-            dialog.findViewById(android.R.id.list).setBackgroundColor(Color.parseColor("#FFF3F3F3"));
-            View homeBtn = dialog.findViewById(android.R.id.home);
-            if (homeBtn != null) {
-                OnClickListener dismissDialogClickListener = new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                };
-                ViewParent homeBtnContainer = homeBtn.getParent();
-                if (homeBtnContainer instanceof FrameLayout) {
-                    ViewGroup containerParent = (ViewGroup) homeBtnContainer.getParent();
-                    if (containerParent instanceof LinearLayout) {
-                        (containerParent).setOnClickListener(dismissDialogClickListener);
-                    } else {
-                        ((FrameLayout) homeBtnContainer).setOnClickListener(dismissDialogClickListener);
-                    }
-                } else {
-                    homeBtn.setOnClickListener(dismissDialogClickListener);
-                }
-            }
-        }
     }
 }

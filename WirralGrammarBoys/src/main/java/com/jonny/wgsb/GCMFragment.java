@@ -1,6 +1,5 @@
 package com.jonny.wgsb;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,21 +9,18 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -45,7 +41,6 @@ import static com.jonny.wgsb.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 import static com.jonny.wgsb.CommonUtilities.SENDER_ID;
 
 public class GCMFragment extends Fragment {
-    private final static String TAG = "WGSB:GCM";
     private static String name, email, year7, year8, year9, year10, year11, year12, year13;
     private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
         @Override
@@ -80,7 +75,7 @@ public class GCMFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gcm, container, false);
-        setupActionBar();
+        setupActionBar(view);
         cd = new ConnectionDetector(getActivity().getApplicationContext());
         dbhandler = DatabaseHandler.getInstance(getActivity());
         savedInstanceState = getArguments();
@@ -161,10 +156,10 @@ public class GCMFragment extends Fragment {
         List<Notifications> notifications = dbhandler.getAllNotifications();
         for (Notifications n : notifications) {
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("listID", n.getID().toString());
-            map.put("listRead", n.getRead().toString());
-            map.put("listTitle", n.getTitle());
-            map.put("listDate", n.getDate());
+            map.put("listID", n.id.toString());
+            map.put("listRead", n.read.toString());
+            map.put("listTitle", n.title);
+            map.put("listDate", n.date);
             notificationsListItems.add(map);
         }
         final BaseAdapter notificationsListAdapter = new SimpleAdapter(getActivity(), notificationsListItems, R.layout.list_notifications,
@@ -246,7 +241,7 @@ public class GCMFragment extends Fragment {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
                 GooglePlayServicesUtil.getErrorDialog(resultCode, getActivity(), 9000).show();
             } else {
-                Log.i(TAG, "This device is not supported.");
+                Log.i(CommonUtilities.TAG, "This device is not supported.");
             }
             return false;
         }
@@ -272,7 +267,7 @@ public class GCMFragment extends Fragment {
                 registerInBackground();
             }
         } else {
-            Log.i(TAG, "No valid Google Play Services APK found.");
+            Log.i(CommonUtilities.TAG, "No valid Google Play Services APK found.");
             alert.showAlertDialog(getActivity(), getString(R.string.gcm_play_services_error), getString(R.string.gcm_play_services_error_extra), false);
         }
     }
@@ -280,13 +275,13 @@ public class GCMFragment extends Fragment {
     private String getRegistrationId(Context context) {
         String registrationId = dbhandler.getRegId();
         if (registrationId.isEmpty()) {
-            Log.i(TAG, "Registration not found.");
+            Log.i(CommonUtilities.TAG, "Registration not found.");
             return "";
         }
         int registeredVersion = dbhandler.getRegIdAppVersion();
         int currentVersion = getAppVersion(context);
         if (registeredVersion != currentVersion) {
-            Log.i(TAG, "App version changed.");
+            Log.i(CommonUtilities.TAG, "App version changed.");
             return "";
         }
         return registrationId;
@@ -305,7 +300,7 @@ public class GCMFragment extends Fragment {
                     storeRegistrationId(context, regId);
                 } catch (IOException ex) {
                     String msg = "Error :" + ex.getMessage();
-                    Log.e(TAG, msg);
+                    Log.e(CommonUtilities.TAG, msg);
                 }
                 return null;
             }
@@ -314,7 +309,7 @@ public class GCMFragment extends Fragment {
 
     private void storeRegistrationId(Context context, String regId) {
         int appVersion = getAppVersion(context);
-        Log.i(TAG, "Saving regId on app version " + appVersion);
+        Log.i(CommonUtilities.TAG, "Saving regId on app version " + appVersion);
         if (dbhandler.getRegIdCount() > 0) {
             dbhandler.getWritableDatabase();
             dbhandler.updateRegId(regId, appVersion);
@@ -324,32 +319,13 @@ public class GCMFragment extends Fragment {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void setupActionBar() {
+    private void setupActionBar(View view) {
         setHasOptionsMenu(true);
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
-        actionBar.setIcon(R.drawable.banner);
-        actionBar.setTitle("Notifications");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-            SystemBarTintManager tintManager = new SystemBarTintManager(getActivity());
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintColor(Color.parseColor("#FF004890"));
-        }
-    }
-
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getActivity().getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        toolbar.setTitle(R.string.notifications);
+        ((ActionBarActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBar mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        mActionBar.setDisplayHomeAsUpEnabled(true);
     }
 }

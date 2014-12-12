@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -110,11 +109,11 @@ public class RegisterFragment extends Fragment {
 
     private void setupActionBar() {
         setHasOptionsMenu(true);
-        ((MainActivity) getActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        ((MainActivity) getActivity()).mDrawerToggle.setDrawerIndicatorEnabled(false);
-        ActionBar mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
-        mActionBar.setTitle(R.string.register);
+        MainActivity mActivity = ((MainActivity) getActivity());
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
+        mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
+        mActivity.getSupportActionBar().setTitle(R.string.register);
     }
 
     @Override

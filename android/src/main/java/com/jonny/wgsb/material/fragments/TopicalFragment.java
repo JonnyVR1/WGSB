@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,8 +76,9 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
         View view = inflater.inflate(R.layout.fragment_topical, container, false);
         topicalListView = (ListView) view.findViewById(R.id.topical_list);
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        ((MainActivity) getActivity()).mDrawerToggle.setDrawerIndicatorEnabled(true);
-        ((ActionBarActivity) mContext).getSupportActionBar().setTitle(R.string.topical_information);
+        MainActivity mActivity = ((MainActivity) getActivity());
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mActivity.getSupportActionBar().setTitle(R.string.topical_information);
         setupSwipeRefresh();
         if (dbhandler.getTopicalCount() > 0) {
             getTopicalList();
@@ -189,10 +189,10 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
     }
 
     private void getTopicalList() {
-        List<HashMap<String, String>> topicalListItems = new ArrayList<HashMap<String, String>>();
+        List<HashMap<String, String>> topicalListItems = new ArrayList<>();
         List<Topical> topical = dbhandler.getAllTopical();
         for (Topical t : topical) {
-            HashMap<String, String> map = new HashMap<String, String>();
+            HashMap<String, String> map = new HashMap<>();
             map.put("listID", t.id.toString());
             map.put("listTitle", t.title);
             topicalListItems.add(map);
@@ -230,7 +230,7 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
 
             @Override
             protected Void doInBackground(Void... args) {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                List<NameValuePair> params = new ArrayList<>();
                 try {
                     JSONObject json = jParser.makeHttpRequest(AllTopicalItemsURL, params);
                     int success = json.getInt(TAG_SUCCESS);

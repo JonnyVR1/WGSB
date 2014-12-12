@@ -14,8 +14,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -160,10 +158,10 @@ public class GCMFragment extends Fragment {
     }
 
     private void getNotificationsList() {
-        final List<HashMap<String, String>> notificationsListItems = new ArrayList<HashMap<String, String>>();
+        final List<HashMap<String, String>> notificationsListItems = new ArrayList<>();
         List<Notifications> notifications = dbhandler.getAllNotifications();
         for (Notifications n : notifications) {
-            HashMap<String, String> map = new HashMap<String, String>();
+            HashMap<String, String> map = new HashMap<>();
             map.put("listID", n.id.toString());
             map.put("listRead", n.read.toString());
             map.put("listTitle", n.title);
@@ -329,9 +327,9 @@ public class GCMFragment extends Fragment {
 
     private void setupActionBar() {
         setHasOptionsMenu(true);
+        MainActivity mActivity = ((MainActivity) getActivity());
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
         ((MainActivity) getActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        ActionBar mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
-        mActionBar.setTitle(R.string.notifications);
+        mActivity.getSupportActionBar().setTitle(R.string.notifications);
     }
 }

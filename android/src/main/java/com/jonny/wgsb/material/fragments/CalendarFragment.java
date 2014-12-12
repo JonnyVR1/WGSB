@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -103,8 +102,9 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-        ((MainActivity) getActivity()).mDrawerToggle.setDrawerIndicatorEnabled(true);
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.calendar);
+        MainActivity mActivity = ((MainActivity) getActivity());
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mActivity.getSupportActionBar().setTitle(R.string.calendar);
         previous = (RelativeLayout) view.findViewById(R.id.previousMonth);
         next = (RelativeLayout) view.findViewById(R.id.nextMonth);
         title = (TextView) view.findViewById(R.id.title);
@@ -113,7 +113,7 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
         month = (GregorianCalendar) GregorianCalendar.getInstance();
         Locale.setDefault(Locale.UK);
         itemMonth = (GregorianCalendar) month.clone();
-        items = new ArrayList<String>();
+        items = new ArrayList<>();
         adapter = new CalendarAdapter(getActivity(), month);
         gridview.setAdapter(adapter);
         handler = new Handler();
@@ -299,7 +299,7 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
 
             @Override
             protected Void doInBackground(Void... args) {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                List<NameValuePair> params = new ArrayList<>();
                 try {
                     JSONObject json = jParser.makeHttpRequest(AllCalendarItemsURL, params);
                     int success = json.getInt(TAG_SUCCESS);

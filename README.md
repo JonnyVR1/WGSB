@@ -10,9 +10,7 @@ Credits
 
 Author: [Jonathon Fitch](https://github.com/JonnyXDA)
 
-This application uses [SystemBarTint Library](https://github.com/jgilfelt/SystemBarTint/) by [Jeff Gilfelt](https://github.com/jgilfelt),
-
-[PreferenceFragment Library](https://github.com/justinharrison/android-support-v4-preferencefragment/) by [Justin Harrison](https://github.com/justinharrison),
+This application uses [PreferenceFragment Library](https://github.com/justinharrison/android-support-v4-preferencefragment/) by [Justin Harrison](https://github.com/justinharrison),
 
 [ViewPagerIndicator Library](https://github.com/JakeWharton/Android-ViewPagerIndicator/) by [Jake Wharton](https://github.com/JakeWharton),
 

@@ -14,4 +14,5 @@
     <color name="colorPrimaryDark">#FF303F9F</color>
     <color name="colorAccent">#FFFFA441</color>
     <color name="colorFab">#FFFFE641</color>
+    <color name="colorFabPressed">#FFE0CB3D</color>
 </resources>

@@ -47,7 +47,6 @@ import com.jonny.wgsb.material.fragments.RegisterFragment;
 import com.jonny.wgsb.material.fragments.SettingsFragment;
 import com.jonny.wgsb.material.fragments.TopicalFragment;
 import com.jonny.wgsb.material.fragments.TopicalFragmentSpecific;
-import com.jonny.wgsb.material.listeners.RecyclerItemClickListener;
 import com.jonny.wgsb.material.ui.helper.Icons;
 import com.jonny.wgsb.material.util.CompatUtils;
 import com.jonny.wgsb.material.util.TimetableBackupRestore;
@@ -92,7 +91,6 @@ public class MainActivity extends ActionBarActivity {
         dbhandler = DatabaseHandler.getInstance(mContext);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle(R.string.blank_text);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLeftLayout = (LinearLayout) findViewById(R.id.left_layout);
         mDrawerList = (RecyclerView) findViewById(R.id.recyclerView);
@@ -231,17 +229,43 @@ public class MainActivity extends ActionBarActivity {
     private void getDrawerList() {
         String[] drawerTitles = getResources().getStringArray(R.array.navigation_main_sections);
         TypedArray drawerIcons = getResources().obtainTypedArray(R.array.drawable_ids);
-        ArrayList<Icons> icons = new ArrayList<Icons>();
+        ArrayList<Icons> icons = new ArrayList<>();
         icons.add(new Icons(drawerTitles[0], drawerIcons.getResourceId(0, -1), 0));
         icons.add(new Icons(drawerTitles[1], drawerIcons.getResourceId(1, -2), 1));
         icons.add(new Icons(drawerTitles[2], drawerIcons.getResourceId(2, -3), 2));
         icons.add(new Icons(drawerTitles[3], drawerIcons.getResourceId(3, -4), 3));
         drawerIcons.recycle();
         mDrawerList.setHasFixedSize(true);
-        mDrawerList.setAdapter(new DrawerRecyclerViewAdapter(icons, R.layout.adapter_main));
+        DrawerRecyclerViewAdapter adapter;
+        mDrawerList.setAdapter(adapter = new DrawerRecyclerViewAdapter(icons, R.layout.adapter_main));
         mDrawerList.setLayoutManager(new LinearLayoutManager(mContext));
         mDrawerList.setItemAnimator(new DefaultItemAnimator());
-        mDrawerList.addOnItemTouchListener(new RecyclerItemClickListener(mContext, mDrawerList, new RecyclerItemClickListener.OnItemClickListener() {
+        adapter.setOnItemClickListener(new DrawerRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                switch (position) {
+                    case 0:
+                        if (!newsFragment.isVisible()) selectItem(1);
+                        else mDrawerLayout.closeDrawer(mDrawerLeftLayout);
+                        break;
+                    case 1:
+                        if (!topicalFragment.isVisible()) selectItem(3);
+                        else mDrawerLayout.closeDrawer(mDrawerLeftLayout);
+                        break;
+                    case 2:
+                        if (!calendarFragment.isVisible()) selectItem(5);
+                        else mDrawerLayout.closeDrawer(mDrawerLeftLayout);
+                        break;
+                    case 3:
+                        mDrawerLayout.closeDrawer(mDrawerLeftLayout);
+                        selectItem(6);
+                        break;
+                    default:
+                        mDrawerLayout.closeDrawer(mDrawerLeftLayout);
+                }
+            }
+        });
+        /*mDrawerList.addOnItemTouchListener(new RecyclerItemClickListener(mContext, mDrawerList, new RecyclerItemClickListener.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
                     switch (position) {
@@ -258,6 +282,7 @@ public class MainActivity extends ActionBarActivity {
                             else mDrawerLayout.closeDrawer(mDrawerLeftLayout);
                             break;
                         case 3:
+                            mDrawerLayout.closeDrawer(mDrawerLeftLayout);
                             selectItem(6);
                             break;
                         default:
@@ -268,7 +293,7 @@ public class MainActivity extends ActionBarActivity {
                 @Override public void onItemLongClick(View view, int position) {
                 }
             })
-        );
+        );*/
     }
 
     private void getOverflowMenu() {

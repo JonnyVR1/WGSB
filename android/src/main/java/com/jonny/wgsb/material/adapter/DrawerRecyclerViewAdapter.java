@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class DrawerRecyclerViewAdapter extends RecyclerView.Adapter<DrawerRecyclerViewAdapter.ViewHolder> {
-
+    OnItemClickListener mItemClickListener;
     private ArrayList<Icons> items;
     private int itemLayout;
 
@@ -30,7 +30,7 @@ public class DrawerRecyclerViewAdapter extends RecyclerView.Adapter<DrawerRecycl
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder , int position) {
         final Icons item = items.get(position);
         holder.itemView.setTag(item);
         holder.text.setText(item.title);
@@ -42,14 +42,30 @@ public class DrawerRecyclerViewAdapter extends RecyclerView.Adapter<DrawerRecycl
         return items.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView image;
         public TextView text;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
+        public ViewHolder(View view) {
+            super(view);
             image = (ImageView) itemView.findViewById(R.id.drawerIcon);
             text = (TextView) itemView.findViewById(R.id.drawerText);
+            view.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(v, getPosition());
+            }
+        }
+    }
+
+    public interface OnItemClickListener {
+        public void onItemClick(View view , int position);
+    }
+
+    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
     }
 }

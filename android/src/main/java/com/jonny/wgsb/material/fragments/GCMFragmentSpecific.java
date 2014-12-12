@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,9 +50,9 @@ public class GCMFragmentSpecific extends Fragment {
 
     private void setupActionBar() {
         setHasOptionsMenu(true);
-        ((MainActivity) getActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        ActionBar mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
-        mActionBar.setTitle(R.string.notifications);
+        MainActivity mActivity = ((MainActivity) getActivity());
+        mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
+        mActivity.getSupportActionBar().setTitle(R.string.notifications);
     }
 }

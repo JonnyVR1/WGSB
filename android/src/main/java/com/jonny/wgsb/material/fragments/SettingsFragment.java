@@ -21,7 +21,6 @@ import android.preference.PreferenceScreen;
 import android.support.v4.preference.PreferenceFragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -104,10 +103,9 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 
     private void setupActionBar() {
         setHasOptionsMenu(true);
-        ((MainActivity) getActivity()).mDrawerToggle.setDrawerIndicatorEnabled(false);
-        ActionBar mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
-        mActionBar.setTitle(mTitle);
+        MainActivity mActivity = ((MainActivity) mContext);
+        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
+        mActivity.getSupportActionBar().setTitle(mTitle);
     }
 
     private void setPrefs() {

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,8 +76,9 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         newsListView = (ListView) view.findViewById(R.id.news_list);
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        ((MainActivity) getActivity()).mDrawerToggle.setDrawerIndicatorEnabled(true);
-        ((ActionBarActivity) mContext).getSupportActionBar().setTitle(R.string.news);
+        MainActivity mActivity = ((MainActivity) mContext);
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mActivity.getSupportActionBar().setTitle(R.string.news);
         setupSwipeRefresh();
         if (dbhandler.getNewsCount() > 0) {
             getNewsList();
@@ -189,10 +189,10 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
     }
 
     private void getNewsList() {
-        List<HashMap<String, String>> newsListItems = new ArrayList<HashMap<String, String>>();
+        List<HashMap<String, String>> newsListItems = new ArrayList<>();
         List<News> news = dbhandler.getAllNews();
         for (News n : news) {
-            HashMap<String, String> map = new HashMap<String, String>();
+            HashMap<String, String> map = new HashMap<>();
             map.put("listID", n.id.toString());
             map.put("listTitle", n.title);
             map.put("listDate", n.date);
@@ -231,7 +231,7 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
 
             @Override
             protected Void doInBackground(Void... args) {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                List<NameValuePair> params = new ArrayList<>();
                 try {
                     JSONObject json = jParser.makeHttpRequest(AllNewsItemsURL, params);
                     int success = json.getInt(TAG_SUCCESS);

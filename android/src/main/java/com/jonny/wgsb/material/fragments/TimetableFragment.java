@@ -515,7 +515,7 @@ public class TimetableFragment extends Fragment {
             name.setMaxLines(1);
             name.setText(formerName);
             name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(TimetableFragment.this.getActivity(), R.layout.timetable_list_item, SUBJECTS);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(TimetableFragment.this.getActivity(), R.layout.timetable_list_item, SUBJECTS);
             name.setAdapter(adapter);
             editView.addView(name);
             RelativeLayout timeBreak = new RelativeLayout(TimetableFragment.this.getActivity());
@@ -525,7 +525,7 @@ public class TimetableFragment extends Fragment {
             RelativeLayout startRelative = new RelativeLayout(TimetableFragment.this.getActivity());
             startRelative.setPadding(dp(8), 0, dp(8), 0);
             Spinner startSpinner = new Spinner(TimetableFragment.this.getActivity());
-            startAdapter = new ArrayAdapter<String>(TimetableFragment.this.getActivity(), R.layout.timetable_spinner_text, R.id.spinner_text);
+            startAdapter = new ArrayAdapter<>(TimetableFragment.this.getActivity(), R.layout.timetable_spinner_text, R.id.spinner_text);
             startAdapter.add("09:00");
             if (formerStart != null) {
                 startAdapter.clear();
@@ -563,7 +563,7 @@ public class TimetableFragment extends Fragment {
             RelativeLayout endRelative = new RelativeLayout(TimetableFragment.this.getActivity());
             startRelative.setPadding(dp(8), 0, dp(8), 0);
             Spinner endSpinner = new Spinner(TimetableFragment.this.getActivity());
-            endAdapter = new ArrayAdapter<String>(TimetableFragment.this.getActivity(), R.layout.timetable_spinner_text, R.id.spinner_text);
+            endAdapter = new ArrayAdapter<>(TimetableFragment.this.getActivity(), R.layout.timetable_spinner_text, R.id.spinner_text);
             endAdapter.add("10:00");
             if (formerEnd != null) {
                 endAdapter.clear();

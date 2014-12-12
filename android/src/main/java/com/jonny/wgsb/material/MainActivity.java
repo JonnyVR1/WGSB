@@ -265,35 +265,6 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
-        /*mDrawerList.addOnItemTouchListener(new RecyclerItemClickListener(mContext, mDrawerList, new RecyclerItemClickListener.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    switch (position) {
-                        case 0:
-                            if (!newsFragment.isVisible()) selectItem(1);
-                            else mDrawerLayout.closeDrawer(mDrawerLeftLayout);
-                            break;
-                        case 1:
-                            if (!topicalFragment.isVisible()) selectItem(3);
-                            else mDrawerLayout.closeDrawer(mDrawerLeftLayout);
-                            break;
-                        case 2:
-                            if (!calendarFragment.isVisible()) selectItem(5);
-                            else mDrawerLayout.closeDrawer(mDrawerLeftLayout);
-                            break;
-                        case 3:
-                            mDrawerLayout.closeDrawer(mDrawerLeftLayout);
-                            selectItem(6);
-                            break;
-                        default:
-                            mDrawerLayout.closeDrawer(mDrawerLeftLayout);
-                    }
-                }
-
-                @Override public void onItemLongClick(View view, int position) {
-                }
-            })
-        );*/
     }
 
     private void getOverflowMenu() {

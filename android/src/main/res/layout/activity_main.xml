@@ -79,7 +79,7 @@
                 android:dividerHeight="1.00dp"
                 android:overScrollMode="never"
                 android:scrollbars="vertical|none"
-                android:scrollingCache="true"/>
+                android:scrollingCache="true" />
         </LinearLayout>
     </android.support.v4.widget.DrawerLayout>
 </FrameLayout>

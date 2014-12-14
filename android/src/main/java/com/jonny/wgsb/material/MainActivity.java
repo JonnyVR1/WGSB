@@ -147,7 +147,11 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        final SettingsFragment settings = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("SETTINGS_FRAGMENT");
+        if (mDrawerLayout.isDrawerOpen(mDrawerLeftLayout)) {
+            mDrawerLayout.closeDrawers();
+            return;
+        }
+        SettingsFragment settings = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("SETTINGS_FRAGMENT");
         if (settings != null && settings.isVisible() && settings.changed == 1) {
             if (!settings.getRegistrationId().isEmpty()) {
                 settings.updateDetails();
@@ -381,5 +385,10 @@ public class MainActivity extends ActionBarActivity {
         alert = builder.create();
         dialog = alert;
         return dialog;
+    }
+
+    public void setupActionBar(String title) {
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        getSupportActionBar().setTitle(title);
     }
 }

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -117,6 +118,7 @@ public class GCMFragment extends Fragment {
         checkPlayServices();
         getActivity().registerReceiver(mHandleMessageReceiver, new IntentFilter(DISPLAY_MESSAGE_ACTION));
         setInitialText();
+        setupActionBar();
     }
 
     @Override
@@ -127,6 +129,12 @@ public class GCMFragment extends Fragment {
         } catch (Exception e) {
             Log.e("UnRegister Receiver Error", "> " + e.getMessage());
         }
+    }
+
+    @Override
+    public void onDetach() {
+        ((MainActivity) getActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        super.onDetach();
     }
 
     @Override
@@ -262,10 +270,7 @@ public class GCMFragment extends Fragment {
                 if (cd.isConnectingToInternet()) {
                     if (dbhandler.getNotificationsCount() != 0) dbhandler.deleteAllNotifications();
                     Toast.makeText(getActivity(), R.string.push_need_on, Toast.LENGTH_SHORT).show();
-                    SettingsFragment settingsFragment = new SettingsFragment();
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
-                            .replace(R.id.fragment_container, settingsFragment, "SETTINGS_FRAGMENT").addToBackStack(null).commit();
+                    ((MainActivity) getActivity()).selectItem(9);
                 } else {
                     alert.showAlertDialog(getActivity(), getString(R.string.internet_connection_error), getString(R.string.internet_connection_error_extra), false);
                 }
@@ -328,8 +333,9 @@ public class GCMFragment extends Fragment {
     private void setupActionBar() {
         setHasOptionsMenu(true);
         MainActivity mActivity = ((MainActivity) getActivity());
-        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
-        ((MainActivity) getActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
+        mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
         mActivity.getSupportActionBar().setTitle(R.string.notifications);
     }
 }

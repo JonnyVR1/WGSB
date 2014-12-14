@@ -8,18 +8,18 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.jonny.wgsb.material.MainActivity;
 import com.jonny.wgsb.material.R;
+import com.jonny.wgsb.material.adapter.TopicalRecyclerViewAdapter;
 import com.jonny.wgsb.material.db.DatabaseHandler;
 import com.jonny.wgsb.material.parser.JSONParser;
 import com.jonny.wgsb.material.ui.helper.Topical;
@@ -53,7 +53,7 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
     JSONParser jParser = new JSONParser();
     JSONArray topicalItems = null;
     ProgressDialog mProgress;
-    ListView topicalListView;
+    RecyclerView topicalListView;
     DatabaseHandler dbhandler;
     ConnectionDetector cd;
     AsyncTask<Void, Integer, Void> mLoadTopicalTask;
@@ -74,11 +74,9 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_topical, container, false);
-        topicalListView = (ListView) view.findViewById(R.id.topical_list);
+        topicalListView = (RecyclerView) view.findViewById(R.id.topical_list);
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        MainActivity mActivity = ((MainActivity) getActivity());
-        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mActivity.getSupportActionBar().setTitle(R.string.topical_information);
+        ((MainActivity) getActivity()).setupActionBar(getString(R.string.topical_information));
         setupSwipeRefresh();
         if (dbhandler.getTopicalCount() > 0) {
             getTopicalList();
@@ -128,29 +126,6 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
         }
     }
 
-    /*@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.news, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.topicalRefresh) {
-            if (cd.isConnectingToInternet()) {
-                loadTopical();
-            } else {
-                internetDialogue(getResources().getString(R.string.no_internet_refresh));
-            }
-        } else if (id == R.id.settings) {
-            ((MainActivity) getActivity()).selectItem(9);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
-
     @Override
     public void onRefresh() {
         if (cd.isConnectingToInternet()) {
@@ -197,12 +172,13 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
             map.put("listTitle", t.title);
             topicalListItems.add(map);
         }
-        ListAdapter topicalListAdapter = new SimpleAdapter(getActivity(), topicalListItems, R.layout.list_topical,
-                new String[]{"listID", "listTitle"}, new int[]{R.id.topicalId, R.id.titleTopical});
-        topicalListView.setAdapter(topicalListAdapter);
-        topicalListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        TopicalRecyclerViewAdapter adapter;
+        topicalListView.setAdapter(adapter = new TopicalRecyclerViewAdapter(topicalListItems, R.layout.list_topical));
+        topicalListView.setLayoutManager(new LinearLayoutManager(mContext));
+        topicalListView.setItemAnimator(new DefaultItemAnimator());
+        adapter.setOnItemClickListener(new TopicalRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(View view, int position) {
                 TextView idText = (TextView) view.findViewById(R.id.topicalId);
                 Integer topicalId = Integer.parseInt(idText.getText().toString());
                 Bundle args = new Bundle();

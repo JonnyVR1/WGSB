@@ -48,11 +48,17 @@ public class GCMFragmentSpecific extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onDetach() {
+        ((MainActivity) getActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        super.onDetach();
+    }
+
     private void setupActionBar() {
         setHasOptionsMenu(true);
         MainActivity mActivity = ((MainActivity) getActivity());
+        mActivity.setupActionBar(getString(R.string.notifications));
         mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
-        mActivity.getSupportActionBar().setTitle(R.string.notifications);
     }
 }

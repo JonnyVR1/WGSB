@@ -11,14 +11,11 @@
         android:background="@color/background_material_light"
         android:orientation="vertical">
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/news_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_gravity="start"
-            android:background="#FFFFFF"
-            android:choiceMode="singleChoice"
-            android:clickable="true"
-            android:orientation="vertical" />
+            android:layout_gravity="left|start"
+            android:scrollingCache="true"/>
     </LinearLayout>
 </com.jonny.wgsb.material.ui.widget.MultiSwipeRefreshLayout>

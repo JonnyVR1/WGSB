@@ -3,47 +3,35 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="fill_parent"
-    android:layout_height="200dp"
+    android:layout_height="100dp"
     android:layout_margin="10dp"
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="3dp"
+    android:foreground="?android:attr/selectableItemBackground"
     android:clickable="true">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imageNews"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:scaleType="centerCrop"/>
-
         <TextView
-            android:id="@+id/newsId"
+            android:id="@+id/topicalId"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="0sp"
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/titleNews"
+            android:id="@+id/titleTopical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/dateNews"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textSize="12sp"
-            android:textStyle="italic" />
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

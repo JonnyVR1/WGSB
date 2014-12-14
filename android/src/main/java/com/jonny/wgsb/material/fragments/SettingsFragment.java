@@ -20,7 +20,6 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.v4.preference.PreferenceFragment;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -38,7 +37,6 @@ import com.jonny.wgsb.material.util.ServerUtilities;
 import java.io.IOException;
 
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
-    private String mTitle;
     public Integer changed = 0;
     GoogleCloudMessaging gcm;
     DatabaseHandler dbhandler;
@@ -61,13 +59,11 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         mContext = getActivity();
         dbhandler = DatabaseHandler.getInstance(mContext);
         savedInstanceState = getArguments();
-        if (savedInstanceState != null) {
-            String startScreen = savedInstanceState.getString("PREFERENCE_SCREEN_KEY");
-            if (startScreen != null) {
-                savedInstanceState.remove("PREFERENCE_SCREEN_KEY");
-                addPreferencesFromResource(R.xml.pref_year);
-                mTitle = getString(R.string.year);
-            }
+        String mTitle;
+        if (savedInstanceState != null && savedInstanceState.getString("PREFERENCE_SCREEN_KEY") != null) {
+            savedInstanceState.remove("PREFERENCE_SCREEN_KEY");
+            addPreferencesFromResource(R.xml.pref_year);
+            mTitle = getString(R.string.year);
         } else {
             addPreferencesFromResource(R.xml.pref_settings);
             PreferenceScreen preferencescreen = getPreferenceScreen();
@@ -80,7 +76,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
             setPrefs();
             setStaticPrefs();
         }
-        setupActionBar();
+        setupActionBar(mTitle);
     }
 
     @Override
@@ -101,11 +97,11 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         super.onDetach();
     }
 
-    private void setupActionBar() {
-        setHasOptionsMenu(true);
+    private void setupActionBar(String mTitle) {
         MainActivity mActivity = ((MainActivity) mContext);
-        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
-        mActivity.getSupportActionBar().setTitle(mTitle);
+        mActivity.setupActionBar(mTitle);
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mActivity.getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
 
     private void setPrefs() {

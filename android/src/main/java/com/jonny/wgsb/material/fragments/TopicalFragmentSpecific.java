@@ -34,9 +34,10 @@ public class TopicalFragmentSpecific extends Fragment {
         Spanned htmlSpan;
         htmlSpan = Html.fromHtml(articleStory);
         MainActivity mActivity = ((MainActivity) getActivity());
+        mActivity.setupActionBar(articleTitle);
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
         mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
-        mActivity.getSupportActionBar().setTitle(articleTitle);
         titleTextView.setText(articleTitle);
         storyTextView.setText(htmlSpan);
         storyTextView.setMovementMethod(LinkMovementMethod.getInstance());

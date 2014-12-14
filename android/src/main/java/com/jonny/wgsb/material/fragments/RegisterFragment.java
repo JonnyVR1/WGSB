@@ -72,6 +72,12 @@ public class RegisterFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDetach() {
+        ((MainActivity) getActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        super.onDetach();
+    }
+
     private void getPrefs(SharedPreferences preferences) {
         Boolean pref_year7 = preferences.getBoolean("pref_year7", false);
         Boolean pref_year8 = preferences.getBoolean("pref_year8", false);
@@ -110,10 +116,10 @@ public class RegisterFragment extends Fragment {
     private void setupActionBar() {
         setHasOptionsMenu(true);
         MainActivity mActivity = ((MainActivity) getActivity());
+        mActivity.setupActionBar(getString(R.string.register));
         mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
         mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
-        mActivity.getSupportActionBar().setTitle(R.string.register);
     }
 
     @Override

@@ -8,17 +8,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jonny.wgsb.material.R;
-import com.jonny.wgsb.material.ui.helper.Icons;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class DrawerRecyclerViewAdapter extends RecyclerView.Adapter<DrawerRecyclerViewAdapter.ViewHolder> {
+public class TopicalRecyclerViewAdapter extends RecyclerView.Adapter<TopicalRecyclerViewAdapter.ViewHolder> {
     OnItemClickListener mItemClickListener;
-    private ArrayList<Icons> items;
+    private List<HashMap<String, String>> items;
     private int itemLayout;
 
-    public DrawerRecyclerViewAdapter(ArrayList<Icons> items, int itemLayout) {
+    public TopicalRecyclerViewAdapter(List<HashMap<String, String>> items, int itemLayout) {
         this.items = items;
         this.itemLayout = itemLayout;
     }
@@ -30,11 +29,11 @@ public class DrawerRecyclerViewAdapter extends RecyclerView.Adapter<DrawerRecycl
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        final Icons item = items.get(position);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final HashMap<String, String> item = items.get(position);
         holder.itemView.setTag(item);
-        holder.text.setText(item.title);
-        Picasso.with(holder.image.getContext()).load(item.icon).into(holder.image);
+        holder.id.setText(item.get("listID"));
+        holder.title.setText(item.get("listTitle"));
     }
 
     @Override public int getItemCount() {
@@ -51,12 +50,12 @@ public class DrawerRecyclerViewAdapter extends RecyclerView.Adapter<DrawerRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView image;
-        public TextView text;
+        public TextView id, title, date;
 
         public ViewHolder(View view) {
             super(view);
-            image = (ImageView) itemView.findViewById(R.id.drawerIcon);
-            text = (TextView) itemView.findViewById(R.id.drawerText);
+            title = (TextView) itemView.findViewById(R.id.titleTopical);
+            id = (TextView) itemView.findViewById(R.id.topicalId);
             view.setOnClickListener(this);
         }
 

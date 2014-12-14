@@ -8,18 +8,18 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.jonny.wgsb.material.MainActivity;
 import com.jonny.wgsb.material.R;
+import com.jonny.wgsb.material.adapter.NewsRecyclerViewAdapter;
 import com.jonny.wgsb.material.db.DatabaseHandler;
 import com.jonny.wgsb.material.parser.JSONParser;
 import com.jonny.wgsb.material.ui.helper.News;
@@ -53,7 +53,7 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
     JSONParser jParser = new JSONParser();
     JSONArray newsItems = null;
     ProgressDialog mProgress;
-    ListView newsListView;
+    RecyclerView newsListView;
     DatabaseHandler dbhandler;
     ConnectionDetector cd;
     AsyncTask<Void, Integer, Void> mLoadNewsTask;
@@ -74,11 +74,9 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        newsListView = (ListView) view.findViewById(R.id.news_list);
+        newsListView = (RecyclerView) view.findViewById(R.id.news_list);
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        MainActivity mActivity = ((MainActivity) mContext);
-        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mActivity.getSupportActionBar().setTitle(R.string.news);
+        ((MainActivity) getActivity()).setupActionBar(getString(R.string.news));
         setupSwipeRefresh();
         if (dbhandler.getNewsCount() > 0) {
             getNewsList();
@@ -128,29 +126,6 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
         }
     }
 
-    /*@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.news, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.newsRefresh) {
-            if (cd.isConnectingToInternet()) {
-                loadNews();
-            } else {
-                internetDialogue(getResources().getString(R.string.no_internet_refresh));
-            }
-        } else if (id == R.id.settings) {
-            ((MainActivity) getActivity()).selectItem(9);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
-
     @Override
     public void onRefresh() {
         if (cd.isConnectingToInternet()) {
@@ -196,14 +171,16 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
             map.put("listID", n.id.toString());
             map.put("listTitle", n.title);
             map.put("listDate", n.date);
+            map.put("listURL", n.imageSrc);
             newsListItems.add(map);
         }
-        ListAdapter newsListAdapter = new SimpleAdapter(mContext, newsListItems, R.layout.list_news,
-                new String[]{"listID", "listTitle", "listDate"}, new int[]{R.id.newsId, R.id.titleNews, R.id.dateNews});
-        newsListView.setAdapter(newsListAdapter);
-        newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        NewsRecyclerViewAdapter adapter;
+        newsListView.setAdapter(adapter = new NewsRecyclerViewAdapter(newsListItems, R.layout.list_news));
+        newsListView.setLayoutManager(new LinearLayoutManager(mContext));
+        newsListView.setItemAnimator(new DefaultItemAnimator());
+        adapter.setOnItemClickListener(new NewsRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(View view, int position) {
                 TextView idText = (TextView) view.findViewById(R.id.newsId);
                 Integer newsId = Integer.parseInt(idText.getText().toString());
                 Bundle args = new Bundle();
@@ -254,7 +231,7 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
                                 dbhandler.updateNews(new News(id, title, story, imageSrc, date));
                             }
                             if (cd.isWiFiConnected())
-                                Picasso.with(mContext).load(imageSrc).resize(770, 550).fetch();
+                                Picasso.with(mContext).load(imageSrc).fetch();
                             if (isCancelled() || FlagCancelled) break;
                             progressCount++;
                             publishProgress((int) (progressCount * 100 / newsItems.length()));

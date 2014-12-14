@@ -3,7 +3,6 @@ package com.jonny.wgsb.material.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -23,6 +22,7 @@ public class NewsFragmentSpecific extends Fragment {
     DatabaseHandler dbhandler;
     TextView titleTextView, storyTextView, dateTextView;
     ImageView storyImageView;
+    View.OnClickListener toolbarOnClickListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,10 +39,19 @@ public class NewsFragmentSpecific extends Fragment {
         String articleDate = articleNews.date;
         String imageUrl = articleNews.imageSrc;
         Spanned htmlSpan;
-        MainActivity mActivity = ((MainActivity) getActivity());
+        final MainActivity mActivity = ((MainActivity) getActivity());
+        mActivity.setupActionBar(articleTitle);
         mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
-        mActivity.getSupportActionBar().setTitle(articleTitle);
+        //mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
+        mActivity.mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolbarOnClickListener = mActivity.mDrawerToggle.getToolbarNavigationClickListener();
+        mActivity.mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.getSupportFragmentManager().popBackStack();
+            }
+        });
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
         titleTextView.setText(articleTitle);
         dateTextView.setText(articleDate);
         htmlSpan = Html.fromHtml(articleStory);
@@ -55,6 +64,8 @@ public class NewsFragmentSpecific extends Fragment {
     @Override
     public void onDetach() {
         ((MainActivity) getActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        ((MainActivity) getActivity()).mDrawerToggle.setDrawerIndicatorEnabled(true);
+        ((MainActivity) getActivity()).mDrawerToggle.setToolbarNavigationClickListener(toolbarOnClickListener);
         super.onDetach();
     }
 }

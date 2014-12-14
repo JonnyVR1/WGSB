@@ -89,22 +89,10 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
         dbhandler = DatabaseHandler.getInstance(getActivity());
     }
 
-    /*private void setupActionBar(View view) {
-        setHasOptionsMenu(true);
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.calendar);
-        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        ((ActionBarActivity) getActivity()).setSupportActionBar(toolbar);
-        ActionBar mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
-    }*/
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-        MainActivity mActivity = ((MainActivity) getActivity());
-        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mActivity.getSupportActionBar().setTitle(R.string.calendar);
+        ((MainActivity) getActivity()).setupActionBar(getString(R.string.calendar));
         previous = (RelativeLayout) view.findViewById(R.id.previousMonth);
         next = (RelativeLayout) view.findViewById(R.id.nextMonth);
         title = (TextView) view.findViewById(R.id.title);
@@ -216,35 +204,6 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
             mLoadCalendarTask = null;
         }
     }
-
-    /*@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.calendar, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.calendarRefresh) {
-            if (cd.isConnectingToInternet()) {
-                loadCalendar();
-            } else {
-                internetDialogue(getResources().getString(R.string.no_internet_refresh));
-            }
-        } else if (id == R.id.settings) {
-            SettingsFragment settingsFragment = new SettingsFragment();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
-                    .replace(R.id.fragment_container, settingsFragment, "SETTINGS_FRAGMENT").addToBackStack(null).commit();
-            return true;
-        } else if (id == android.R.id.home) {
-            getActivity().getSupportFragmentManager().popBackStack();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
 
     @Override
     public void onRefresh() {

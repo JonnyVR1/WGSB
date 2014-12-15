@@ -49,7 +49,7 @@
                         android:layout_marginTop="20dp"
                         android:text="@string/timetable_break" />
 
-                    <com.jonny.wgsb.FloatLabelLayout
+                    <com.jonny.wgsb.material.ui.widget.FloatLabelLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -63,7 +63,7 @@
                             android:hint="@string/name"
                             android:inputType="textCapWords"
                             android:maxEms="9" />
-                    </com.jonny.wgsb.FloatLabelLayout>
+                    </com.jonny.wgsb.material.ui.widget.FloatLabelLayout>
                 </RelativeLayout>
 
                 <LinearLayout

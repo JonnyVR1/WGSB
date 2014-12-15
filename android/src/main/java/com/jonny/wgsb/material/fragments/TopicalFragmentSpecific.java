@@ -21,9 +21,12 @@ public class TopicalFragmentSpecific extends Fragment {
     DatabaseHandler dbhandler;
     TextView titleTextView, storyTextView;
 
+    public TopicalFragmentSpecific() {}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_topical_specific, container, false);
+        setRetainInstance(true);
         int topicalId = getArguments().getInt("id");
         titleTextView = (TextView) view.findViewById(R.id.titleArticleTopical);
         storyTextView = (TextView) view.findViewById(R.id.storyArticleTopical);

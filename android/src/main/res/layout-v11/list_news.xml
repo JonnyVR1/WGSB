@@ -36,7 +36,8 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/dateNews"

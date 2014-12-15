@@ -50,18 +50,18 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
             "Politics", "Science", "Sociology", "Spanish", "Religious Studies"
     };
     private static final int START_DIALOG_ID = 0, END_DIALOG_ID = 1;
-    List<ArrayAdapter<String>> startAdapterList = new ArrayList<ArrayAdapter<String>>();
-    List<ArrayAdapter<String>> endAdapterList = new ArrayList<ArrayAdapter<String>>();
-    List<Integer> startMinuteList = new ArrayList<Integer>();
-    List<Integer> startHourList = new ArrayList<Integer>();
-    List<Integer> endMinuteList = new ArrayList<Integer>();
-    List<EditText> roomList = new ArrayList<EditText>();
-    List<EditText> teacherList = new ArrayList<EditText>();
-    List<Integer> endHourList = new ArrayList<Integer>();
-    List<EditText> idList = new ArrayList<EditText>();
-    List<Spinner> weekList = new ArrayList<Spinner>();
-    List<Integer> periods = new ArrayList<Integer>();
-    List<String> dayList = new ArrayList<String>();
+    List<ArrayAdapter<String>> startAdapterList = new ArrayList<>();
+    List<ArrayAdapter<String>> endAdapterList = new ArrayList<>();
+    List<Integer> startMinuteList = new ArrayList<>();
+    List<Integer> startHourList = new ArrayList<>();
+    List<Integer> endMinuteList = new ArrayList<>();
+    List<EditText> roomList = new ArrayList<>();
+    List<EditText> teacherList = new ArrayList<>();
+    List<Integer> endHourList = new ArrayList<>();
+    List<EditText> idList = new ArrayList<>();
+    List<Spinner> weekList = new ArrayList<>();
+    List<Integer> periods = new ArrayList<>();
+    List<String> dayList = new ArrayList<>();
     int lastStartClicked, lastEndClicked, periodId = 0, mMinute, theme, mHour;
     private TimePickerDialog.OnTimeSetListener mStartTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
@@ -117,7 +117,7 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
         } else if (theme == 2) {
             findViewById(R.id.bottom_bar).setBackgroundColor(0x00000000);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.timetable_list_item, SUBJECTS);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.timetable_list_item, SUBJECTS);
         nameEdit.setAdapter(adapter);
         final CheckBox breakCheck = (CheckBox) findViewById(R.id.break_check);
         ImageView mondayAdd = (ImageView) findViewById(R.id.monday_add);
@@ -261,7 +261,7 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
         roomList.add(roomTextBox);
         topRow.addView(roomTextBox);
         final Spinner setWeek = new Spinner(this);
-        final ArrayAdapter<String> spinAdapter = new ArrayAdapter<String>(this, R.layout.timetable_spinner_text, R.id.spinner_text);
+        final ArrayAdapter<String> spinAdapter = new ArrayAdapter<>(this, R.layout.timetable_spinner_text, R.id.spinner_text);
         spinAdapter.add("Week A");
         spinAdapter.add("Week B");
         setWeek.setAdapter(spinAdapter);
@@ -270,7 +270,7 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
         final RelativeLayout startRelative = new RelativeLayout(this);
         startRelative.setPadding(dp(8), 0, dp(8), 0);
         final Spinner startSpinner = new Spinner(this);
-        final ArrayAdapter<String> startAdapter = new ArrayAdapter<String>(this, R.layout.timetable_spinner_text, R.id.spinner_text);
+        final ArrayAdapter<String> startAdapter = new ArrayAdapter<>(this, R.layout.timetable_spinner_text, R.id.spinner_text);
         startAdapter.add("09:00");
         startAdapterList.add(startAdapter);
         startHourList.add(0);
@@ -299,7 +299,7 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
         final RelativeLayout endRelative = new RelativeLayout(this);
         endRelative.setPadding(dp(8), 0, dp(8), 0);
         final Spinner endSpinner = new Spinner(this);
-        final ArrayAdapter<String> endAdapter = new ArrayAdapter<String>(this, R.layout.timetable_spinner_text, R.id.spinner_text);
+        final ArrayAdapter<String> endAdapter = new ArrayAdapter<>(this, R.layout.timetable_spinner_text, R.id.spinner_text);
         endAdapter.add("10:00");
         endAdapterList.add(endAdapter);
         endHourList.add(0);

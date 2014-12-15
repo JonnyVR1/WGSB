@@ -24,9 +24,12 @@ public class NewsFragmentSpecific extends Fragment {
     ImageView storyImageView;
     View.OnClickListener toolbarOnClickListener;
 
+    public NewsFragmentSpecific() {}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_specific, container, false);
+        setRetainInstance(true);
         int newsId = getArguments().getInt("id");
         titleTextView = (TextView) view.findViewById(R.id.titleArticleNews);
         storyImageView = (ImageView) view.findViewById(R.id.storyNewsImage);

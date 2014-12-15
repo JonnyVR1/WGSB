@@ -62,9 +62,12 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
     private Boolean FlagCancelled = false, taskSuccess;
     private Context mContext;
 
+    public TopicalFragment() {}
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         setHasOptionsMenu(true);
         mContext = getActivity();
         cd = new ConnectionDetector(getActivity().getApplicationContext());

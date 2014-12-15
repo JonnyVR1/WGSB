@@ -17,9 +17,12 @@ import com.jonny.wgsb.material.ui.helper.Notifications;
 
 public class GCMFragmentSpecific extends Fragment {
 
+    public GCMFragmentSpecific() {}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gcm_specific, container, false);
+        setRetainInstance(true);
         setupActionBar();
         final Integer id = getArguments().getInt("id", 1);
         DatabaseHandler dbhandler = DatabaseHandler.getInstance(getActivity());

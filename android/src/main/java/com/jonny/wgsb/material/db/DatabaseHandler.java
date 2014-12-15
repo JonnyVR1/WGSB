@@ -234,7 +234,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public List<Calendar> getAllCalendar() {
-        List<Calendar> calendarList = new ArrayList<Calendar>();
+        List<Calendar> calendarList = new ArrayList<>();
         String selectQuery = "SELECT  * FROM " + TABLE_CALENDAR;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -253,7 +253,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public List<Calendar> getAllCalendarAtDate(String date) {
-        List<Calendar> calendarList = new ArrayList<Calendar>();
+        List<Calendar> calendarList = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_CALENDAR, new String[]{KEY_ID,
                         KEY_EVENT, KEY_DATE, KEY_DATESTRING}, KEY_DATE + "=?",
@@ -273,7 +273,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public List<News> getAllNews() {
-        List<News> newsList = new ArrayList<News>();
+        List<News> newsList = new ArrayList<>();
         String selectQuery = "SELECT  * FROM " + TABLE_NEWS;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -293,7 +293,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public List<Notifications> getAllNotifications() {
-        List<Notifications> notificationsList = new ArrayList<Notifications>();
+        List<Notifications> notificationsList = new ArrayList<>();
         String selectQuery = "SELECT  * FROM " + TABLE_NOTIFICATIONS + " order by id desc";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -313,7 +313,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public List<Topical> getAllTopical() {
-        List<Topical> topicalList = new ArrayList<Topical>();
+        List<Topical> topicalList = new ArrayList<>();
         String selectQuery = "SELECT  * FROM " + TABLE_TOPICAL;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

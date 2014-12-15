@@ -70,18 +70,12 @@ public class GCMFragment extends Fragment {
     ListView notificationsListView;
     private String regId;
 
-    private static int getAppVersion(Context context) {
-        try {
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            return packageInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            throw new RuntimeException("Could not get package name: " + e);
-        }
-    }
+    public GCMFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gcm, container, false);
+        setRetainInstance(true);
         setupActionBar();
         cd = new ConnectionDetector(getActivity().getApplicationContext());
         dbhandler = DatabaseHandler.getInstance(getActivity());
@@ -162,6 +156,15 @@ public class GCMFragment extends Fragment {
             getNotificationsList();
         } else {
             tDisplay.setText("There are no notifications to display");
+        }
+    }
+
+    private static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException("Could not get package name: " + e);
         }
     }
 

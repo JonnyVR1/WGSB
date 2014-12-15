@@ -46,6 +46,8 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     private Preference mYear, appVersion, bugReport, jonny;
     private Context mContext;
 
+    public SettingsFragment() {}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
@@ -56,6 +58,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         mContext = getActivity();
         dbhandler = DatabaseHandler.getInstance(mContext);
         savedInstanceState = getArguments();

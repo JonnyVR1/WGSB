@@ -62,6 +62,8 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
     private Boolean FlagCancelled = false, taskSuccess;
     private Context mContext;
 
+    public NewsFragment() {}
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +76,7 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
+        setRetainInstance(true);
         newsListView = (RecyclerView) view.findViewById(R.id.news_list);
         newsListView.setLayoutManager(new LinearLayoutManager(mContext));
         newsListView.setItemAnimator(new DefaultItemAnimator());

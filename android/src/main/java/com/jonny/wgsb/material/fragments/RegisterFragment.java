@@ -27,9 +27,12 @@ public class RegisterFragment extends Fragment {
     private EditText txtName, txtEmail;
     private String year7, year8, year9, year10, year11, year12, year13;
 
+    public RegisterFragment() {}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
+        setRetainInstance(true);
         setupActionBar();
         ConnectionDetector cd = new ConnectionDetector(getActivity().getApplicationContext());
         if (!cd.isConnectingToInternet()) {

@@ -85,9 +85,7 @@ public class TimetableFragment extends Fragment {
         Timer timer = new Timer();
         TimerTask tt = new TimerTask() {
             public void run() {
-                if (!stopTimer) {
-                    updateData();
-                }
+                if (!stopTimer) updateData();
             }
         };
         timer.scheduleAtFixedRate(tt, 0, 300000);
@@ -118,9 +116,7 @@ public class TimetableFragment extends Fragment {
         Timer timer = new Timer();
         TimerTask tt = new TimerTask() {
             public void run() {
-                if (!stopTimer) {
-                    updateData();
-                }
+                if (!stopTimer) updateData();
             }
         };
         timer.scheduleAtFixedRate(tt, 0, 300000);
@@ -150,26 +146,16 @@ public class TimetableFragment extends Fragment {
         }
         t.close();
         Bundle args = getArguments();
-        if (args == null) {
-            day = "mon_1";
-        } else {
-            day = args.getString("day");
-        }
+        if (args == null) day = "mon_1";
+        else day = args.getString("day");
         dayInt = 0;
-        if (day.contains("tues")) {
-            dayInt = 1;
-        } else if (day.contains("wed")) {
-            dayInt = 2;
-        } else if (day.contains("thurs")) {
-            dayInt = 3;
-        } else if (day.contains("fri")) {
-            dayInt = 4;
-        }
+        if (day.contains("tues")) dayInt = 1;
+        else if (day.contains("wed")) dayInt = 2;
+        else if (day.contains("thurs")) dayInt = 3;
+        else if (day.contains("fri")) dayInt = 4;
         isCurrent = dayInt == weekDay();
         Calendar cal = Calendar.getInstance();
-        if (cal.get(Calendar.DAY_OF_WEEK) == 1 || cal.get(Calendar.DAY_OF_WEEK) == 7) {
-            isCurrent = false;
-        }
+        if (cal.get(Calendar.DAY_OF_WEEK) == 1 || cal.get(Calendar.DAY_OF_WEEK) == 7) isCurrent = false;
         int width;
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         if (CompatUtils.isNotLegacyApi13()) {
@@ -179,9 +165,7 @@ public class TimetableFragment extends Fragment {
         } else {
             width = display.getWidth();
         }
-        if (width >= dp(540)) {
-            tablet = true;
-        }
+        if (width >= dp(540)) tablet = true;
     }
 
     private void buildTimetable(LinearLayout all) {

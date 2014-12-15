@@ -79,9 +79,13 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
     };
     private Boolean taskSuccess;
 
+    public CalendarFragment() {}
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        setHasOptionsMenu(true);
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         height = metrics.heightPixels;

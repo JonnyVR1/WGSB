@@ -75,6 +75,8 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         newsListView = (RecyclerView) view.findViewById(R.id.news_list);
+        newsListView.setLayoutManager(new LinearLayoutManager(mContext));
+        newsListView.setItemAnimator(new DefaultItemAnimator());
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         ((MainActivity) getActivity()).setupActionBar(getString(R.string.news));
         setupSwipeRefresh();
@@ -176,8 +178,6 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
         }
         NewsRecyclerViewAdapter adapter;
         newsListView.setAdapter(adapter = new NewsRecyclerViewAdapter(newsListItems, R.layout.list_news));
-        newsListView.setLayoutManager(new LinearLayoutManager(mContext));
-        newsListView.setItemAnimator(new DefaultItemAnimator());
         adapter.setOnItemClickListener(new NewsRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

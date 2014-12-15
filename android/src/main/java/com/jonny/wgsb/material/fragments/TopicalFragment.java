@@ -75,6 +75,8 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_topical, container, false);
         topicalListView = (RecyclerView) view.findViewById(R.id.topical_list);
+        topicalListView.setLayoutManager(new LinearLayoutManager(mContext));
+        topicalListView.setItemAnimator(new DefaultItemAnimator());
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         ((MainActivity) getActivity()).setupActionBar(getString(R.string.topical_information));
         setupSwipeRefresh();
@@ -174,8 +176,6 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
         }
         TopicalRecyclerViewAdapter adapter;
         topicalListView.setAdapter(adapter = new TopicalRecyclerViewAdapter(topicalListItems, R.layout.list_topical));
-        topicalListView.setLayoutManager(new LinearLayoutManager(mContext));
-        topicalListView.setItemAnimator(new DefaultItemAnimator());
         adapter.setOnItemClickListener(new TopicalRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

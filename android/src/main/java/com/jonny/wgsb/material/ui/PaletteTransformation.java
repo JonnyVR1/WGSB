@@ -13,7 +13,6 @@ public final class PaletteTransformation implements Transformation {
     private static final PaletteTransformation INSTANCE = new PaletteTransformation();
     private static final Map<Bitmap, Palette> CACHE = new WeakHashMap<>();
     private static final Pools.Pool<PaletteTransformation> POOL = new Pools.SynchronizedPool<>(5);
-    private Palette palette;
 
     private PaletteTransformation() {
     }
@@ -29,16 +28,6 @@ public final class PaletteTransformation implements Transformation {
 
     public static Palette getPalette(Bitmap bitmap) {
         return CACHE.get(bitmap);
-    }
-
-    public Palette extractPaletteAndRelease() {
-        Palette palette = this.palette;
-        if (palette == null) {
-            throw new IllegalStateException("Transformation was not run.");
-        }
-        this.palette = null;
-        POOL.release(this);
-        return palette;
     }
 
     @Override

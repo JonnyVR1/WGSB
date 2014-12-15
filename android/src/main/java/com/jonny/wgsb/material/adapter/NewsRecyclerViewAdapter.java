@@ -3,6 +3,7 @@ package com.jonny.wgsb.material.adapter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,12 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
                     public void onSuccess() {
                         Bitmap bitmap = ((BitmapDrawable) holder.image.getDrawable()).getBitmap();
                         Palette palette = PaletteTransformation.getPalette(bitmap);
+                        Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
+                        if (vibrantSwatch != null) {
+                            holder.card.setCardBackgroundColor(vibrantSwatch.getRgb());
+                            holder.title.setTextColor(vibrantSwatch.getTitleTextColor());
+                            holder.date.setTextColor(vibrantSwatch.getBodyTextColor());
+                        }
                     }
                 });
     }
@@ -66,11 +73,13 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public CardView card;
         public ImageView image;
         public TextView id, title, date;
 
         public ViewHolder(View view) {
             super(view);
+            card = (CardView) itemView.findViewById(R.id.card_view);
             image = (ImageView) itemView.findViewById(R.id.imageNews);
             title = (TextView) itemView.findViewById(R.id.titleNews);
             id = (TextView) itemView.findViewById(R.id.newsId);

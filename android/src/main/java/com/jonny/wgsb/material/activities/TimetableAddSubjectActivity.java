@@ -214,8 +214,7 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setSupportActionBar(toolbar);
         ActionBar mActionBar = getSupportActionBar();
-        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
-        mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
     }
 
     @Override

@@ -20,6 +20,7 @@ import com.jonny.wgsb.material.ui.helper.Topical;
 public class TopicalFragmentSpecific extends Fragment {
     DatabaseHandler dbhandler;
     TextView titleTextView, storyTextView;
+    MainActivity mActivity;
 
     public TopicalFragmentSpecific() {}
 
@@ -36,11 +37,21 @@ public class TopicalFragmentSpecific extends Fragment {
         String articleStory = articleTopical.story;
         Spanned htmlSpan;
         htmlSpan = Html.fromHtml(articleStory);
-        MainActivity mActivity = ((MainActivity) getActivity());
-        mActivity.setupActionBar(articleTitle);
-        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
+        mActivity = ((MainActivity) getActivity());
         mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
+        mActivity.getSupportActionBar().setHomeButtonEnabled(true);
         mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
+        mActivity.mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.getSupportFragmentManager().popBackStack();
+                mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+                mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
+            }
+        });
         titleTextView.setText(articleTitle);
         storyTextView.setText(htmlSpan);
         storyTextView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -49,7 +60,10 @@ public class TopicalFragmentSpecific extends Fragment {
 
     @Override
     public void onDetach() {
-        ((MainActivity) getActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
         super.onDetach();
     }
 }

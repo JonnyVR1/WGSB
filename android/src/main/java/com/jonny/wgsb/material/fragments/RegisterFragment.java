@@ -26,6 +26,7 @@ public class RegisterFragment extends Fragment {
     private AlertDialogManager alert = new AlertDialogManager();
     private EditText txtName, txtEmail;
     private String year7, year8, year9, year10, year11, year12, year13;
+    MainActivity mActivity;
 
     public RegisterFragment() {}
 
@@ -77,7 +78,9 @@ public class RegisterFragment extends Fragment {
 
     @Override
     public void onDetach() {
-        ((MainActivity) getActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
         super.onDetach();
     }
 
@@ -118,11 +121,21 @@ public class RegisterFragment extends Fragment {
 
     private void setupActionBar() {
         setHasOptionsMenu(true);
-        MainActivity mActivity = ((MainActivity) getActivity());
-        mActivity.setupActionBar(getString(R.string.register));
-        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
+        mActivity = ((MainActivity) getActivity());
         mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
+        mActivity.getSupportActionBar().setHomeButtonEnabled(true);
+        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+        mActivity.mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.getSupportFragmentManager().popBackStack();
+                mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+                mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
+            }
+        });
     }
 
     @Override

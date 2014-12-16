@@ -20,6 +20,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.v4.preference.PreferenceFragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -45,13 +46,28 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     private CheckBoxPreference mPush;
     private Preference mYear, appVersion, bugReport, jonny;
     private Context mContext;
+    MainActivity mActivity;
 
     public SettingsFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        ((MainActivity) getActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mActivity = ((MainActivity) getActivity());
+        mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
+        mActivity.getSupportActionBar().setHomeButtonEnabled(true);
+        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+        mActivity.mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.getSupportFragmentManager().popBackStack();
+                mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+                mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
+            }
+        });
         return view;
     }
 
@@ -96,7 +112,9 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 
     @Override
     public void onDetach() {
-        ((MainActivity) getActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
         super.onDetach();
     }
 

@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -388,7 +389,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void setupActionBar(String title) {
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setTitle(title);
+        mActionBar.setDisplayHomeAsUpEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(false);
         mDrawerToggle.setDrawerIndicatorEnabled(true);
-        getSupportActionBar().setTitle(title);
     }
 }

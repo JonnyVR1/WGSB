@@ -12,5 +12,9 @@
     <dimen name="fab_radius">28dp</dimen>
     <dimen name="fab_default_shadow_radius">5dp</dimen>
     <dimen name="fab_default_shadow_dy">2dp</dimen>
+    <dimen name="flexible_space_image_height">280dp</dimen>
+    <dimen name="header_bar_height">72dp</dimen>
+    <dimen name="intersection_height">16dp</dimen>
+    <dimen name="margin_standard">16dp</dimen>
     <dimen name="nav_drawer_width_custom">310dp</dimen>
 </resources>

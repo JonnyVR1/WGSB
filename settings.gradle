@@ -1,2 +1,2 @@
 include ':android'
-include ':libraries:ViewPagerIndicator', ':libraries:PreferenceFragment', ':libraries:FloatingActionButton'
+include ':libraries:ViewPagerIndicator', ':libraries:PreferenceFragment', ':libraries:FloatingActionButton', ':libraries:ObservableScrollView'

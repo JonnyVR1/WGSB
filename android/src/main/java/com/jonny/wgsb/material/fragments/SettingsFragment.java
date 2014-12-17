@@ -42,33 +42,13 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     GoogleCloudMessaging gcm;
     DatabaseHandler dbhandler;
     AsyncTask<Void, Void, Void> mUpdateTask, mUnregisterTask;
-    private String email, year7, year8, year9, year10, year11, year12, year13, regId;
+    private String email, year7, year8, year9, year10, year11, year12, year13, regId, mTitle;
     private CheckBoxPreference mPush;
     private Preference mYear, appVersion, bugReport, jonny;
     private Context mContext;
     MainActivity mActivity;
 
-    public SettingsFragment() {}
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        mActivity = ((MainActivity) getActivity());
-        mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
-        mActivity.getSupportActionBar().setHomeButtonEnabled(true);
-        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
-        mActivity.mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActivity.getSupportFragmentManager().popBackStack();
-                mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
-                mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
-            }
-        });
-        return view;
+    public SettingsFragment() {
     }
 
     @Override
@@ -78,7 +58,6 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         mContext = getActivity();
         dbhandler = DatabaseHandler.getInstance(mContext);
         savedInstanceState = getArguments();
-        String mTitle;
         if (savedInstanceState != null && savedInstanceState.getString("PREFERENCE_SCREEN_KEY") != null) {
             savedInstanceState.remove("PREFERENCE_SCREEN_KEY");
             addPreferencesFromResource(R.xml.pref_year);
@@ -95,7 +74,28 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
             setPrefs();
             setStaticPrefs();
         }
-        setupActionBar(mTitle);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        mActivity = ((MainActivity) getActivity());
+        mActivity.setupActionBar(mTitle);
+        mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
+        mActivity.getSupportActionBar().setHomeButtonEnabled(true);
+        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+        mActivity.mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.getSupportFragmentManager().popBackStack();
+                mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+                mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
+            }
+        });
+        return view;
     }
 
     @Override
@@ -116,13 +116,6 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
         super.onDetach();
-    }
-
-    private void setupActionBar(String mTitle) {
-        MainActivity mActivity = ((MainActivity) mContext);
-        mActivity.setupActionBar(mTitle);
-        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mActivity.getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
 
     private void setPrefs() {

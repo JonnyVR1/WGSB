@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="body_text_1">#de000000</color>
     <color name="less">#00FFFFFF</color>
     <color name="clear_blue_light">#9033B5E5</color>
     <color name="black">#FF000000</color>

@@ -69,9 +69,7 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
             for (int i = 0; i < 7; i++) {
                 itemMonth.add(GregorianCalendar.DATE, 1);
                 List<Calendar> calendar = dbhandler.getAllCalendar();
-                for (Calendar c : calendar) {
-                    items.add(c.date);
-                }
+                for (Calendar c : calendar) items.add(c.date);
             }
             adapter.setItems(items);
             adapter.notifyDataSetChanged();

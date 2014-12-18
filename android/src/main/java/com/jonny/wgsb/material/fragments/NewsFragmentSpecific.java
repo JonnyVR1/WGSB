@@ -122,7 +122,6 @@ public class NewsFragmentSpecific extends Fragment implements ObservableScrollVi
                         Palette.Swatch vibrantSwatch = palette.getDarkVibrantSwatch();
                         if (vibrantSwatch != null) {
                             mHeaderBackground.setBackgroundColor(vibrantSwatch.getRgb());
-                            titleTextView.setTextColor(vibrantSwatch.getTitleTextColor());
                             if (CompatUtils.isNotLegacyLollipop()) {
                                 Window w = getActivity().getWindow();
                                 int statusBarColor = UIUtils.scaleColor(vibrantSwatch.getRgb(), 0.8f, false);

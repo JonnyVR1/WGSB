@@ -33,13 +33,13 @@ public class CalendarAdapter extends BaseAdapter {
     private int firstDay;
 
     public CalendarAdapter(Context c, GregorianCalendar monthCalendar) {
-        CalendarAdapter.dayString = new ArrayList<String>();
+        CalendarAdapter.dayString = new ArrayList<>();
         Locale.setDefault(Locale.UK);
         month = monthCalendar;
         GregorianCalendar selectedDate = (GregorianCalendar) monthCalendar.clone();
         mContext = c;
         month.set(GregorianCalendar.DAY_OF_MONTH, 1);
-        this.items = new ArrayList<String>();
+        this.items = new ArrayList<>();
         df = new SimpleDateFormat("dd-MM-yyyy", Locale.UK);
         currentDateString = df.format(selectedDate.getTime());
         refreshDays();

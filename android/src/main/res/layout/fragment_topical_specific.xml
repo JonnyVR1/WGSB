@@ -74,6 +74,7 @@
                         android:layout_marginRight="16dp"
                         android:maxLines="4"
                         android:textColor="@android:color/white"
+                        android:textStyle="bold"
                         android:textSize="20sp" />
                 </LinearLayout>
             </FrameLayout>

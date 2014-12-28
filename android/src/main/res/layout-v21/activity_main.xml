@@ -54,7 +54,7 @@
                 android:ellipsize="marquee"
                 android:gravity="center_vertical"
                 android:paddingBottom="25dp"
-                android:paddingLeft="16dp"
+                android:paddingLeft="@dimen/activity_vertical_margin"
                 android:singleLine="true"
                 android:text="@string/app_name"
                 android:textColor="#f7f7f7"

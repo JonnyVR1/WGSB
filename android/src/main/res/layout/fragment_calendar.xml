@@ -63,10 +63,13 @@
                 android:id="@+id/gridview"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/background_material_light"
                 android:listSelector="@android:color/transparent"
                 android:numColumns="7"
+                android:columnWidth="@dimen/calendar_column_width"
                 android:stretchMode="columnWidth" />
         </RelativeLayout>
     </LinearLayout>

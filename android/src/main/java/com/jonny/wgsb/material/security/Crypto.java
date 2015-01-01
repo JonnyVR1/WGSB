@@ -11,7 +11,7 @@ import java.security.SecureRandom;
 public class Crypto {
     final private static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
-    static String SHA512(String string, Context context) throws NoSuchAlgorithmException {
+    public static String SHA512(String string, Context context) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-512");
         String salt = getSalt(context);
         md.update(salt.getBytes());

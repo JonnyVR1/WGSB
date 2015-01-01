@@ -40,17 +40,17 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
 
-@SuppressLint({"NewApi", "ValidFragment"})
+@SuppressLint({"NewApi", "ValidFragment", "Deprecation"})
 @SuppressWarnings("deprecation")
 public class TimetableActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {
     private final static int CONFIRM_DIALOG_ID = 0, RESTORE_DIALOG_ID = 1;
-    ViewPager mViewPager;
-    private TimetableFragment[] days = new TimetableFragment[5];
-    private TimetableFragment monday = new TimetableFragment();
-    private TimetableFragment tuesday = new TimetableFragment();
-    private TimetableFragment wednesday = new TimetableFragment();
-    private TimetableFragment thursday = new TimetableFragment();
-    private TimetableFragment friday = new TimetableFragment();
+    private final TimetableFragment[] days = new TimetableFragment[5];
+    private final TimetableFragment monday = new TimetableFragment();
+    private final TimetableFragment tuesday = new TimetableFragment();
+    private final TimetableFragment wednesday = new TimetableFragment();
+    private final TimetableFragment thursday = new TimetableFragment();
+    private final TimetableFragment friday = new TimetableFragment();
+    private ViewPager mViewPager;
     private TitlePageIndicator titleIndicator;
     private boolean tablet = false, weekend;
     private int weekNo, theme, weekDay;
@@ -172,7 +172,6 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
     private void setupActionBar(String weekString) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Timetable - Week " + weekString);
-        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -364,7 +363,7 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
     }
 
     public class CompactDialogFragment extends DialogFragment {
-        CompactDialogFragment mContext = this;
+        final CompactDialogFragment mContext = this;
 
         @NonNull
         @Override

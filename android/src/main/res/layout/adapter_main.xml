@@ -13,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true"
-        android:paddingLeft="16dp"
+        android:paddingLeft="@dimen/padding_large"
         android:paddingTop="3dp"
         android:scaleType="fitCenter"
         tools:ignore="RtlSymmetry,ContentDescription" />
@@ -31,5 +31,4 @@
         android:textColor="#353535"
         android:textSize="18.0sp"
         tools:ignore="RtlSymmetry" />
-
 </RelativeLayout>

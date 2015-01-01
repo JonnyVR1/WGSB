@@ -6,7 +6,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar_no_elevation" />
 
     <HorizontalScrollView
         android:layout_width="fill_parent"

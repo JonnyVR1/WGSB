@@ -27,14 +27,12 @@ import android.widget.TextView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
-
 import com.jonny.wgsb.material.MainActivity;
 import com.jonny.wgsb.material.R;
 import com.jonny.wgsb.material.db.DatabaseHandler;
 import com.jonny.wgsb.material.ui.PaletteTransformation;
 import com.jonny.wgsb.material.ui.helper.News;
 import com.jonny.wgsb.material.util.CompatUtils;
-
 import com.jonny.wgsb.material.util.UIUtils;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
@@ -43,25 +41,25 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 @SuppressLint("NewApi")
+@SuppressWarnings("deprecation")
 public class NewsFragmentSpecific extends Fragment implements ObservableScrollViewCallbacks {
-    private View mImageHolder;
-    private View mHeader;
-    private View mHeaderBar;
-    private View mHeaderBackground;
+    private static NewsFragmentSpecific instance = null;
+    private ImageView storyImageView;
+    private MainActivity mActivity;
+    private FrameLayout.LayoutParams originalParams;
+    private FrameLayout frame;
+    private View mImageHolder, mHeader, mHeaderBar, mHeaderBackground;
     private ObservableScrollView mScrollView;
-    private int mActionBarSize;
-    private int mFlexibleSpaceImageHeight;
-    private int mIntersectionHeight;
-    private int mPrevScrollY;
+    private int mActionBarSize, mFlexibleSpaceImageHeight, mIntersectionHeight, mPrevScrollY;
     private boolean mGapFilled;
-    DatabaseHandler dbhandler;
-    TextView titleTextView, storyTextView;
-    ImageView storyImageView;
-    MainActivity mActivity;
-    FrameLayout.LayoutParams params, originalParams;
-    FrameLayout frame;
 
-    public NewsFragmentSpecific() {}
+    public NewsFragmentSpecific() {
+    }
+
+    public static NewsFragmentSpecific getInstance() {
+        if (instance == null) instance = new NewsFragmentSpecific();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,13 +71,13 @@ public class NewsFragmentSpecific extends Fragment implements ObservableScrollVi
         mActivity.getSupportActionBar().hide();
         frame = (FrameLayout) getActivity().findViewById(R.id.fragment_container);
         originalParams = (FrameLayout.LayoutParams) frame.getLayoutParams();
-        params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         frame.setLayoutParams(params);
         ((MainActivity) getActivity()).setSupportActionBar((Toolbar) view.findViewById(R.id.toolbar));
-        titleTextView = (TextView) view.findViewById(R.id.titleArticleNews);
+        TextView titleTextView = (TextView) view.findViewById(R.id.titleArticleNews);
         storyImageView = (ImageView) view.findViewById(R.id.storyNewsImage);
-        storyTextView = (TextView) view.findViewById(R.id.storyArticleNews);
-        dbhandler = DatabaseHandler.getInstance(getActivity());
+        TextView storyTextView = (TextView) view.findViewById(R.id.storyArticleNews);
+        DatabaseHandler dbhandler = DatabaseHandler.getInstance(getActivity());
         News articleNews = dbhandler.getNews(newsId);
         String articleTitle = articleNews.title;
         String articleStory = articleNews.story;
@@ -134,7 +132,7 @@ public class NewsFragmentSpecific extends Fragment implements ObservableScrollVi
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                if (!CompatUtils.isNotLegacyJellyBean()) {
+                if (CompatUtils.isNotLegacyJellyBean()) {
                     mScrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 } else {
                     mScrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);

@@ -25,22 +25,31 @@ import android.util.AttributeSet;
 import android.util.SparseIntArray;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.github.ksoichiro.android.observablescrollview.internal.LogUtils;
-
+/**
+ * RecyclerView that its scroll position can be observed.
+ * Before using this, please consider to use the RecyclerView.OnScrollListener
+ * provided by the support library officially.
+ */
 public class ObservableRecyclerView extends RecyclerView implements Scrollable {
-    private static final String TAG = ObservableRecyclerView.class.getSimpleName();
 
-    private ObservableScrollViewCallbacks mCallbacks;
+    // Fields that should be saved onSaveInstanceState
     private int mPrevFirstVisiblePosition;
     private int mPrevFirstVisibleChildHeight = -1;
     private int mPrevScrolledChildrenHeight;
-    private SparseIntArray mChildrenHeights;
     private int mPrevScrollY;
     private int mScrollY;
+    private SparseIntArray mChildrenHeights;
+
+    // Fields that don't need to be saved onSaveInstanceState
+    private ObservableScrollViewCallbacks mCallbacks;
     private ScrollState mScrollState;
     private boolean mFirstScroll;
     private boolean mDragging;
+    private boolean mIntercepted;
+    private MotionEvent mPrevMoveEvent;
+    private ViewGroup mTouchInterceptionViewGroup;
 
     public ObservableRecyclerView(Context context) {
         super(context);
@@ -101,13 +110,10 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
                         // scroll down
                         int skippedChildrenHeight = 0;
                         if (firstVisiblePosition - mPrevFirstVisiblePosition != 1) {
-                            LogUtils.v(TAG, "Skipped some children while scrolling down: " + (firstVisiblePosition - mPrevFirstVisiblePosition));
                             for (int i = firstVisiblePosition - 1; i > mPrevFirstVisiblePosition; i--) {
                                 if (0 < mChildrenHeights.indexOfKey(i)) {
                                     skippedChildrenHeight += mChildrenHeights.get(i);
-                                    LogUtils.v(TAG, "Calculate skipped child height at " + i + ": " + mChildrenHeights.get(i));
                                 } else {
-                                    LogUtils.v(TAG, "Could not calculate skipped child height at " + i);
                                     // Approximate each item's height to the first visible child.
                                     // It may be incorrect, but without this, scrollY will be broken
                                     // when scrolling from the bottom.
@@ -121,13 +127,10 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
                         // scroll up
                         int skippedChildrenHeight = 0;
                         if (mPrevFirstVisiblePosition - firstVisiblePosition != 1) {
-                            LogUtils.v(TAG, "Skipped some children while scrolling up: " + (mPrevFirstVisiblePosition - firstVisiblePosition));
                             for (int i = mPrevFirstVisiblePosition - 1; i > firstVisiblePosition; i--) {
                                 if (0 < mChildrenHeights.indexOfKey(i)) {
                                     skippedChildrenHeight += mChildrenHeights.get(i);
-                                    LogUtils.v(TAG, "Calculate skipped child height at " + i + ": " + mChildrenHeights.get(i));
                                 } else {
-                                    LogUtils.v(TAG, "Could not calculate skipped child height at " + i);
                                     // Approximate each item's height to the first visible child.
                                     // It may be incorrect, but without this, scrollY will be broken
                                     // when scrolling from the bottom.
@@ -146,7 +149,6 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
                     mScrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop();
                     mPrevFirstVisiblePosition = firstVisiblePosition;
 
-                    LogUtils.v(TAG, "first: " + firstVisiblePosition + " scrollY: " + mScrollY + " first height: " + firstVisibleChild.getHeight() + " first top: " + firstVisibleChild.getTop());
                     mCallbacks.onScrollChanged(mScrollY, mFirstScroll, mDragging);
                     if (mFirstScroll) {
                         mFirstScroll = false;
@@ -162,25 +164,92 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
                         mScrollState = ScrollState.STOP;
                     }
                     mPrevScrollY = mScrollY;
-                } else {
-                    LogUtils.v(TAG, "first: " + firstVisiblePosition);
                 }
             }
         }
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (mCallbacks != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
+                    // Whether or not motion events are consumed by children,
+                    // flag initializations which are related to ACTION_DOWN events should be executed.
+                    // Because if the ACTION_DOWN is consumed by children and only ACTION_MOVEs are
+                    // passed to parent (this view), the flags will be invalid.
+                    // Also, applications might implement initialization codes to onDownMotionEvent,
+                    // so call it here.
                     mFirstScroll = mDragging = true;
                     mCallbacks.onDownMotionEvent();
                     break;
+            }
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        if (mCallbacks != null) {
+            switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
+                    mIntercepted = false;
                     mDragging = false;
                     mCallbacks.onUpOrCancelMotionEvent(mScrollState);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    if (mPrevMoveEvent == null) {
+                        mPrevMoveEvent = ev;
+                    }
+                    float diffY = ev.getY() - mPrevMoveEvent.getY();
+                    mPrevMoveEvent = MotionEvent.obtainNoHistory(ev);
+                    if (getCurrentScrollY() - diffY <= 0) {
+                        // Can't scroll anymore.
+
+                        if (mIntercepted) {
+                            // Already dispatched ACTION_DOWN event to parents, so stop here.
+                            return false;
+                        }
+
+                        // Apps can set the interception target other than the direct parent.
+                        final ViewGroup parent;
+                        if (mTouchInterceptionViewGroup == null) {
+                            parent = (ViewGroup) getParent();
+                        } else {
+                            parent = mTouchInterceptionViewGroup;
+                        }
+
+                        // Get offset to parents. If the parent is not the direct parent,
+                        // we should aggregate offsets from all of the parents.
+                        float offsetX = 0;
+                        float offsetY = 0;
+                        for (View v = this; v != null && v != parent; v = (View) v.getParent()) {
+                            offsetX += v.getLeft() - v.getScrollX();
+                            offsetY += v.getTop() - v.getScrollY();
+                        }
+                        final MotionEvent event = MotionEvent.obtainNoHistory(ev);
+                        event.offsetLocation(offsetX, offsetY);
+
+                        if (parent.onInterceptTouchEvent(event)) {
+                            mIntercepted = true;
+
+                            // If the parent wants to intercept ACTION_MOVE events,
+                            // we pass ACTION_DOWN event to the parent
+                            // as if these touch events just have began now.
+                            event.setAction(MotionEvent.ACTION_DOWN);
+
+                            // Return this onTouchEvent() first and set ACTION_DOWN event for parent
+                            // to the queue, to keep events sequence.
+                            post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    parent.dispatchTouchEvent(event);
+                                }
+                            });
+                        }
+                        return false;
+                    }
                     break;
             }
         }
@@ -190,6 +259,11 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
     @Override
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
+    }
+
+    @Override
+    public void setTouchInterceptionViewGroup(ViewGroup viewGroup) {
+        mTouchInterceptionViewGroup = viewGroup;
     }
 
     @Override
@@ -234,20 +308,66 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         mChildrenHeights = new SparseIntArray();
     }
 
-    static class SavedState extends BaseSavedState {
+    /**
+     * This saved state class is a Parcelable and should not extend
+     * {@link android.view.View.BaseSavedState} nor {@link android.view.AbsSavedState}
+     * because its super class AbsSavedState's constructor
+     * {@link android.view.AbsSavedState#AbsSavedState(Parcel)} currently passes null
+     * as a class loader to read its superstate from Parcelable.
+     * This causes {@link android.os.BadParcelableException} when restoring saved states.
+     * <p/>
+     * The super class "RecyclerView" is a part of the support library,
+     * and restoring its saved state requires the class loader that loaded the RecyclerView.
+     * It seems that the class loader is not required when restoring from RecyclerView itself,
+     * but it is required when restoring from RecyclerView's subclasses.
+     */
+    static class SavedState implements Parcelable {
+        public static final SavedState EMPTY_STATE = new SavedState() {
+        };
+        public static final Parcelable.Creator<SavedState> CREATOR
+                = new Parcelable.Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
         int prevFirstVisiblePosition;
         int prevFirstVisibleChildHeight = -1;
         int prevScrolledChildrenHeight;
         int prevScrollY;
         int scrollY;
         SparseIntArray childrenHeights;
+        // This keeps the parent(RecyclerView)'s state
+        Parcelable superState;
 
-        SavedState(Parcelable superState) {
-            super(superState);
+        /**
+         * Called by EMPTY_STATE instantiation.
+         */
+        private SavedState() {
+            superState = null;
         }
 
+        /**
+         * Called by onSaveInstanceState.
+         */
+        private SavedState(Parcelable superState) {
+            this.superState = superState != EMPTY_STATE ? superState : null;
+        }
+
+        /**
+         * Called by CREATOR.
+         */
         private SavedState(Parcel in) {
-            super(in);
+            // Parcel 'in' has its parent(RecyclerView)'s saved state.
+            // To restore it, class loader that loaded RecyclerView is required.
+            Parcelable superState = in.readParcelable(RecyclerView.class.getClassLoader());
+            this.superState = superState != null ? superState : EMPTY_STATE;
+
             prevFirstVisiblePosition = in.readInt();
             prevFirstVisibleChildHeight = in.readInt();
             prevScrolledChildrenHeight = in.readInt();
@@ -265,8 +385,14 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         }
 
         @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
         public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
+            out.writeParcelable(superState, flags);
+
             out.writeInt(prevFirstVisiblePosition);
             out.writeInt(prevFirstVisibleChildHeight);
             out.writeInt(prevScrolledChildrenHeight);
@@ -282,17 +408,8 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
             }
         }
 
-        public static final Parcelable.Creator<SavedState> CREATOR
-                = new Parcelable.Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
+        public Parcelable getSuperState() {
+            return superState;
+        }
     }
 }

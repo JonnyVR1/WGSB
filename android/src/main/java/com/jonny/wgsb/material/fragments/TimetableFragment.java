@@ -46,7 +46,7 @@ import java.util.TimerTask;
 @SuppressWarnings("deprecation")
 @SuppressLint({"NewApi", "ValidFragment"})
 public class TimetableFragment extends Fragment {
-    static final String[] SUBJECTS = new String[]{
+    private static final String[] SUBJECTS = new String[]{
             "Registration", "Lunch", "Break", "Free", "Art", "Astronomy", "Biology",
             "Business Studies", "Chemistry", "Computing", "Design & Technology",
             "Drama", "Economics", "English", "English Language", "English Literature",
@@ -56,11 +56,7 @@ public class TimetableFragment extends Fragment {
             "Media Studies", "Music", "Psychology", "PHSE", "Physics", "Physical Education",
             "Politics", "Science", "Sociology", "Spanish", "Religious Studies"
     };
-    private boolean isCurrent, stopTimer, tablet;
-    private int titleColour = 0xFF555555, mMinute, dayInt, mHour;
-    private String day;
-    private EditDialogFragment editor;
-    private TimePickerDialog.OnTimeSetListener mStartTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+    private final TimePickerDialog.OnTimeSetListener mStartTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             mHour = hourOfDay;
@@ -68,7 +64,7 @@ public class TimetableFragment extends Fragment {
             editor.updateStartTime(hourOfDay, minute);
         }
     };
-    private TimePickerDialog.OnTimeSetListener mEndTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+    private final TimePickerDialog.OnTimeSetListener mEndTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             mHour = hourOfDay;
@@ -76,6 +72,10 @@ public class TimetableFragment extends Fragment {
             editor.updateEndTime(hourOfDay, minute);
         }
     };
+    private boolean isCurrent, stopTimer, tablet;
+    private int titleColour = 0xFF555555, mMinute, dayInt, mHour;
+    private String day;
+    private EditDialogFragment editor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -155,7 +155,8 @@ public class TimetableFragment extends Fragment {
         else if (day.contains("fri")) dayInt = 4;
         isCurrent = dayInt == weekDay();
         Calendar cal = Calendar.getInstance();
-        if (cal.get(Calendar.DAY_OF_WEEK) == 1 || cal.get(Calendar.DAY_OF_WEEK) == 7) isCurrent = false;
+        if (cal.get(Calendar.DAY_OF_WEEK) == 1 || cal.get(Calendar.DAY_OF_WEEK) == 7)
+            isCurrent = false;
         int width;
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         if (CompatUtils.isNotLegacyApi13()) {
@@ -249,7 +250,7 @@ public class TimetableFragment extends Fragment {
         sv.addView(main);
         all.addView(sv);
         for (int i = 0; i < c.getCount(); i++) {
-            TimetablePeriod currentPeriod = new TimetablePeriod(c.getInt(0), day);
+            TimetablePeriod currentPeriod = new TimetablePeriod(c.getInt(0));
             currentPeriod.setId(c.getString(1));
             if (c.getString(1).equals("")) currentPeriod.setId(" ");
             currentPeriod.setName(c.getString(2));
@@ -446,7 +447,7 @@ public class TimetableFragment extends Fragment {
     }
 
     public class EditDialogFragment extends DialogFragment {
-        EditDialogFragment mContext = this;
+        final EditDialogFragment mContext = this;
         ArrayAdapter<String> startAdapter;
         ArrayAdapter<String> endAdapter;
 
@@ -631,7 +632,7 @@ public class TimetableFragment extends Fragment {
     }
 
     public class RemoveDialogFragment extends DialogFragment {
-        RemoveDialogFragment mContext = this;
+        final RemoveDialogFragment mContext = this;
 
         @NonNull
         @Override
@@ -663,7 +664,7 @@ public class TimetableFragment extends Fragment {
     }
 
     public class OptionsDialogFragment extends DialogFragment {
-        OptionsDialogFragment mContext = this;
+        final OptionsDialogFragment mContext = this;
 
         @NonNull
         @Override

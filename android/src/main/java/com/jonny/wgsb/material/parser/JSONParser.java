@@ -17,9 +17,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 public class JSONParser {
-    static InputStream is = null;
-    static JSONObject jObj = null;
-    static String json = "";
+    private static JSONObject jObj = null;
 
     public JSONObject makeHttpRequest(String url, List<NameValuePair> params) {
         HttpParams httpParameters = new BasicHttpParams();
@@ -33,7 +31,7 @@ public class JSONParser {
             httpPost.setEntity(new UrlEncodedFormEntity(params));
             HttpResponse httpResponse = httpClient.execute(httpPost);
             HttpEntity httpEntity = httpResponse.getEntity();
-            is = httpEntity.getContent();
+            InputStream is = httpEntity.getContent();
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
             StringBuilder sb = new StringBuilder();
             String line;
@@ -41,7 +39,7 @@ public class JSONParser {
                 sb.append(line).append("\n");
             }
             is.close();
-            json = sb.toString();
+            String json = sb.toString();
             jObj = new JSONObject(json);
         } catch (Exception e) {
             e.printStackTrace();

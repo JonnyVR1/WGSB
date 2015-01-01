@@ -16,19 +16,26 @@ import android.widget.EditText;
 
 import com.jonny.wgsb.material.MainActivity;
 import com.jonny.wgsb.material.R;
+import com.jonny.wgsb.material.security.Crypto;
 import com.jonny.wgsb.material.util.AlertDialogManager;
 import com.jonny.wgsb.material.util.ConnectionDetector;
-import com.jonny.wgsb.material.util.Crypto;
 
 import java.security.NoSuchAlgorithmException;
 
 public class RegisterFragment extends Fragment {
-    private AlertDialogManager alert = new AlertDialogManager();
+    private static RegisterFragment instance = null;
+    private final AlertDialogManager alert = new AlertDialogManager();
+    private MainActivity mActivity;
     private EditText txtName, txtEmail;
     private String year7, year8, year9, year10, year11, year12, year13;
-    MainActivity mActivity;
 
-    public RegisterFragment() {}
+    public RegisterFragment() {
+    }
+
+    public static RegisterFragment getInstance() {
+        if (instance == null) instance = new RegisterFragment();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

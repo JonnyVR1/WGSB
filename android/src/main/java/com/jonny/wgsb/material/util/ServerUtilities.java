@@ -30,7 +30,7 @@ public final class ServerUtilities {
                                 String year10, String year11, String year12, String year13) {
         Log.i(TAG, "registering device (regId = " + regId + ")");
         String serverUrl = SERVER_URL;
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("regId", regId);
         params.put("name", name);
         params.put("email", email);
@@ -72,7 +72,7 @@ public final class ServerUtilities {
     public static void update(final String regId, String email, String year7, String year8, String year9,
                               String year10, String year11, String year12, String year13) {
         String serverUrl = SERVER_UPDATE_URL;
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("regId", regId);
         params.put("email", email);
         params.put("year7", year7);
@@ -102,7 +102,7 @@ public final class ServerUtilities {
     public static void unregister(final String regId) {
         Log.i(TAG, "Un-Registering device (regId = " + regId + ")");
         String serverUrl = SERVER_UNREGISTER_URL;
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("regId", regId);
         long backOff = BACKOFF_MILLI_SECONDS + random.nextInt(1500);
         for (int i = 1; i <= MAX_ATTEMPTS; i++) {

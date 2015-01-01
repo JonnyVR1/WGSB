@@ -61,26 +61,26 @@ import static com.jonny.wgsb.material.util.CommonUtilities.DISPLAY_MESSAGE_ACTIO
 @SuppressLint("NewApi")
 @SuppressWarnings("deprecation")
 public class MainActivity extends ActionBarActivity {
-    final Context mContext = this;
+    public final NewsFragmentSpecific newsFragmentSpecific = NewsFragmentSpecific.getInstance();
+    public final TopicalFragmentSpecific topicalFragmentSpecific = TopicalFragmentSpecific.getInstance();
+    public final GCMFragmentSpecific GCMFragmentSpecific = new GCMFragmentSpecific();
+    private final Context mContext = this;
     private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (CompatUtils.isNotLegacyApi11()) invalidateOptionsMenu();
         }
     };
-    public NewsFragmentSpecific newsFragmentSpecific = new NewsFragmentSpecific();
-    public TopicalFragmentSpecific topicalFragmentSpecific = new TopicalFragmentSpecific();
+    private final GCMFragment GCMFragment = new GCMFragment();
+    private final NewsFragment newsFragment = NewsFragment.getInstance();
+    private final TopicalFragment topicalFragment = TopicalFragment.getInstance();
+    private final CalendarFragment calendarFragment = CalendarFragment.getInstance();
+    private final SettingsFragment settingsFragment = SettingsFragment.getInstance();
+    private final RegisterFragment registerFragment = RegisterFragment.getInstance();
     public ActionBarDrawerToggle mDrawerToggle;
     public DrawerLayout mDrawerLayout;
     public Toolbar mToolbar;
-    NewsFragment newsFragment = new NewsFragment();
-    TopicalFragment topicalFragment = new TopicalFragment();
-    CalendarFragment calendarFragment = new CalendarFragment();
-    SettingsFragment settingsFragment = new SettingsFragment();
-    GCMFragment GCMFragment = new GCMFragment();
-    GCMFragmentSpecific GCMFragmentSpecific = new GCMFragmentSpecific();
-    RegisterFragment registerFragment = new RegisterFragment();
-    DatabaseHandler dbhandler;
+    private DatabaseHandler dbhandler;
     private Integer id;
     private LinearLayout mDrawerLeftLayout;
     private RecyclerView mDrawerList;
@@ -235,10 +235,10 @@ public class MainActivity extends ActionBarActivity {
         String[] drawerTitles = getResources().getStringArray(R.array.navigation_main_sections);
         TypedArray drawerIcons = getResources().obtainTypedArray(R.array.drawable_ids);
         ArrayList<Icons> icons = new ArrayList<>();
-        icons.add(new Icons(drawerTitles[0], drawerIcons.getResourceId(0, -1), 0));
-        icons.add(new Icons(drawerTitles[1], drawerIcons.getResourceId(1, -2), 1));
-        icons.add(new Icons(drawerTitles[2], drawerIcons.getResourceId(2, -3), 2));
-        icons.add(new Icons(drawerTitles[3], drawerIcons.getResourceId(3, -4), 3));
+        icons.add(new Icons(drawerTitles[0], drawerIcons.getResourceId(0, -1)));
+        icons.add(new Icons(drawerTitles[1], drawerIcons.getResourceId(1, -2)));
+        icons.add(new Icons(drawerTitles[2], drawerIcons.getResourceId(2, -3)));
+        icons.add(new Icons(drawerTitles[3], drawerIcons.getResourceId(3, -4)));
         drawerIcons.recycle();
         mDrawerList.setHasFixedSize(true);
         DrawerRecyclerViewAdapter adapter;

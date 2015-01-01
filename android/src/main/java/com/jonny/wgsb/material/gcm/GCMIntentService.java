@@ -17,7 +17,7 @@ import static com.jonny.wgsb.material.util.CommonUtilities.displayMessage;
 
 public class GCMIntentService extends IntentService {
     private static final int NOTIFICATION_ID = 1;
-    private DatabaseHandler dbhandler = DatabaseHandler.getInstance(this);
+    private final DatabaseHandler dbhandler = DatabaseHandler.getInstance(this);
 
     public GCMIntentService() {
         super("GCMIntentService");

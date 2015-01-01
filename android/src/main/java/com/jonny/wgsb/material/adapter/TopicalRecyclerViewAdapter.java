@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jonny.wgsb.material.R;
@@ -13,9 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TopicalRecyclerViewAdapter extends RecyclerView.Adapter<TopicalRecyclerViewAdapter.ViewHolder> {
-    OnItemClickListener mItemClickListener;
-    private List<HashMap<String, String>> items;
-    private int itemLayout;
+    private final List<HashMap<String, String>> items;
+    private final int itemLayout;
+    private OnItemClickListener mItemClickListener;
 
     public TopicalRecyclerViewAdapter(List<HashMap<String, String>> items, int itemLayout) {
         this.items = items;
@@ -36,7 +35,8 @@ public class TopicalRecyclerViewAdapter extends RecyclerView.Adapter<TopicalRecy
         holder.title.setText(item.get("listTitle"));
     }
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         return items.size();
     }
 
@@ -49,13 +49,12 @@ public class TopicalRecyclerViewAdapter extends RecyclerView.Adapter<TopicalRecy
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public ImageView image;
-        public TextView id, title, date;
+        public final TextView id, title;
 
         public ViewHolder(View view) {
             super(view);
-            title = (TextView) itemView.findViewById(R.id.titleTopical);
-            id = (TextView) itemView.findViewById(R.id.topicalId);
+            title = (TextView) view.findViewById(R.id.titleTopical);
+            id = (TextView) view.findViewById(R.id.topicalId);
             view.setOnClickListener(this);
         }
 

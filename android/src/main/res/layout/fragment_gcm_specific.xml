@@ -1,42 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_material_light"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    android:padding="8dip">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tDisplay"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:gravity="center"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:paddingTop="10dip"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+    <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
-    <TextView
-        android:id="@+id/dDisplay"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:paddingTop="10dip"
-        android:textSize="14sp"
-        android:textStyle="italic" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false">
 
-    <TextView
-        android:id="@+id/mDisplay"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:paddingTop="10dip"
-        android:textSize="20sp" />
-</LinearLayout>
+            <FrameLayout
+                android:id="@+id/image_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/toolbarBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/flexible_space_image_height"
+                    android:scaleType="centerCrop"
+                    android:src="@color/colorPrimary" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/mDisplay"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="@dimen/flexible_space_image_height"
+                android:background="@android:color/white"
+                android:lineSpacingMultiplier="1.1"
+                android:paddingBottom="@dimen/padding_large"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingRight="@dimen/padding_large"
+                android:paddingTop="@dimen/padding_large"
+                android:textColor="@color/body_text_1"
+                android:textSize="16sp" />
+
+            <FrameLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false">
+
+                <View
+                    android:id="@+id/header_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/header_bar_height"
+                    android:background="?attr/colorPrimary"
+                    android:minHeight="@dimen/header_bar_height" />
+
+                <LinearLayout
+                    android:id="@+id/header_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/header_bar_height"
+                    android:minHeight="@dimen/header_bar_height"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tDisplay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_large"
+                        android:layout_marginRight="@dimen/padding_large"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="4"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/dDisplay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_large"
+                        android:layout_marginRight="@dimen/padding_large"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="4"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </FrameLayout>
+        </FrameLayout>
+    </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_transparent" />
+</FrameLayout>

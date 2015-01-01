@@ -50,19 +50,26 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
     private static final String ADMINIMAGES_DIR_URL = "http://wirralgrammarboys.com/admin/images/";
     private static final String NUNTIUS_DIR_URL = "http://wirralgrammarboys.com/general/nuntius";
     private static final String UPLOADS_DIR_URL = "http://wirralgrammarboys.com/uploads/";
-    JSONParser jParser = new JSONParser();
-    JSONArray newsItems = null;
-    ProgressDialog mProgress;
-    RecyclerView newsListView;
-    DatabaseHandler dbhandler;
-    ConnectionDetector cd;
-    AsyncTask<Void, Integer, Void> mLoadNewsTask;
+    private static NewsFragment instance = null;
+    private final JSONParser jParser = new JSONParser();
+    private JSONArray newsItems = null;
+    private ProgressDialog mProgress;
+    private RecyclerView newsListView;
+    private DatabaseHandler dbhandler;
+    private ConnectionDetector cd;
+    private AsyncTask<Void, Integer, Void> mLoadNewsTask;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private Integer contentAvailable = 1;
     private Boolean FlagCancelled = false, taskSuccess;
     private Context mContext;
 
-    public NewsFragment() {}
+    public NewsFragment() {
+    }
+
+    public static NewsFragment getInstance() {
+        if (instance == null) instance = new NewsFragment();
+        return instance;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

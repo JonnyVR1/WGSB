@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.AbsListView;
 
 public class MultiSwipeRefreshLayout extends SwipeRefreshLayout {
-    View mMyScrollableView = null;
+    private View mMyScrollableView = null;
 
     public MultiSwipeRefreshLayout(Context context) {
         super(context);

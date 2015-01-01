@@ -23,37 +23,34 @@ import android.widget.TextView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
-
 import com.jonny.wgsb.material.MainActivity;
 import com.jonny.wgsb.material.R;
 import com.jonny.wgsb.material.db.DatabaseHandler;
 import com.jonny.wgsb.material.ui.helper.Topical;
-
 import com.jonny.wgsb.material.util.CompatUtils;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
 @SuppressLint("NewApi")
+@SuppressWarnings("deprecation")
 public class TopicalFragmentSpecific extends Fragment implements ObservableScrollViewCallbacks {
-    private View mImageHolder;
-    private View mHeader;
-    private View mHeaderBar;
-    private View mHeaderBackground;
+    private static TopicalFragmentSpecific instance = null;
+    private MainActivity mActivity;
+    private FrameLayout.LayoutParams originalParams;
+    private FrameLayout frame;
+    private View mImageHolder, mHeader, mHeaderBar, mHeaderBackground;
     private ObservableScrollView mScrollView;
-    private int mActionBarSize;
-    private int mFlexibleSpaceImageHeight;
-    private int mIntersectionHeight;
-    private int mPrevScrollY;
+    private int mActionBarSize, mFlexibleSpaceImageHeight, mIntersectionHeight, mPrevScrollY;
     private boolean mGapFilled;
-    DatabaseHandler dbhandler;
-    TextView titleTextView, storyTextView;
-    ImageView storyImageView;
-    MainActivity mActivity;
-    FrameLayout.LayoutParams params, originalParams;
-    FrameLayout frame;
 
-    public TopicalFragmentSpecific() {}
+    public TopicalFragmentSpecific() {
+    }
+
+    public static TopicalFragmentSpecific getInstance() {
+        if (instance == null) instance = new TopicalFragmentSpecific();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,13 +62,13 @@ public class TopicalFragmentSpecific extends Fragment implements ObservableScrol
         mActivity.getSupportActionBar().hide();
         frame = (FrameLayout) getActivity().findViewById(R.id.fragment_container);
         originalParams = (FrameLayout.LayoutParams) frame.getLayoutParams();
-        params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         frame.setLayoutParams(params);
         ((MainActivity) getActivity()).setSupportActionBar((Toolbar) view.findViewById(R.id.toolbar));
-        titleTextView = (TextView) view.findViewById(R.id.titleArticleTopical);
-        storyImageView = (ImageView) view.findViewById(R.id.toolbarBackground);
-        storyTextView = (TextView) view.findViewById(R.id.storyArticleTopical);
-        dbhandler = DatabaseHandler.getInstance(getActivity());
+        TextView titleTextView = (TextView) view.findViewById(R.id.titleArticleTopical);
+        ImageView storyImageView = (ImageView) view.findViewById(R.id.toolbarBackground);
+        TextView storyTextView = (TextView) view.findViewById(R.id.storyArticleTopical);
+        DatabaseHandler dbhandler = DatabaseHandler.getInstance(getActivity());
         Topical articleTopical = dbhandler.getTopical(topicalId);
         String articleTitle = articleTopical.title;
         String articleStory = articleTopical.story;
@@ -107,7 +104,7 @@ public class TopicalFragmentSpecific extends Fragment implements ObservableScrol
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                if (!CompatUtils.isNotLegacyJellyBean()) {
+                if (CompatUtils.isNotLegacyJellyBean()) {
                     mScrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 } else {
                     mScrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);

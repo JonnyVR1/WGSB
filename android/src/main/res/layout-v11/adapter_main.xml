@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
     android:background="?android:attr/selectableItemBackground"
+    android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <ImageView
@@ -14,7 +14,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true"
-        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/padding_large"
         android:paddingTop="3dp"
         android:scaleType="fitCenter"
         tools:ignore="RtlSymmetry,ContentDescription" />

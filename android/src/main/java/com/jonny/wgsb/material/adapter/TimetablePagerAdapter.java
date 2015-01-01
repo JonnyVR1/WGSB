@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 public class TimetablePagerAdapter extends FragmentPagerAdapter {
-    private List<Fragment> fragments;
+    private final List<Fragment> fragments;
 
     public TimetablePagerAdapter(FragmentManager fm, List<Fragment> fragments2) {
         super(fm);

@@ -39,7 +39,7 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class TimetableAddSubjectActivity extends ActionBarActivity {
-    static final String[] SUBJECTS = new String[]{
+    private static final String[] SUBJECTS = new String[]{
             "Registration", "Lunch", "Break", "Free", "Art", "Astronomy", "Biology",
             "Business Studies", "Chemistry", "Computing", "Design & Technology",
             "Drama", "Economics", "English", "English Language", "English Literature",
@@ -50,20 +50,25 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
             "Politics", "Science", "Sociology", "Spanish", "Religious Studies"
     };
     private static final int START_DIALOG_ID = 0, END_DIALOG_ID = 1;
-    List<ArrayAdapter<String>> startAdapterList = new ArrayList<>();
-    List<ArrayAdapter<String>> endAdapterList = new ArrayList<>();
-    List<Integer> startMinuteList = new ArrayList<>();
-    List<Integer> startHourList = new ArrayList<>();
-    List<Integer> endMinuteList = new ArrayList<>();
-    List<EditText> roomList = new ArrayList<>();
-    List<EditText> teacherList = new ArrayList<>();
-    List<Integer> endHourList = new ArrayList<>();
-    List<EditText> idList = new ArrayList<>();
-    List<Spinner> weekList = new ArrayList<>();
-    List<Integer> periods = new ArrayList<>();
-    List<String> dayList = new ArrayList<>();
-    int lastStartClicked, lastEndClicked, periodId = 0, mMinute, theme, mHour;
-    private TimePickerDialog.OnTimeSetListener mStartTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+    private final List<ArrayAdapter<String>> startAdapterList = new ArrayList<>();
+    private final List<ArrayAdapter<String>> endAdapterList = new ArrayList<>();
+    private final List<Integer> startMinuteList = new ArrayList<>();
+    private final List<Integer> startHourList = new ArrayList<>();
+    private final List<Integer> endMinuteList = new ArrayList<>();
+    private final List<EditText> roomList = new ArrayList<>();
+    private final List<EditText> teacherList = new ArrayList<>();
+    private final List<Integer> endHourList = new ArrayList<>();
+    private final List<EditText> idList = new ArrayList<>();
+    private final List<Spinner> weekList = new ArrayList<>();
+    private final List<Integer> periods = new ArrayList<>();
+    private final List<String> dayList = new ArrayList<>();
+    private int lastStartClicked;
+    private int lastEndClicked;
+    private int periodId = 0;
+    private int mMinute;
+    private int theme;
+    private int mHour;
+    private final TimePickerDialog.OnTimeSetListener mStartTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             mHour = hourOfDay;
@@ -71,7 +76,7 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
             updateStartTime(hourOfDay, minute, lastStartClicked);
         }
     };
-    private TimePickerDialog.OnTimeSetListener mEndTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+    private final TimePickerDialog.OnTimeSetListener mEndTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             mHour = hourOfDay;

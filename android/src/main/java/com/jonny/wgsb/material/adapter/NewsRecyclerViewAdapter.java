@@ -20,9 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerViewAdapter.ViewHolder> {
-    OnItemClickListener mItemClickListener;
-    private List<HashMap<String, String>> items;
-    private int itemLayout;
+    private final List<HashMap<String, String>> items;
+    private final int itemLayout;
+    private OnItemClickListener mItemClickListener;
 
     public NewsRecyclerViewAdapter(List<HashMap<String, String>> items, int itemLayout) {
         this.items = items;
@@ -60,7 +60,8 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
                 });
     }
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         return items.size();
     }
 
@@ -73,17 +74,17 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public CardView card;
-        public ImageView image;
-        public TextView id, title, date;
+        public final CardView card;
+        public final ImageView image;
+        public final TextView id, title, date;
 
         public ViewHolder(View view) {
             super(view);
-            card = (CardView) itemView.findViewById(R.id.card_view);
-            image = (ImageView) itemView.findViewById(R.id.imageNews);
-            title = (TextView) itemView.findViewById(R.id.titleNews);
-            id = (TextView) itemView.findViewById(R.id.newsId);
-            date = (TextView) itemView.findViewById(R.id.dateNews);
+            card = (CardView) view.findViewById(R.id.card_view);
+            image = (ImageView) view.findViewById(R.id.imageNews);
+            title = (TextView) view.findViewById(R.id.titleNews);
+            id = (TextView) view.findViewById(R.id.newsId);
+            date = (TextView) view.findViewById(R.id.dateNews);
             view.setOnClickListener(this);
         }
 

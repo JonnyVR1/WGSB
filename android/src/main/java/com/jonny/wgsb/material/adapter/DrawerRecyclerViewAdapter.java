@@ -14,9 +14,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class DrawerRecyclerViewAdapter extends RecyclerView.Adapter<DrawerRecyclerViewAdapter.ViewHolder> {
-    OnItemClickListener mItemClickListener;
-    private ArrayList<Icons> items;
-    private int itemLayout;
+    private final ArrayList<Icons> items;
+    private final int itemLayout;
+    private OnItemClickListener mItemClickListener;
 
     public DrawerRecyclerViewAdapter(ArrayList<Icons> items, int itemLayout) {
         this.items = items;
@@ -37,7 +37,8 @@ public class DrawerRecyclerViewAdapter extends RecyclerView.Adapter<DrawerRecycl
         Picasso.with(holder.image.getContext()).load(item.icon).into(holder.image);
     }
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         return items.size();
     }
 
@@ -50,13 +51,13 @@ public class DrawerRecyclerViewAdapter extends RecyclerView.Adapter<DrawerRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public ImageView image;
-        public TextView text;
+        public final ImageView image;
+        public final TextView text;
 
         public ViewHolder(View view) {
             super(view);
-            image = (ImageView) itemView.findViewById(R.id.drawerIcon);
-            text = (TextView) itemView.findViewById(R.id.drawerText);
+            image = (ImageView) view.findViewById(R.id.drawerIcon);
+            text = (TextView) view.findViewById(R.id.drawerText);
             view.setOnClickListener(this);
         }
 

@@ -15,15 +15,14 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +31,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.jonny.wgsb.material.MainActivity;
 import com.jonny.wgsb.material.R;
+import com.jonny.wgsb.material.adapter.NotificationsRecyclerViewAdapter;
 import com.jonny.wgsb.material.db.DatabaseHandler;
 import com.jonny.wgsb.material.ui.helper.Notifications;
 import com.jonny.wgsb.material.util.AlertDialogManager;
@@ -48,6 +48,7 @@ import static com.jonny.wgsb.material.util.CommonUtilities.DISPLAY_MESSAGE_ACTIO
 import static com.jonny.wgsb.material.util.CommonUtilities.SENDER_ID;
 
 public class GCMFragment extends Fragment {
+    private static GCMFragment instance = null;
     private static String name, email, year7, year8, year9, year10, year11, year12, year13;
     private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
         @Override
@@ -61,24 +62,50 @@ public class GCMFragment extends Fragment {
             }
         }
     };
-    TextView tDisplay;
-    GoogleCloudMessaging gcm;
-    Context context;
-    AlertDialogManager alert = new AlertDialogManager();
-    DatabaseHandler dbhandler;
-    ConnectionDetector cd;
-    ListView notificationsListView;
+    private final AlertDialogManager alert = new AlertDialogManager();
+    private MainActivity mActivity;
+    private TextView tDisplay;
+    private GoogleCloudMessaging gcm;
+    private DatabaseHandler dbhandler;
+    private ConnectionDetector cd;
+    private RecyclerView notificationsListView;
+    private Context mContext;
     private String regId;
+    private CharSequence previousTitle;
 
-    public GCMFragment() {}
+    public GCMFragment() {
+    }
+
+    public static GCMFragment getInstance() {
+        if (instance == null) instance = new GCMFragment();
+        return instance;
+    }
+
+    private static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException("Could not get package name: " + e);
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        setHasOptionsMenu(true);
+        mContext = getActivity();
+        cd = new ConnectionDetector(getActivity().getApplicationContext());
+        dbhandler = DatabaseHandler.getInstance(getActivity());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gcm, container, false);
-        setRetainInstance(true);
+        mActivity = ((MainActivity) getActivity());
+        previousTitle = mActivity.getSupportActionBar().getTitle();
         setupActionBar();
-        cd = new ConnectionDetector(getActivity().getApplicationContext());
-        dbhandler = DatabaseHandler.getInstance(getActivity());
         savedInstanceState = getArguments();
         if (savedInstanceState != null) {
             name = savedInstanceState.getString("name");
@@ -98,9 +125,10 @@ public class GCMFragment extends Fragment {
             if (prefs_email != null) email = prefs_email;
         }
         tDisplay = (TextView) view.findViewById(R.id.tDisplay);
-        notificationsListView = (ListView) view.findViewById(R.id.notifications_list);
+        notificationsListView = (RecyclerView) view.findViewById(R.id.notifications_list);
+        notificationsListView.setLayoutManager(new LinearLayoutManager(mContext));
+        notificationsListView.setItemAnimator(new DefaultItemAnimator());
         setInitialText();
-        context = getActivity().getApplicationContext();
         checkRegistration();
         getActivity().registerReceiver(mHandleMessageReceiver, new IntentFilter(DISPLAY_MESSAGE_ACTION));
         return view;
@@ -127,7 +155,11 @@ public class GCMFragment extends Fragment {
 
     @Override
     public void onDetach() {
-        ((MainActivity) getActivity()).mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+        mActivity.getSupportActionBar().setTitle(previousTitle);
+        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
         super.onDetach();
     }
 
@@ -159,15 +191,6 @@ public class GCMFragment extends Fragment {
         }
     }
 
-    private static int getAppVersion(Context context) {
-        try {
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            return packageInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            throw new RuntimeException("Could not get package name: " + e);
-        }
-    }
-
     private void getNotificationsList() {
         final List<HashMap<String, String>> notificationsListItems = new ArrayList<>();
         List<Notifications> notifications = dbhandler.getAllNotifications();
@@ -179,37 +202,22 @@ public class GCMFragment extends Fragment {
             map.put("listDate", n.date);
             notificationsListItems.add(map);
         }
-        final BaseAdapter notificationsListAdapter = new SimpleAdapter(getActivity(), notificationsListItems, R.layout.list_notifications,
-                new String[]{"listID", "listRead", "listTitle", "listDate"},
-                new int[]{R.id.notificationId, R.id.readNotification, R.id.titleNotification, R.id.dateNotification}) {
+        final NotificationsRecyclerViewAdapter adapter;
+        notificationsListView.setAdapter(adapter = new NotificationsRecyclerViewAdapter(notificationsListItems, R.layout.list_notifications));
+        adapter.setOnItemClickListener(new NotificationsRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView title = (TextView) view.findViewById(R.id.titleNotification);
-                TextView readText = (TextView) view.findViewById(R.id.readNotification);
-                Integer read = Integer.parseInt(readText.getText().toString());
-                if (read == 0) title.setTextColor(getResources().getColor(R.color.red));
-                return view;
-            }
-        };
-        notificationsListView.setAdapter(notificationsListAdapter);
-        notificationsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(View view, int position) {
                 TextView idText = (TextView) view.findViewById(R.id.notificationId);
                 Integer notificationId = Integer.parseInt(idText.getText().toString());
                 Bundle args = new Bundle();
                 args.putInt("id", notificationId);
-                GCMFragmentSpecific GCMFragmentSpecific = new GCMFragmentSpecific();
-                GCMFragmentSpecific.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
-                        .replace(R.id.fragment_container, GCMFragmentSpecific, "GCM_SPECIFIC_FRAGMENT").addToBackStack(null).commit();
+                ((MainActivity) getActivity()).GCMFragmentSpecific.setArguments(args);
+                ((MainActivity) getActivity()).selectItem(8);
             }
         });
-        notificationsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        adapter.setOnItemLongClickListener(new NotificationsRecyclerViewAdapter.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+            public void onItemLongClick(View view, final int position) {
                 TextView idText = (TextView) view.findViewById(R.id.notificationId);
                 final Integer notificationId = Integer.parseInt(idText.getText().toString());
                 final TextView readText = (TextView) view.findViewById(R.id.readNotification);
@@ -234,7 +242,7 @@ public class GCMFragment extends Fragment {
                             case 1:
                                 dbhandler.deleteNotificationAtId(notificationId);
                                 notificationsListItems.remove(position);
-                                notificationsListAdapter.notifyDataSetChanged();
+                                adapter.notifyDataSetChanged();
                                 if (dbhandler.getNotificationsCount() > 0) {
                                     tDisplay.setText("Touch an item to view the message");
                                 } else {
@@ -247,7 +255,6 @@ public class GCMFragment extends Fragment {
                     }
                 });
                 alertBox.show();
-                return true;
             }
         });
     }
@@ -268,7 +275,7 @@ public class GCMFragment extends Fragment {
     private void checkRegistration() {
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(getActivity());
-            regId = getRegistrationId(context);
+            regId = getRegistrationId(mContext);
             if (regId.isEmpty() && name == null) {
                 if (cd.isConnectingToInternet()) {
                     if (dbhandler.getNotificationsCount() != 0) dbhandler.deleteAllNotifications();
@@ -307,11 +314,11 @@ public class GCMFragment extends Fragment {
             protected Void doInBackground(Void... params) {
                 try {
                     if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(context);
+                        gcm = GoogleCloudMessaging.getInstance(mContext);
                     }
                     regId = gcm.register(SENDER_ID);
-                    ServerUtilities.register(context, regId, name, email, year7, year8, year9, year10, year11, year12, year13);
-                    storeRegistrationId(context, regId);
+                    ServerUtilities.register(mContext, regId, name, email, year7, year8, year9, year10, year11, year12, year13);
+                    storeRegistrationId(mContext, regId);
                 } catch (IOException ex) {
                     String msg = "Error :" + ex.getMessage();
                     Log.e(CommonUtilities.TAG, msg);
@@ -335,10 +342,20 @@ public class GCMFragment extends Fragment {
 
     private void setupActionBar() {
         setHasOptionsMenu(true);
-        MainActivity mActivity = ((MainActivity) getActivity());
         mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
         mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
+        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
         mActivity.getSupportActionBar().setTitle(R.string.notifications);
+        mActivity.mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.getSupportFragmentManager().popBackStack();
+                mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+                mActivity.getSupportActionBar().setTitle(previousTitle);
+                mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
+            }
+        });
     }
 }

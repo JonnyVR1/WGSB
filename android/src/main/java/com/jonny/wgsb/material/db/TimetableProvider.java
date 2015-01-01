@@ -36,7 +36,7 @@ public class TimetableProvider extends ContentProvider {
     public static final Uri WEEK_URI = Uri.parse("content://" + PROVIDER_NAME + "/" + WEEK_TABLE_NAME);
     private static final String PERIODS_TYPE = "com.jonny.wgsb.material/periods";
     private static final String WEEK_TYPE = "com.jonny.wgsb.material/week";
-    private static HashMap<String, String> projectionMap;
+    private static final HashMap<String, String> projectionMap;
     private static DatabaseHelper dbHelper;
 
     private static void setDefaults(SQLiteDatabase db) {
@@ -168,7 +168,7 @@ public class TimetableProvider extends ContentProvider {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         sUriMatcher.addURI(PROVIDER_NAME, PERIODS_TABLE_NAME, PERIODS);
         sUriMatcher.addURI(PROVIDER_NAME, WEEK_TABLE_NAME, WEEK);
-        projectionMap = new HashMap<String, String>();
+        projectionMap = new HashMap<>();
         projectionMap.put(ID, ID);
         projectionMap.put(DAY, DAY);
         projectionMap.put(START, START);
@@ -183,11 +183,9 @@ public class TimetableProvider extends ContentProvider {
     }
 
     public class DatabaseHelper extends SQLiteOpenHelper {
-        Context context;
 
         DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
-            this.context = context;
         }
 
         @Override

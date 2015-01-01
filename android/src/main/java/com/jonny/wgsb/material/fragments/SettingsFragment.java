@@ -38,17 +38,23 @@ import com.jonny.wgsb.material.util.ServerUtilities;
 import java.io.IOException;
 
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
+    private static SettingsFragment instance = null;
     public Integer changed = 0;
-    GoogleCloudMessaging gcm;
-    DatabaseHandler dbhandler;
-    AsyncTask<Void, Void, Void> mUpdateTask, mUnregisterTask;
+    private GoogleCloudMessaging gcm;
+    private DatabaseHandler dbhandler;
+    private AsyncTask<Void, Void, Void> mUpdateTask, mUnregisterTask;
+    private MainActivity mActivity;
     private String email, year7, year8, year9, year10, year11, year12, year13, regId, mTitle;
     private CheckBoxPreference mPush;
     private Preference mYear, appVersion, bugReport, jonny;
     private Context mContext;
-    MainActivity mActivity;
 
     public SettingsFragment() {
+    }
+
+    public static SettingsFragment getInstance() {
+        if (instance == null) instance = new SettingsFragment();
+        return instance;
     }
 
     @Override

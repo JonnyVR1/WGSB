@@ -1,6 +1,7 @@
 package com.jonny.wgsb.material.ui.helper;
 
 public class TimetablePeriod {
+    public final int _id;
     public String startString;
     public String endString;
     public String teacher;
@@ -8,15 +9,11 @@ public class TimetablePeriod {
     public String name;
     public String room;
     public boolean isBreak;
-    public int _id;
     public int end;
     public int start;
-    String day;
-    int length;
 
-    public TimetablePeriod(int _id, String day) {
+    public TimetablePeriod(int _id) {
         this._id = _id;
-        this.day = day;
     }
 
     public static String timeString(int time) {
@@ -52,7 +49,6 @@ public class TimetablePeriod {
         this.startString = timeString(start);
         this.end = end;
         this.endString = timeString(end);
-        this.length = end - start;
     }
 
     public void setBreak(boolean isBreak) {

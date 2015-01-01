@@ -50,19 +50,26 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
     private static final String STAFF = "staff";
     private static final String SHOW = "show";
     private static final String RED = "red";
-    JSONParser jParser = new JSONParser();
-    JSONArray topicalItems = null;
-    ProgressDialog mProgress;
-    RecyclerView topicalListView;
-    DatabaseHandler dbhandler;
-    ConnectionDetector cd;
-    AsyncTask<Void, Integer, Void> mLoadTopicalTask;
+    private static TopicalFragment instance = null;
+    private final JSONParser jParser = new JSONParser();
+    private JSONArray topicalItems = null;
+    private ProgressDialog mProgress;
+    private RecyclerView topicalListView;
+    private DatabaseHandler dbhandler;
+    private ConnectionDetector cd;
+    private AsyncTask<Void, Integer, Void> mLoadTopicalTask;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private Integer contentAvailable = 1;
     private Boolean FlagCancelled = false, taskSuccess;
     private Context mContext;
 
-    public TopicalFragment() {}
+    public TopicalFragment() {
+    }
+
+    public static TopicalFragment getInstance() {
+        if (instance == null) instance = new TopicalFragment();
+        return instance;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

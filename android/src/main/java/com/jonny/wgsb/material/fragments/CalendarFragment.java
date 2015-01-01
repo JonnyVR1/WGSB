@@ -1,5 +1,6 @@
 package com.jonny.wgsb.material.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -12,10 +13,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +26,7 @@ import com.jonny.wgsb.material.db.DatabaseHandler;
 import com.jonny.wgsb.material.parser.JSONParser;
 import com.jonny.wgsb.material.ui.helper.Calendar;
 import com.jonny.wgsb.material.ui.widget.MultiSwipeRefreshLayout;
+import com.jonny.wgsb.material.util.CompatUtils;
 import com.jonny.wgsb.material.util.ConnectionDetector;
 
 import org.apache.http.NameValuePair;
@@ -38,104 +38,19 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
-public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayout.OnRefreshListener {
+public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     private static final String AllCalendarItemsURL = "http://app.wirralgrammarboys.com/get_calendar.php";
     private static final String TAG_SUCCESS = "success";
     private static final String CALENDAR = "calendar";
     private static final String EVENT = "event";
     private static final String DATE = "date";
-    static int height;
-    JSONParser jParser = new JSONParser();
-    JSONArray calendarItems = null;
-    DatabaseHandler dbhandler;
-    ProgressDialog mProgress;
-    RelativeLayout previous;
-    RelativeLayout next;
-    ConnectionDetector cd;
-    GridView gridview;
-    TextView title;
-    AsyncTask<Void, Integer, Void> mLoadCalendarTask;
-    private MultiSwipeRefreshLayout mSwipeRefreshLayout;
-    private Integer contentAvailable = 1;
-    private Boolean FlagCancelled = false;
-    private GregorianCalendar month, itemMonth;
-    private CalendarAdapter adapter;
-    private Handler handler;
-    private ArrayList<String> items;
-    private Runnable calendarUpdater = new Runnable() {
+    private static CalendarFragment instance = null;
+    private static double height;
+    private final AdapterView.OnItemClickListener onItemClickHandler = new AdapterView.OnItemClickListener() {
         @Override
-        public void run() {
-            items.clear();
-            for (int i = 0; i < 7; i++) {
-                itemMonth.add(GregorianCalendar.DATE, 1);
-                List<Calendar> calendar = dbhandler.getAllCalendar();
-                for (Calendar c : calendar) items.add(c.date);
-            }
-            adapter.setItems(items);
-            adapter.notifyDataSetChanged();
-        }
-    };
-    private Boolean taskSuccess;
-
-    public CalendarFragment() {}
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        setHasOptionsMenu(true);
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        height = metrics.heightPixels;
-        cd = new ConnectionDetector(this.getActivity().getApplicationContext());
-        dbhandler = DatabaseHandler.getInstance(getActivity());
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-        ((MainActivity) getActivity()).setupActionBar(getString(R.string.calendar));
-        previous = (RelativeLayout) view.findViewById(R.id.previousMonth);
-        next = (RelativeLayout) view.findViewById(R.id.nextMonth);
-        title = (TextView) view.findViewById(R.id.title);
-        gridview = (GridView) view.findViewById(R.id.gridview);
-        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        month = (GregorianCalendar) GregorianCalendar.getInstance();
-        Locale.setDefault(Locale.UK);
-        itemMonth = (GregorianCalendar) month.clone();
-        items = new ArrayList<>();
-        adapter = new CalendarAdapter(getActivity(), month);
-        gridview.setAdapter(adapter);
-        handler = new Handler();
-        setupSwipeRefresh();
-        if (dbhandler.getCalendarCount() == 0) {
-            if (cd.isConnectingToInternet()) {
-                mSwipeRefreshLayout.setRefreshing(true);
-                loadCalendar(true);
-            } else {
-                internetDialogue(getResources().getString(R.string.no_internet));
-            }
-        } else {
-            refreshCalendar();
-        }
-        title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
-        previous.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setPreviousMonth();
-                refreshCalendar();
-            }
-        });
-        next.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setNextMonth();
-                refreshCalendar();
-            }
-        });
-        gridview.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                ((CalendarAdapter) parent.getAdapter()).setSelected(v);
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (position > 6) {
+                ((CalendarAdapter) parent.getAdapter()).setSelected(view);
                 String selectedGridDate = CalendarAdapter.dayString.get(position);
                 String[] separatedTime = selectedGridDate.split("-");
                 String gridValueString = separatedTime[0].replaceFirst("^0*", "");
@@ -156,19 +71,100 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
                         else events = events + "\n\n- " + c.event;
                         dateString = c.dateString;
                     }
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-                    alertDialog.setTitle("Events on " + dateString);
-                    alertDialog.setMessage(events);
-                    alertDialog.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    alertDialog.show();
+                    eventsText.setText(dateString + "\n\n" + events);
+                } else {
+                    eventsText.setText(R.string.no_events);
                 }
-                ((CalendarAdapter) parent.getAdapter()).setSelected(v);
+                ((CalendarAdapter) parent.getAdapter()).setSelected(view);
             }
-        });
+        }
+    };
+    private final JSONParser jParser = new JSONParser();
+    private JSONArray calendarItems = null;
+    private DatabaseHandler dbhandler;
+    private ProgressDialog mProgress;
+    private ConnectionDetector cd;
+    private TextView title, eventsText;
+    private AsyncTask<Void, Integer, Void> mLoadCalendarTask;
+    private MultiSwipeRefreshLayout mSwipeRefreshLayout;
+    private Integer contentAvailable = 1;
+    private Boolean FlagCancelled = false, taskSuccess;
+    private GregorianCalendar month, itemMonth;
+    private CalendarAdapter adapter;
+    private Handler handler;
+    private ArrayList<String> items;
+    private final Runnable calendarUpdater = new Runnable() {
+        @Override
+        public void run() {
+            items.clear();
+            for (int i = 0; i < 7; i++) {
+                itemMonth.add(GregorianCalendar.DATE, 1);
+                List<Calendar> calendar = dbhandler.getAllCalendar();
+                for (Calendar c : calendar) items.add(c.date);
+            }
+            adapter.setItems(items);
+            adapter.notifyDataSetChanged();
+        }
+    };
+
+    public CalendarFragment() {
+    }
+
+    public static CalendarFragment getInstance() {
+        if (instance == null) instance = new CalendarFragment();
+        return instance;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        setHasOptionsMenu(true);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int heightOrig = metrics.heightPixels;
+        height = heightOrig / 2.4;
+        cd = new ConnectionDetector(this.getActivity().getApplicationContext());
+        dbhandler = DatabaseHandler.getInstance(getActivity());
+    }
+
+    @SuppressLint("NewApi")
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        ((MainActivity) getActivity()).setupActionBar(getString(R.string.calendar));
+        if (CompatUtils.isNotLegacyLollipop())
+            ((MainActivity) getActivity()).mToolbar.setElevation(0.0f);
+        RelativeLayout previous = (RelativeLayout) view.findViewById(R.id.previousMonth);
+        RelativeLayout next = (RelativeLayout) view.findViewById(R.id.nextMonth);
+        title = (TextView) view.findViewById(R.id.title);
+        eventsText = (TextView) view.findViewById(R.id.calendar_events);
+        GridView gridview = (GridView) view.findViewById(R.id.gridview);
+        //GridView.LayoutParams params = new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, (int) height);
+        //gridview.setLayoutParams(params);
+        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        month = (GregorianCalendar) GregorianCalendar.getInstance();
+        Locale.setDefault(Locale.UK);
+        itemMonth = (GregorianCalendar) month.clone();
+        items = new ArrayList<>();
+        adapter = new CalendarAdapter(getActivity(), month);
+        gridview.setAdapter(adapter);
+        handler = new Handler();
+        setupSwipeRefresh();
+        if (dbhandler.getCalendarCount() == 0) {
+            if (cd.isConnectingToInternet()) {
+                mSwipeRefreshLayout.setRefreshing(true);
+                loadCalendar(true);
+            } else {
+                internetDialogue(getResources().getString(R.string.no_internet));
+            }
+        } else {
+            refreshCalendar();
+        }
+        title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
+        previous.setOnClickListener(this);
+        next.setOnClickListener(this);
+        gridview.setOnItemClickListener(onItemClickHandler);
         return view;
     }
 
@@ -214,6 +210,20 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
             loadCalendar(false);
         } else {
             internetDialogue(getResources().getString(R.string.no_internet_refresh));
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.previousMonth:
+                setPreviousMonth();
+                refreshCalendar();
+                break;
+            case R.id.nextMonth:
+                setNextMonth();
+                refreshCalendar();
+                break;
         }
     }
 

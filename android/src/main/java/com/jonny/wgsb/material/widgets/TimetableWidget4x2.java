@@ -23,7 +23,6 @@ public class TimetableWidget4x2 extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
         for (int appWidgetId : appWidgetIds) {
-            //PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, TimetableActivity.class), 0);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.timetable_widget4x2_layout);
             views.setOnClickPendingIntent(R.id.widget4x2, pendingIntent);
@@ -242,6 +241,6 @@ public class TimetableWidget4x2 extends AppWidgetProvider {
                 day = "weekend";
                 nextDay = "mon_" + weekNo;
         }
-        return new TimetableWidgetWeekData(day, nextDay, weekNo, nextWeekNo);
+        return new TimetableWidgetWeekData(day);
     }
 }

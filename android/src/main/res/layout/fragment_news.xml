@@ -16,6 +16,6 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="left|start"
-            android:scrollingCache="true"/>
+            android:scrollingCache="true" />
     </LinearLayout>
 </com.jonny.wgsb.material.ui.widget.MultiSwipeRefreshLayout>

@@ -1,6 +1,7 @@
 package com.jonny.wgsb.material.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,11 +95,11 @@ public class CalendarAdapter extends BaseAdapter {
             String[] separatedTime = dayString.get(position).split("-");
             String gridValue = separatedTime[0].replaceFirst("^0*", "");
             if ((Integer.parseInt(gridValue) > 8) && (position < firstDay)) {
-                dayView.setAlpha(0.8f);
+                dayView.setTextColor(Color.parseColor("#B6B6B6"));
                 dayView.setClickable(false);
                 dayView.setFocusable(false);
             } else if ((Integer.parseInt(gridValue) < 19) && (position > 35)) {
-                dayView.setAlpha(0.8f);
+                dayView.setTextColor(Color.parseColor("#B6B6B6"));
                 dayView.setClickable(false);
                 dayView.setFocusable(false);
             }

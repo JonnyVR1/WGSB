@@ -262,7 +262,7 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
                 return true;
             case (R.id.menu_preferences):
                 startActivity(new Intent(this, TimetableSettingsActivity.class));
-                overridePendingTransition(R.anim.push_up_in, 0);
+                //overridePendingTransition(R.anim.push_up_in, 0);
                 return true;
             case (android.R.id.home):
                 Intent intent = new Intent(this, MainActivity.class);

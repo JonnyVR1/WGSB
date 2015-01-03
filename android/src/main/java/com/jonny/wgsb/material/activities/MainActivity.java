@@ -231,6 +231,33 @@ public class MainActivity extends ActionBarActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        AlertDialog alert;
+        switch (id) {
+            case 0:
+                final CharSequence[] bool = {getString(R.string.yes), getString(R.string.no)};
+                builder.setTitle(R.string.restore_detected_backup);
+                builder.setItems(bool, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            TimetableBackupRestore.restore(mContext);
+                        }
+                        startActivity(new Intent(mContext, TimetableActivity.class));
+                        dialog.cancel();
+                    }
+                });
+                alert = builder.create();
+                dialog = alert;
+                break;
+            default:
+                dialog = null;
+        }
+        return dialog;
+    }
+
     private void getDrawerList() {
         String[] drawerTitles = getResources().getStringArray(R.array.navigation_main_sections);
         TypedArray drawerIcons = getResources().obtainTypedArray(R.array.drawable_ids);
@@ -334,7 +361,7 @@ public class MainActivity extends ActionBarActivity {
                 File file = new File(dir, "backup.txt");
                 if (cursor.getCount() == 0 && file.exists()) {
                     cursor.close();
-                    onCreateDialog();
+                    showDialog(0);
                 } else {
                     cursor.close();
                     startActivity(new Intent(mContext, TimetableActivity.class));
@@ -370,26 +397,6 @@ public class MainActivity extends ActionBarActivity {
         }
         ft.commit();
         mDrawerLayout.closeDrawer(mDrawerLeftLayout);
-    }
-
-    private Dialog onCreateDialog() {
-        Dialog dialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        AlertDialog alert;
-        final CharSequence[] bool = {getString(R.string.yes), getString(R.string.no)};
-        builder.setTitle(R.string.restore_detected_backup);
-        builder.setItems(bool, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                if (item == 0) {
-                    TimetableBackupRestore.restore(mContext);
-                }
-                startActivity(new Intent(mContext, TimetableActivity.class));
-                dialog.cancel();
-            }
-        });
-        alert = builder.create();
-        dialog = alert;
-        return dialog;
     }
 
     public void setupActionBar(String title) {

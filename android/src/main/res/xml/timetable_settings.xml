@@ -34,7 +34,7 @@
         <Preference
             android:icon="@android:drawable/ic_menu_delete"
             android:key="clearData"
-            android:summary="Wipe all timetable data permenantly"
+            android:summary="Wipe all timetable data permanently"
             android:title="Clear timetable data" />
     </PreferenceCategory>
 </PreferenceScreen>

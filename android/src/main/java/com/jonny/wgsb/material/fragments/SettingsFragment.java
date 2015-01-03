@@ -117,11 +117,12 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     }
 
     @Override
-    public void onDetach() {
+    public void onDestroyView() {
         mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
         mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
-        super.onDetach();
+        super.onDestroyView();
     }
 
     private void setPrefs() {
@@ -158,16 +159,16 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
                     versionName[0] = "Unknown";
                     e.printStackTrace();
                 }
-                MailTo mt = MailTo.parse("mailto:14FitchJ@wirralgrammarboys.com");
+                MailTo mt = MailTo.parse("mailto:me@jonathonfitch.com");
                 Intent reportEmail = new Intent(Intent.ACTION_SEND);
                 reportEmail.setType("message/rfc822");
                 reportEmail.putExtra(Intent.EXTRA_EMAIL, new String[]{mt.getTo()});
                 reportEmail.putExtra(Intent.EXTRA_SUBJECT, "WGSB bug report");
                 reportEmail.putExtra(Intent.EXTRA_TEXT, "WGSB Version: " + versionName[0] +
-                        "<br></br>Android Version: " + android.os.Build.VERSION.RELEASE +
-                        "<br></br>Device: " + android.os.Build.MODEL +
-                        "<br></br>How I found the bug: " + "<br></br>Description of bug: " +
-                        "<br></br>If the bug is visual, attached screenshots would be brilliant! :)");
+                        "\n\n android Version: " + android.os.Build.VERSION.RELEASE +
+                        "\n\n Device: " + android.os.Build.MODEL +
+                        "\n\n How I found the bug: " + "\n\n Description of bug: " +
+                        "\n\n If the bug is visual, attached screenshots would be brilliant! :)");
                 try {
                     startActivity(Intent.createChooser(reportEmail, "Send email..."));
                 } catch (ActivityNotFoundException ex) {

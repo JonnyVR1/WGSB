@@ -17,7 +17,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -120,6 +119,7 @@ public class TimetableSettingsActivity extends ActionBarActivity {
     }
 
     public static class TimetableSettingsFragment extends PreferenceFragment {
+        TimetableSettingsActivity mActivity;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -140,9 +140,20 @@ public class TimetableSettingsActivity extends ActionBarActivity {
             Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
             toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
             toolbar.setTitle(R.string.timetable_settings);
-            ((ActionBarActivity) getActivity()).setSupportActionBar(toolbar);
-            ActionBar mActionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-            mActionBar.setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), TimetableActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(0, R.anim.push_down_out);
+                }
+            });
+            mActivity = ((TimetableSettingsActivity) getActivity());
+            mActivity.setSupportActionBar(toolbar);
+            mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            mActivity.getSupportActionBar().setHomeButtonEnabled(true);
+            mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
         }
 
         private void setPrefs() {
@@ -200,18 +211,6 @@ public class TimetableSettingsActivity extends ActionBarActivity {
                     return true;
                 }
             });
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            if (item.getItemId() == android.R.id.home) {
-                Intent intent = new Intent(getActivity(), TimetableActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;
-            } else {
-                return super.onOptionsItemSelected(item);
-            }
         }
     }
 }

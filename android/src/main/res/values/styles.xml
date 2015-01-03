@@ -40,12 +40,6 @@
         <item name="android:background">@color/colorPrimary</item>
         <item name="backgroundSplit">@color/colorPrimary</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Wgsb</item>
-        <item name="actionOverflowButtonStyle">@style/OverflowStyle.Wgsb</item>
-    </style>
-
-    <style name="OverflowStyle.Wgsb" parent="@style/Widget.AppCompat.Light.ActionButton.Overflow">
-        <item name="android:src">@drawable/abc_ic_menu_moreoverflow_mtrl_alpha</item>
-        <item name="android:color">@color/white</item>
     </style>
 
     <style name="ActionBar.Transparent.Wgsb" parent="@style/Widget.AppCompat.ActionBar">

@@ -41,7 +41,6 @@ public class TimetableSettingsActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             TimetableSettingsFragment TimetableSettingsFragment = new TimetableSettingsFragment();
             getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(0, 0, 0, R.anim.push_down_out)
                     .replace(R.id.fragment_container_timetable, TimetableSettingsFragment, "TIMETABLE_SETTINGS_FRAGMENT").commit();
         }
     }

@@ -20,15 +20,4 @@
         <item name="android:editTextStyle">@style/EditTextAppTheme</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
-
-    <style name="ActionBar.Solid.Wgsb" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@color/colorPrimary</item>
-        <item name="backgroundStacked">@color/colorPrimary</item>
-        <item name="progressBarStyle">@style/ProgressBar.Wgsb</item>
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="backgroundSplit">@color/colorPrimary</item>
-        <item name="android:progressBarStyle">@style/ProgressBar.Wgsb</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverflowStyle.Wgsb</item>
-        <item name="actionOverflowButtonStyle">@style/OverflowStyle.Wgsb</item>
-    </style>
 </resources>

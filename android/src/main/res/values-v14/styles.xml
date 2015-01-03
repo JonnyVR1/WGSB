@@ -30,7 +30,5 @@
         <item name="android:backgroundStacked">@color/colorPrimary</item>
         <item name="backgroundSplit">@color/colorPrimary</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Wgsb</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverflowStyle.Wgsb</item>
-        <item name="actionOverflowButtonStyle">@style/OverflowStyle.Wgsb</item>
     </style>
 </resources>

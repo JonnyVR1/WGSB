@@ -196,6 +196,12 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
                 Bundle args = new Bundle();
                 args.putInt("id", newsId);
                 ((MainActivity) getActivity()).newsFragmentSpecific.setArguments(args);
+                /*FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft//.setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
+                        .replace(R.id.fragment_container, ((MainActivity) getActivity()).newsFragmentSpecific, "NEWS_FRAGMENT_SPECIFIC").addToBackStack(null)
+                        .addSharedElement(view.findViewById(R.id.imageNews), "image")
+                        .addSharedElement(view.findViewById(R.id.titleNews), "title");
+                ft.commit();*/
                 ((MainActivity) getActivity()).selectItem(2);
             }
         });

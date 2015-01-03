@@ -93,10 +93,10 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
                 TimetableProvider.ID, TimetableProvider.NUM}, TimetableProvider.KEY + "='theme'", null, null);
         t.moveToFirst();
         if (t.getInt(1) == 1) {
-            setTheme(R.style.Light);
+            setTheme(R.style.Theme_Wgsb);
             theme = 1;
         } else if (t.getInt(1) == 2) {
-            setTheme(R.style.Dark);
+            setTheme(R.style.Theme_Wgsb_Dark);
             theme = 2;
         }
         t.close();
@@ -201,6 +201,7 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
                 }
                 Toast.makeText(TimetableAddSubjectActivity.this, refresh, Toast.LENGTH_SHORT).show();
                 finish();
+                overridePendingTransition(0, R.anim.push_down_out);
             }
         });
         Button cancel = (Button) findViewById(R.id.cancel_button);
@@ -209,6 +210,7 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(0, R.anim.push_down_out);
             }
         });
     }
@@ -228,6 +230,7 @@ public class TimetableAddSubjectActivity extends ActionBarActivity {
             Intent intent = new Intent(this, TimetableActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            overridePendingTransition(0, R.anim.push_down_out);
             finish();
             return true;
         }

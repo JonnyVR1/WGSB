@@ -26,7 +26,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jonny.wgsb.material.MainActivity;
 import com.jonny.wgsb.material.R;
 import com.jonny.wgsb.material.adapter.TimetablePagerAdapter;
 import com.jonny.wgsb.material.db.TimetableProvider;
@@ -66,10 +65,10 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
                 TimetableProvider.KEY + "='theme'", null, null);
         cursor.moveToFirst();
         if (cursor.getInt(1) == 1) {
-            setTheme(R.style.Light);
+            setTheme(R.style.Theme_Wgsb);
             theme = 1;
         } else if (cursor.getInt(1) == 2) {
-            setTheme(R.style.Dark);
+            setTheme(R.style.Theme_Wgsb_Dark);
             theme = 2;
         }
         cursor = cr.query(TimetableProvider.WEEK_URI, new String[]{
@@ -178,6 +177,7 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(TimetableActivity.this, TimetableAddSubjectActivity.class));
+                overridePendingTransition(R.anim.push_up_in, 0);
             }
         });
     }
@@ -251,6 +251,7 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
                 return true;
             case (R.id.menu_add_period):
                 startActivity(new Intent(this, TimetableAddSubjectActivity.class));
+                overridePendingTransition(R.anim.push_up_in, 0);
                 return true;
             case (R.id.menu_today):
                 this.titleIndicator.setCurrentItem(weekDay);
@@ -260,13 +261,14 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
                 compactDialog.show(getSupportFragmentManager(), "compact");
                 return true;
             case (R.id.menu_preferences):
-                Intent nextSetup = new Intent(this, TimetableSettingsActivity.class);
-                startActivity(nextSetup);
+                startActivity(new Intent(this, TimetableSettingsActivity.class));
+                overridePendingTransition(R.anim.push_up_in, 0);
                 return true;
             case (android.R.id.home):
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                overridePendingTransition(0, R.anim.push_down_out);
                 return true;
             default:
                 return super.onOptionsItemSelected(menuItem);
@@ -292,6 +294,7 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
                         cr.delete(TimetableProvider.PERIODS_URI, null, null);
                         cr.delete(TimetableProvider.WEEK_URI, null, null);
                         startActivity(new Intent(TimetableActivity.this, TimetableActivity.class));
+                        overridePendingTransition(0, R.anim.push_down_out);
                         dialog.dismiss();
                     }
                 });
@@ -326,6 +329,7 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
                         TimetableBackupRestore.restore(TimetableActivity.this);
                         progressDialog.dismiss();
                         startActivity(backToHome);
+                        overridePendingTransition(0, R.anim.push_down_out);
                         dialog.dismiss();
                     }
                 });

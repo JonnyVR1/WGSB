@@ -17,8 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jonny.wgsb.material.MainActivity;
 import com.jonny.wgsb.material.R;
+import com.jonny.wgsb.material.activities.MainActivity;
 import com.jonny.wgsb.material.adapter.TopicalRecyclerViewAdapter;
 import com.jonny.wgsb.material.db.DatabaseHandler;
 import com.jonny.wgsb.material.parser.JSONParser;
@@ -150,7 +150,7 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
 
     private void setupSwipeRefresh() {
         mSwipeRefreshLayout.setScrollableView(topicalListView);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorFab, R.color.colorPrimary);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorAccentSecondary, R.color.colorPrimary);
         mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 

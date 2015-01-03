@@ -1,10 +1,8 @@
 package com.jonny.wgsb.material.ui.helper;
 
 public class Topical {
-    public Integer id;
-    public Integer red;
-    public String title;
-    public String story;
+    public Integer id, red;
+    public String title, story;
 
     public Topical() {
     }

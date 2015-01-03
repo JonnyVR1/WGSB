@@ -8,8 +8,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.jonny.wgsb.material.MainActivity;
 import com.jonny.wgsb.material.R;
+import com.jonny.wgsb.material.activities.MainActivity;
 import com.jonny.wgsb.material.db.DatabaseHandler;
 import com.jonny.wgsb.material.ui.helper.Notifications;
 

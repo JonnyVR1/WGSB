@@ -1,11 +1,8 @@
 package com.jonny.wgsb.material.ui.helper;
 
 public class Notifications {
-    public Integer id;
-    public Integer read;
-    public String title;
-    public String date;
-    public String message;
+    public Integer id, read;
+    public String title, date, message;
 
     public Notifications() {
     }

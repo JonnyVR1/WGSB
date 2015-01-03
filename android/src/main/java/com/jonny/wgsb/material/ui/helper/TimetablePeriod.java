@@ -2,15 +2,9 @@ package com.jonny.wgsb.material.ui.helper;
 
 public class TimetablePeriod {
     public final int _id;
-    public String startString;
-    public String endString;
-    public String teacher;
-    public String id;
-    public String name;
-    public String room;
+    public String startString, endString, teacher, id, name, room;
     public boolean isBreak;
-    public int end;
-    public int start;
+    public int end, start;
 
     public TimetablePeriod(int _id) {
         this._id = _id;

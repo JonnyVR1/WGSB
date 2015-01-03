@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_add_black_24dp"
-        app:fab_colorNormal="@color/colorFab"
-        app:fab_colorPressed="@color/colorFabPressed" />
+        android:src="@drawable/ic_add_white_24dp"
+        app:fab_colorNormal="@color/colorAccent"
+        app:fab_colorPressed="@color/colorAccentLight" />
 </FrameLayout>

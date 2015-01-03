@@ -139,10 +139,10 @@ public class TimetableFragment extends Fragment {
         t.moveToFirst();
         if (t.getInt(1) == 1) {
             titleColour = 0xFF555555;
-            getActivity().setTheme(R.style.Light);
+            getActivity().setTheme(R.style.Theme_Wgsb);
         } else if (t.getInt(1) == 2) {
             titleColour = 0x00FFFFFF;
-            getActivity().setTheme(R.style.Dark);
+            getActivity().setTheme(R.style.Theme_Wgsb_Dark);
         }
         t.close();
         Bundle args = getArguments();

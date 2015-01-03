@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.jonny.wgsb.material.MainActivity;
 import com.jonny.wgsb.material.R;
+import com.jonny.wgsb.material.activities.MainActivity;
 import com.jonny.wgsb.material.security.Crypto;
 import com.jonny.wgsb.material.util.AlertDialogManager;
 import com.jonny.wgsb.material.util.ConnectionDetector;
@@ -73,7 +73,7 @@ public class RegisterFragment extends Fragment {
                     args.putString("year12", year12);
                     args.putString("year13", year13);
                     GCMFragment.setArguments(args);
-                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
+                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
                             .replace(R.id.fragment_container, GCMFragment, "GCM_FRAGMENT").addToBackStack(null).commit();
                 } else {
                     alert.showAlertDialog(getActivity(), "Registration Error!", "Please enter your details", false);

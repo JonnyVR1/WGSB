@@ -29,8 +29,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.jonny.wgsb.material.MainActivity;
 import com.jonny.wgsb.material.R;
+import com.jonny.wgsb.material.activities.MainActivity;
 import com.jonny.wgsb.material.db.DatabaseHandler;
 import com.jonny.wgsb.material.util.CommonUtilities;
 import com.jonny.wgsb.material.util.ServerUtilities;
@@ -203,7 +203,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
                 args.putString("PREFERENCE_SCREEN_KEY", "pref_year");
                 settingsFragment.setArguments(args);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
+                        .setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
                         .replace(R.id.fragment_container, settingsFragment, "SETTINGS_FRAGMENT_YEAR").addToBackStack(null).commit();
             } else {
                 changed = 0;
@@ -321,7 +321,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
             args.putString("PREFERENCE_SCREEN_KEY", "pref_year");
             settingsFragment.setArguments(args);
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
+                    .setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
                     .replace(R.id.fragment_container, settingsFragment, "SETTINGS_FRAGMENT_YEAR").addToBackStack(null).commit();
         }
         return false;

@@ -41,6 +41,7 @@ public class TimetableSettingsActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             TimetableSettingsFragment TimetableSettingsFragment = new TimetableSettingsFragment();
             getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(0, 0, 0, R.anim.push_down_out)
                     .replace(R.id.fragment_container_timetable, TimetableSettingsFragment, "TIMETABLE_SETTINGS_FRAGMENT").commit();
         }
     }
@@ -66,6 +67,7 @@ public class TimetableSettingsActivity extends ActionBarActivity {
                         cr.delete(TimetableProvider.PERIODS_URI, null, null);
                         cr.delete(TimetableProvider.WEEK_URI, null, null);
                         startActivity(backToHome);
+                        overridePendingTransition(0, R.anim.push_down_out);
                         dialog.dismiss();
                     }
                 });
@@ -100,6 +102,7 @@ public class TimetableSettingsActivity extends ActionBarActivity {
                         TimetableBackupRestore.restore(TimetableSettingsActivity.this);
                         progressDialog.dismiss();
                         startActivity(backToHome);
+                        overridePendingTransition(0, R.anim.push_down_out);
                         dialog.dismiss();
                     }
                 });

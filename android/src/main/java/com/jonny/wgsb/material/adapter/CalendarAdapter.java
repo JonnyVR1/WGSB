@@ -1,7 +1,6 @@
 package com.jonny.wgsb.material.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,60 +66,42 @@ public class CalendarAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup parent) {
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if (position >= 0 && position < 7) {
-                view = inflater.inflate(R.layout.calendar_day_of_week, parent, false);
-                TextView day = (TextView) view.findViewById(R.id.dayText);
-                if (position == 0) {
-                    day.setText(R.string.sunday_short);
-                } else if (position == 1) {
-                    day.setText(R.string.monday_short);
-                } else if (position == 2) {
-                    day.setText(R.string.tuesday_short);
-                } else if (position == 3) {
-                    day.setText(R.string.wednesday_short);
-                } else if (position == 4) {
-                    day.setText(R.string.thursday_short);
-                } else if (position == 5) {
-                    day.setText(R.string.friday_short);
-                } else if (position == 6) {
-                    day.setText(R.string.saturday_short);
-                }
-            } else {
-                view = inflater.inflate(R.layout.calendar_item, parent, false);
-                //view.setMinimumHeight((CalendarFragment.height / 7));
-            }
+            view = inflater.inflate(R.layout.calendar_item, parent, false);
         }
-        if (position > 6) {
-            TextView dayView = (TextView) view.findViewById(R.id.date);
-            String[] separatedTime = dayString.get(position).split("-");
-            String gridValue = separatedTime[0].replaceFirst("^0*", "");
-            if ((Integer.parseInt(gridValue) > 8) && (position < firstDay)) {
-                dayView.setTextColor(Color.parseColor("#B6B6B6"));
-                dayView.setClickable(false);
-                dayView.setFocusable(false);
-            } else if ((Integer.parseInt(gridValue) < 19) && (position > 35)) {
-                dayView.setTextColor(Color.parseColor("#B6B6B6"));
-                dayView.setClickable(false);
-                dayView.setFocusable(false);
-            }
-            if (dayString.get(position).equals(currentDateString)) {
-                setSelected(view);
-                previousView = view;
-            } else {
-                view.setBackgroundResource(R.drawable.calendar_date_number_background);
-            }
-            dayView.setText(gridValue);
-            String date = dayString.get(position);
-            if (date.length() == 1) {
-                date = "0" + date;
-            }
-            ImageView dot = (ImageView) view.findViewById(R.id.date_icon);
-            if (date.length() > 0 && items != null && items.contains(date) && dayView.getVisibility() == View.VISIBLE) {
-                dot.setVisibility(View.VISIBLE);
-            } else {
-                dot.setVisibility(View.GONE);
-            }
+        TextView dayView = (TextView) view.findViewById(R.id.date);
+        ImageView dot = (ImageView) view.findViewById(R.id.date_icon);
+        String date = dayString.get(position);
+        String[] separatedTime = date.split("-");
+        String gridValue = separatedTime[0].replaceFirst("^0*", "");
+        Integer gridValueInt = Integer.parseInt(gridValue);
+        if (date.length() == 1) {
+            date = "0" + date;
         }
+        if (date.length() > 0 && items != null && items.contains(date) && dayView.getVisibility() == View.VISIBLE) {
+            dot.setVisibility(View.VISIBLE);
+        } else {
+            dot.setVisibility(View.GONE);
+        }
+        if (gridValueInt > 1 && position < firstDay) {
+            dayView.setTextColor(mContext.getResources().getColor(R.color.colorTextSecondary));
+            dayView.setClickable(false);
+            dayView.setFocusable(false);
+            dot.setVisibility(View.GONE);
+        } else if (gridValueInt <= 12 && position > 28) {
+            dayView.setTextColor(mContext.getResources().getColor(R.color.colorTextSecondary));
+            dayView.setClickable(false);
+            dayView.setFocusable(false);
+            dot.setVisibility(View.GONE);
+        } else {
+            dayView.setTextColor(mContext.getResources().getColor(R.color.white));
+        }
+        if (date.equals(currentDateString)) {
+            setSelected(view);
+            previousView = view;
+        } else {
+            view.setBackgroundResource(R.drawable.calendar_date_number_background);
+        }
+        dayView.setText(gridValue);
         return view;
     }
 
@@ -135,22 +116,18 @@ public class CalendarAdapter extends BaseAdapter {
     public void refreshDays() {
         items.clear();
         dayString.clear();
-        Locale.setDefault(Locale.US);
+        Locale.setDefault(Locale.UK);
         pMonth = (GregorianCalendar) month.clone();
         firstDay = month.get(GregorianCalendar.DAY_OF_WEEK);
-        int maxWeekNumber = month.getActualMaximum(GregorianCalendar.WEEK_OF_MONTH);
-        if (maxWeekNumber >= 7) maxWeekNumber = 7;
-        if (firstDay == 2) maxWeekNumber = 6;
+        int maxWeekNumber = month.getActualMaximum(GregorianCalendar.MONTH);
+        if (maxWeekNumber >= 7) maxWeekNumber = 6;
+        if (firstDay == 2) maxWeekNumber = 5;
         int monthLength = maxWeekNumber * 7;
         int maxP = getMaxP();
         int calMaxP = maxP - (firstDay - 1);
         GregorianCalendar pMonthMaxSet = (GregorianCalendar) pMonth.clone();
         pMonthMaxSet.set(GregorianCalendar.DAY_OF_MONTH, calMaxP + 1);
-        int n;
-        for (n = 0; n < 7; n++) {
-            dayString.add("null");
-        }
-        for (n = 0; n < monthLength; n++) {
+        for (int n = 0; n < monthLength; n++) {
             String itemValue = df.format(pMonthMaxSet.getTime());
             pMonthMaxSet.add(GregorianCalendar.DATE, 1);
             dayString.add(itemValue);
@@ -158,13 +135,11 @@ public class CalendarAdapter extends BaseAdapter {
     }
 
     private int getMaxP() {
-        int maxP;
         if (month.get(GregorianCalendar.MONTH) == month.getActualMinimum(GregorianCalendar.MONTH)) {
             pMonth.set((month.get(GregorianCalendar.YEAR) - 1), month.getActualMaximum(GregorianCalendar.MONTH), 1);
         } else {
             pMonth.set(GregorianCalendar.MONTH, month.get(GregorianCalendar.MONTH) - 1);
         }
-        maxP = pMonth.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-        return maxP;
+        return pMonth.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
     }
 }

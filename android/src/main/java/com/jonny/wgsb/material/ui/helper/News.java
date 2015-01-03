@@ -2,10 +2,7 @@ package com.jonny.wgsb.material.ui.helper;
 
 public class News {
     public Integer id;
-    public String title;
-    public String imageSrc;
-    public String story;
-    public String date;
+    public String title, imageSrc, story, date;
 
     public News() {
     }

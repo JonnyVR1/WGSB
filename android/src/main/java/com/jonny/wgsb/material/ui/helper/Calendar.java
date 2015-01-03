@@ -2,9 +2,7 @@ package com.jonny.wgsb.material.ui.helper;
 
 public class Calendar {
     public Integer id;
-    public String event;
-    public String date;
-    public String dateString;
+    public String event, date, dateString;
 
     public Calendar() {
     }

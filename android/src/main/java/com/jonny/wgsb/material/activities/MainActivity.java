@@ -1,4 +1,4 @@
-package com.jonny.wgsb.material;
+package com.jonny.wgsb.material.activities;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -35,7 +35,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jonny.wgsb.material.activities.TimetableActivity;
+import com.jonny.wgsb.material.R;
 import com.jonny.wgsb.material.adapter.DrawerRecyclerViewAdapter;
 import com.jonny.wgsb.material.db.DatabaseHandler;
 import com.jonny.wgsb.material.db.TimetableProvider;
@@ -307,21 +307,24 @@ public class MainActivity extends ActionBarActivity {
                 ft.add(R.id.fragment_container, newsFragment, "NEWS_FRAGMENT");
                 break;
             case 1:
-                ft.replace(R.id.fragment_container, newsFragment, "NEWS_FRAGMENT").addToBackStack(null);
+                ft.setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
+                        .replace(R.id.fragment_container, newsFragment, "NEWS_FRAGMENT").addToBackStack(null);
                 break;
             case 2:
-                ft.setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
+                ft.setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
                         .replace(R.id.fragment_container, newsFragmentSpecific, "NEWS_FRAGMENT_SPECIFIC").addToBackStack(null);
                 break;
             case 3:
-                ft.replace(R.id.fragment_container, topicalFragment, "TOPICAL_FRAGMENT").addToBackStack(null);
+                ft.setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
+                        .replace(R.id.fragment_container, topicalFragment, "TOPICAL_FRAGMENT").addToBackStack(null);
                 break;
             case 4:
-                ft.setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
+                ft.setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
                         .replace(R.id.fragment_container, topicalFragmentSpecific, "TOPICAL_FRAGMENT_SPECIFIC").addToBackStack(null);
                 break;
             case 5:
-                ft.replace(R.id.fragment_container, calendarFragment, "CALENDAR_FRAGMENT").addToBackStack(null);
+                ft.setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
+                        .replace(R.id.fragment_container, calendarFragment, "CALENDAR_FRAGMENT").addToBackStack(null);
                 break;
             case 6:
                 ContentResolver cr = getContentResolver();
@@ -335,26 +338,27 @@ public class MainActivity extends ActionBarActivity {
                 } else {
                     cursor.close();
                     startActivity(new Intent(mContext, TimetableActivity.class));
+                    overridePendingTransition(R.anim.push_up_in, 0);
                 }
                 break;
             case 7:
-                ft.setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
+                ft.setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
                         .replace(R.id.fragment_container, GCMFragment, "GCM_FRAGMENT").addToBackStack(null);
                 break;
             case 8:
-                ft.setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
+                ft.setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
                         .replace(R.id.fragment_container, GCMFragmentSpecific, "GCM_SPECIFIC_FRAGMENT").addToBackStack(null);
                 break;
             case 9:
-                ft.setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
+                ft.setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
                         .replace(R.id.fragment_container, settingsFragment, "SETTINGS_FRAGMENT").addToBackStack(null);
                 break;
             case 10:
-                ft.setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
+                ft.setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
                         .replace(R.id.fragment_container, registerFragment, "REGISTER_FRAGMENT").addToBackStack(null);
                 break;
             case 97:
-                ft.setCustomAnimations(R.anim.zoom_enter, 0, 0, R.anim.zoom_exit)
+                ft.setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
                         .replace(R.id.fragment_container, GCMFragmentSpecific, "GCM_SPECIFIC_FRAGMENT");
                 break;
             case 98:

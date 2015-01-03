@@ -17,8 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jonny.wgsb.material.MainActivity;
 import com.jonny.wgsb.material.R;
+import com.jonny.wgsb.material.activities.MainActivity;
 import com.jonny.wgsb.material.adapter.NewsRecyclerViewAdapter;
 import com.jonny.wgsb.material.db.DatabaseHandler;
 import com.jonny.wgsb.material.parser.JSONParser;
@@ -150,7 +150,7 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
 
     private void setupSwipeRefresh() {
         mSwipeRefreshLayout.setScrollableView(newsListView);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorFab, R.color.colorPrimary);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorAccentSecondary, R.color.colorPrimary);
         mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 

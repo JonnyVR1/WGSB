@@ -3,6 +3,8 @@ package com.jonny.wgsb.material.gcm;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -17,7 +19,6 @@ import static com.jonny.wgsb.material.util.CommonUtilities.displayMessage;
 
 public class GCMIntentService extends IntentService {
     private static final int NOTIFICATION_ID = 1;
-    private final DatabaseHandler dbhandler = DatabaseHandler.getInstance(this);
 
     public GCMIntentService() {
         super("GCMIntentService");
@@ -33,6 +34,7 @@ public class GCMIntentService extends IntentService {
             String title = extras.getString("title");
             String message = extras.getString("message");
             Integer id;
+            DatabaseHandler dbhandler = DatabaseHandler.getInstance(this);
             if (dbhandler.getNotificationsCount() > 0) {
                 id = dbhandler.getNotificationsCount();
                 id++;
@@ -57,6 +59,7 @@ public class GCMIntentService extends IntentService {
         /*NotificationCompat.Action markAsReadAction = new NotificationCompat.Action.Builder(R.drawable.ic_action,
                 "Mark as read", dbhandler.updateNotifications(new Notifications(id, 1)))
                 .build();*/
+        Bitmap bg = BitmapFactory.decodeResource(getResources(), R.color.colorPrimary);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.push_icon)
                 .setContentTitle(title)
@@ -65,7 +68,7 @@ public class GCMIntentService extends IntentService {
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
-                /*.extend(new NotificationCompat.WearableExtender().addAction(markAsReadAction))*/;
+                .extend(new NotificationCompat.WearableExtender().setBackground(bg));
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }

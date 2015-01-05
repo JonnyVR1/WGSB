@@ -22,9 +22,10 @@ import com.jonny.wgsb.material.util.ConnectionDetector;
 
 import java.security.NoSuchAlgorithmException;
 
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends Fragment implements View.OnClickListener {
     private static RegisterFragment instance = null;
     private final AlertDialogManager alert = new AlertDialogManager();
+    private SharedPreferences preferences;
     private MainActivity mActivity;
     private EditText txtName, txtEmail;
     private String year7, year8, year9, year10, year11, year12, year13;
@@ -49,12 +50,26 @@ public class RegisterFragment extends Fragment {
         }
         txtName = (EditText) view.findViewById(R.id.txtName);
         txtEmail = (EditText) view.findViewById(R.id.txtEmail);
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        getPrefs(preferences);
         Button btnRegister = (Button) view.findViewById(R.id.btnRegister);
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        getPrefs(preferences);
+        btnRegister.setOnClickListener(this);
+        return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            getActivity().getSupportFragmentManager().popBackStack();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnRegister:
                 String name = txtName.getText().toString();
                 String email = txtEmail.getText().toString();
                 if (name.trim().length() > 0 && email.trim().length() > 0 && email.contains("@")) {
@@ -78,17 +93,8 @@ public class RegisterFragment extends Fragment {
                 } else {
                     alert.showAlertDialog(getActivity(), "Registration Error!", "Please enter your details", false);
                 }
-            }
-        });
-        return view;
-    }
-
-    @Override
-    public void onDetach() {
-        mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
-        super.onDetach();
+                break;
+        }
     }
 
     private void getPrefs(SharedPreferences preferences) {
@@ -129,6 +135,7 @@ public class RegisterFragment extends Fragment {
     private void setupActionBar() {
         setHasOptionsMenu(true);
         mActivity = ((MainActivity) getActivity());
+        mActivity.setupActionBar(getString(R.string.register));
         mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
         mActivity.getSupportActionBar().setHomeButtonEnabled(true);
@@ -143,14 +150,5 @@ public class RegisterFragment extends Fragment {
                 mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
             }
         });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            getActivity().getSupportFragmentManager().popBackStack();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

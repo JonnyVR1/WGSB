@@ -6,6 +6,7 @@
     android:layout_height="210dp"
     android:layout_margin="10dp"
     android:clickable="true"
+    android:foreground="?selectableItemBackground"
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="4dp">
 

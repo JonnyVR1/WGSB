@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class CalendarAdapter extends BaseAdapter {
+    public static int mSelectedPosition = 0;
     public static List<String> dayString;
     private final String currentDateString;
     private final Context mContext;
@@ -96,7 +97,7 @@ public class CalendarAdapter extends BaseAdapter {
             dayView.setTextColor(mContext.getResources().getColor(R.color.white));
         }
         if (date.equals(currentDateString)) {
-            setSelected(view);
+            setSelected(view, position);
             previousView = view;
         } else {
             view.setBackgroundResource(R.drawable.calendar_date_number_background);
@@ -105,11 +106,12 @@ public class CalendarAdapter extends BaseAdapter {
         return view;
     }
 
-    public void setSelected(View view) {
+    public void setSelected(View view, int position) {
         if (previousView != null) {
             previousView.setBackgroundResource(R.drawable.calendar_date_number_background);
         }
         previousView = view;
+        mSelectedPosition = position;
         view.setBackgroundResource(R.drawable.calendar_day_selected);
     }
 

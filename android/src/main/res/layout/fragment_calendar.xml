@@ -19,8 +19,8 @@
 
             <RelativeLayout
                 android:id="@+id/previousMonth"
-                android:layout_width="40dip"
-                android:layout_height="30dip"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
                 android:layout_alignParentLeft="true">
 
                 <ImageView
@@ -43,8 +43,8 @@
 
             <RelativeLayout
                 android:id="@+id/nextMonth"
-                android:layout_width="40dip"
-                android:layout_height="30dip"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true">
 
                 <ImageView
@@ -56,46 +56,52 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <LinearLayout
+        <GridView
+            android:id="@+id/gridview_day"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/colorPrimary"
+            android:columnWidth="@dimen/calendar_column_width"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="7"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:stretchMode="columnWidth" />
+
+        <GridView
+            android:id="@+id/gridview_calendar"
+            android:layout_width="fill_parent"
+            android:layout_height="300dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/colorPrimary"
+            android:columnWidth="@dimen/calendar_column_width"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="7"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:stretchMode="columnWidth" />
+
+        <TextView
+            android:id="@+id/calendar_events_date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_material_light"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingTop="10dp"
+            android:text="@string/no_events"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/calendar_events"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical">
-
-            <GridView
-                android:id="@+id/gridview_day"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/colorPrimary"
-                android:columnWidth="@dimen/calendar_column_width"
-                android:listSelector="@android:color/transparent"
-                android:numColumns="7"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingRight="@dimen/padding_large"
-                android:stretchMode="columnWidth" />
-
-            <GridView
-                android:id="@+id/gridview_calendar"
-                android:layout_width="fill_parent"
-                android:layout_height="300dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/colorPrimary"
-                android:columnWidth="@dimen/calendar_column_width"
-                android:listSelector="@android:color/transparent"
-                android:numColumns="7"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingRight="@dimen/padding_large"
-                android:stretchMode="columnWidth" />
-
-            <TextView
-                android:id="@+id/calendar_events"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@color/background_material_light"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingRight="@dimen/padding_large"
-                android:text="@string/no_events"
-                android:textSize="16sp" />
-        </LinearLayout>
+            android:background="@color/background_material_light"
+            android:paddingBottom="10dp"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingTop="10dp"
+            android:textSize="16sp" />
     </LinearLayout>
 </com.jonny.wgsb.material.ui.widget.MultiSwipeRefreshLayout>

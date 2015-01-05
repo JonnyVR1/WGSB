@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +13,7 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -77,6 +77,7 @@ public class MainActivity extends ActionBarActivity {
     private final CalendarFragment calendarFragment = CalendarFragment.getInstance();
     private final SettingsFragment settingsFragment = SettingsFragment.getInstance();
     private final RegisterFragment registerFragment = RegisterFragment.getInstance();
+    private final Handler mDrawerHandler = new Handler();
     public ActionBarDrawerToggle mDrawerToggle;
     public DrawerLayout mDrawerLayout;
     public Toolbar mToolbar;
@@ -173,7 +174,7 @@ public class MainActivity extends ActionBarActivity {
         final MenuItem item = menu.findItem(R.id.badge);
         MenuItemCompat.setActionView(item, R.layout.actionbar_badge_layout);
         View view = MenuItemCompat.getActionView(item);
-        TextView notificationText = (TextView) view.findViewById(R.id.actionbar_notifcation_textview);
+        TextView notificationText = (TextView) view.findViewById(R.id.actionbar_notification_textview);
         Integer i = dbhandler.getUnreadNotificationsCount();
         if (i > 0) {
             notificationText.setText(i.toString());
@@ -275,25 +276,20 @@ public class MainActivity extends ActionBarActivity {
         adapter.setOnItemClickListener(new DrawerRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                mDrawerLayout.closeDrawer(mDrawerLeftLayout);
                 switch (position) {
                     case 0:
                         if (!newsFragment.isVisible()) selectItem(1);
-                        else mDrawerLayout.closeDrawer(mDrawerLeftLayout);
                         break;
                     case 1:
                         if (!topicalFragment.isVisible()) selectItem(3);
-                        else mDrawerLayout.closeDrawer(mDrawerLeftLayout);
                         break;
                     case 2:
                         if (!calendarFragment.isVisible()) selectItem(5);
-                        else mDrawerLayout.closeDrawer(mDrawerLeftLayout);
                         break;
                     case 3:
-                        mDrawerLayout.closeDrawer(mDrawerLeftLayout);
                         selectItem(6);
                         break;
-                    default:
-                        mDrawerLayout.closeDrawer(mDrawerLeftLayout);
                 }
             }
         });
@@ -328,7 +324,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void selectItem(int position) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        mDrawerHandler.removeCallbacksAndMessages(null);
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         switch (position) {
             case 0:
                 ft.add(R.id.fragment_container, newsFragment, "NEWS_FRAGMENT");
@@ -354,18 +351,27 @@ public class MainActivity extends ActionBarActivity {
                         .replace(R.id.fragment_container, calendarFragment, "CALENDAR_FRAGMENT").addToBackStack(null);
                 break;
             case 6:
-                ContentResolver cr = getContentResolver();
-                Cursor cursor = cr.query(TimetableProvider.PERIODS_URI, new String[]{TimetableProvider.ID, TimetableProvider.DAY},
+                Cursor cursor = getContentResolver().query(TimetableProvider.PERIODS_URI, new String[]{TimetableProvider.ID, TimetableProvider.DAY},
                         TimetableProvider.DAY + "='set_up'", null, null);
                 File dir = new File(Environment.getExternalStorageDirectory(), "WGSB\backup");
                 File file = new File(dir, "backup.txt");
                 if (cursor.getCount() == 0 && file.exists()) {
                     cursor.close();
-                    showDialog(0);
+                    mDrawerHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            showDialog(0);
+                        }
+                    }, 250);
                 } else {
                     cursor.close();
-                    startActivity(new Intent(mContext, TimetableActivity.class));
-                    overridePendingTransition(R.anim.push_up_in, 0);
+                    mDrawerHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(mContext, TimetableActivity.class));
+                            overridePendingTransition(R.anim.push_up_in, 0);
+                        }
+                    }, 250);
                 }
                 break;
             case 7:
@@ -395,8 +401,15 @@ public class MainActivity extends ActionBarActivity {
                 ft.replace(R.id.fragment_container, newsFragment, "NEWS_FRAGMENT");
                 break;
         }
-        ft.commit();
-        mDrawerLayout.closeDrawer(mDrawerLeftLayout);
+        if (position == 0 || position == 97) ft.commit();
+        else if (position != 6) {
+            mDrawerHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ft.commit();
+                }
+            }, 250);
+        }
     }
 
     public void setupActionBar(String title) {

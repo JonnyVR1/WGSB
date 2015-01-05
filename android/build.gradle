@@ -4,8 +4,11 @@ android {
     compileSdkVersion 21
     buildToolsVersion '21.1.2'
     defaultConfig {
+        applicationId "com.jonny.wgsb.material"
         minSdkVersion 10
         targetSdkVersion 21
+        versionCode 1
+        versionName "1.0.0"
     }
     buildTypes {
         release {
@@ -14,6 +17,7 @@ android {
             zipAlignEnabled true
         }
         debug {
+            applicationIdSuffix ".debug"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             zipAlignEnabled true

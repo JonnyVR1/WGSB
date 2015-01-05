@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jonny.wgsb.material"
-    android:installLocation="auto"
-    android:versionCode="1"
-    android:versionName="1.0.0">
+    android:installLocation="auto">
 
     <permission
-        android:name="com.jonny.wgsb.material.permission.C2D_MESSAGE"
+        android:name=".permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.jonny.wgsb.material.permission.C2D_MESSAGE" />
+    <uses-permission android:name=".permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -62,7 +60,7 @@
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.jonny.wgsb.material" />
+                <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
         <receiver
@@ -87,9 +85,5 @@
         </receiver>
 
         <service android:name=".gcm.GCMIntentService" />
-        <provider
-            android:name=".db.TimetableProvider"
-            android:authorities="com.jonny.wgsb.material.db.TimetableProvider"
-            android:exported="false" />
     </application>
 </manifest>

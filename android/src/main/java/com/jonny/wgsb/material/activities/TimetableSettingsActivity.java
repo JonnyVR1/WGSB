@@ -124,7 +124,7 @@ public class TimetableSettingsActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.activity_timetable_settings, container, false);
-            setupActionBar(view);
+            setupToolbar(view);
             return view;
         }
 
@@ -136,24 +136,22 @@ public class TimetableSettingsActivity extends ActionBarActivity {
             setStaticPrefs();
         }
 
-        private void setupActionBar(View view) {
+        private void setupToolbar(View view) {
             Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
             toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
             toolbar.setTitle(R.string.timetable_settings);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), TimetableActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    getActivity().overridePendingTransition(0, R.anim.push_down_out);
-                }
-            });
             mActivity = ((TimetableSettingsActivity) getActivity());
             mActivity.setSupportActionBar(toolbar);
             mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             mActivity.getSupportActionBar().setHomeButtonEnabled(true);
             mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().finish();
+                    getActivity().overridePendingTransition(0, R.anim.push_down_out);
+                }
+            });
         }
 
         private void setPrefs() {

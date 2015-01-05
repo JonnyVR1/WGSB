@@ -317,6 +317,7 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         refreshCalendar();
+                        setEventsText();
                         mSwipeRefreshLayout.setRefreshing(false);
                         if (!taskSuccess)
                             internetDialogue(getResources().getString(R.string.no_working_connection));

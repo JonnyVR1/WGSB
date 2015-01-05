@@ -38,7 +38,7 @@ public class GCMFragmentSpecific extends Fragment implements ObservableScrollVie
     private View mImageHolder, mHeader, mHeaderBar, mHeaderBackground;
     private ObservableScrollView mScrollView;
     private int mActionBarSize, mFlexibleSpaceImageHeight, mIntersectionHeight, mPrevScrollY;
-    private boolean mGapIsChanging, mGapHidden;
+    private boolean mGapFilled;
 
     public GCMFragmentSpecific() {
     }
@@ -122,17 +122,27 @@ public class GCMFragmentSpecific extends Fragment implements ObservableScrollVie
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        ViewHelper.setTranslationY(mImageHolder, -scrollY / 2);
-        ViewHelper.setTranslationY(mHeader, getHeaderTranslationY(scrollY));
+        ViewHelper.setTranslationY(mImageHolder, scrollY / 2);
         final int headerHeight = mHeaderBar.getHeight();
+        int headerTranslationY = mFlexibleSpaceImageHeight - headerHeight;
+        if (mFlexibleSpaceImageHeight - headerHeight - mActionBarSize + mIntersectionHeight <= scrollY) {
+            headerTranslationY = scrollY + mActionBarSize - mIntersectionHeight;
+        }
+        ViewHelper.setTranslationY(mHeader, headerTranslationY);
         boolean scrollUp = mPrevScrollY < scrollY;
         if (scrollUp) {
             if (mFlexibleSpaceImageHeight - headerHeight - mActionBarSize <= scrollY) {
-                changeHeaderBackgroundHeight(false);
+                if (!mGapFilled) {
+                    mGapFilled = true;
+                    hideGap();
+                }
             }
         } else {
             if (scrollY <= mFlexibleSpaceImageHeight - headerHeight - mActionBarSize) {
-                changeHeaderBackgroundHeight(true);
+                if (mGapFilled) {
+                    mGapFilled = false;
+                    showGap();
+                }
             }
         }
         mPrevScrollY = scrollY;
@@ -146,28 +156,15 @@ public class GCMFragmentSpecific extends Fragment implements ObservableScrollVie
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
     }
 
-    private float getHeaderTranslationY(int scrollY) {
-        final int headerHeight = mHeaderBar.getHeight();
-        int headerTranslationY = mActionBarSize - mIntersectionHeight;
-        if (0 <= -scrollY + mFlexibleSpaceImageHeight - headerHeight - mActionBarSize + mIntersectionHeight) {
-            headerTranslationY = -scrollY + mFlexibleSpaceImageHeight - headerHeight;
-        }
-        return headerTranslationY;
+    private void showGap() {
+        changeHeaderBackgroundHeight(mHeaderBar.getHeight() + mActionBarSize, mHeaderBar.getHeight());
     }
 
-    private void changeHeaderBackgroundHeight(boolean shouldShowGap) {
-        if (mGapIsChanging) return;
-        final int heightOnGapShown = mHeaderBar.getHeight();
-        final int heightOnGapHidden = mHeaderBar.getHeight() + mActionBarSize;
-        final float from = mHeaderBackground.getLayoutParams().height;
-        final float to;
-        if (shouldShowGap) {
-            if (!mGapHidden) return;
-            to = heightOnGapShown;
-        } else {
-            if (mGapHidden) return;
-            to = heightOnGapHidden;
-        }
+    private void hideGap() {
+        changeHeaderBackgroundHeight(mHeaderBar.getHeight(), mHeaderBar.getHeight() + mActionBarSize);
+    }
+
+    private void changeHeaderBackgroundHeight(float from, float to) {
         ViewPropertyAnimator.animate(mHeaderBackground).cancel();
         ValueAnimator a = ValueAnimator.ofFloat(from, to);
         a.setDuration(100);
@@ -180,8 +177,6 @@ public class GCMFragmentSpecific extends Fragment implements ObservableScrollVie
                 lp.height = (int) height;
                 lp.topMargin = (int) (mHeaderBar.getHeight() - height);
                 mHeaderBackground.requestLayout();
-                mGapIsChanging = (height != to);
-                if (!mGapIsChanging) mGapHidden = (height == heightOnGapHidden);
             }
         });
         a.start();

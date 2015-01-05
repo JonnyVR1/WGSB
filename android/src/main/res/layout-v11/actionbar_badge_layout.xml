@@ -3,7 +3,7 @@
     android:layout_width="48dp"
     android:layout_height="48dp"
     android:layout_gravity="right"
-    android:background="?selectableItemBackground">
+    android:background="?android:attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/badge_circle"

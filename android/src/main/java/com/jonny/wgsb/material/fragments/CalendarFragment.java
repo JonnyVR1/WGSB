@@ -48,12 +48,11 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
     private static final String DATE = "date";
     private static CalendarFragment instance = null;
     private final JSONParser jParser = new JSONParser();
-    private String selectedGridDate, events, dateString;
     private final AdapterView.OnItemClickListener onItemClickHandler = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             ((CalendarAdapter) parent.getAdapter()).setSelected(view, position);
-            selectedGridDate = CalendarAdapter.dayString.get(position);
+            String selectedGridDate = CalendarAdapter.dayString.get(position);
             String[] separatedTime = selectedGridDate.split("-");
             String gridValueString = separatedTime[0].replaceFirst("^0*", "");
             int gridValue = Integer.parseInt(gridValueString);
@@ -64,21 +63,7 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
                 setNextMonth();
                 refreshCalendar();
             }
-            if (items.contains(selectedGridDate)) {
-                events = null;
-                dateString = null;
-                List<Calendar> calendar = dbhandler.getAllCalendarAtDate(selectedGridDate);
-                for (Calendar c : calendar) {
-                    if (events == null) events = "- " + c.event;
-                    else events = events + "\n\n- " + c.event;
-                    dateString = c.dateString;
-                }
-                eventsDateText.setText(dateString);
-                eventsText.setText(events);
-            } else {
-                eventsDateText.setText(R.string.no_events);
-                eventsText.setText("");
-            }
+            setEventsText();
             ((CalendarAdapter) parent.getAdapter()).setSelected(view, position);
         }
     };
@@ -159,22 +144,7 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
             }
         } else {
             refreshCalendar();
-            selectedGridDate = CalendarAdapter.dayString.get(CalendarAdapter.mSelectedPosition);
-            if (items.contains(selectedGridDate)) {
-                events = null;
-                dateString = null;
-                List<Calendar> calendar = dbhandler.getAllCalendarAtDate(selectedGridDate);
-                for (Calendar c : calendar) {
-                    if (events == null) events = "- " + c.event;
-                    else events = events + "\n\n- " + c.event;
-                    dateString = c.dateString;
-                }
-                eventsDateText.setText(dateString);
-                eventsText.setText(events);
-            } else {
-                eventsDateText.setText(R.string.no_events);
-                eventsText.setText("");
-            }
+            setEventsText();
         }
         title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
         previous.setOnClickListener(this);
@@ -374,6 +344,25 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
             days.add(map);
         }
         return new SimpleAdapter(getActivity(), days, R.layout.calendar_day_of_week, new String[]{"day"}, new int[]{R.id.dayText});
+    }
+
+    private void setEventsText() {
+        String selectedGridDate = CalendarAdapter.dayString.get(CalendarAdapter.mSelectedPosition);
+        if (items.contains(selectedGridDate)) {
+            String events = null;
+            String dateString = null;
+            List<Calendar> calendar = dbhandler.getAllCalendarAtDate(selectedGridDate);
+            for (Calendar c : calendar) {
+                if (events == null) events = "- " + c.event;
+                else events = events + "\n\n- " + c.event;
+                dateString = c.dateString;
+            }
+            eventsDateText.setText(dateString);
+            eventsText.setText(events);
+        } else {
+            eventsDateText.setText(R.string.no_events);
+            eventsText.setText("");
+        }
     }
 
     private void setNextMonth() {

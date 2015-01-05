@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add_activity">Add Activity</string>
     <string name="add_subject">Add Subject</string>
     <string name="app_name">WGSB</string>
     <string name="background">Background</string>

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -351,7 +352,8 @@ public class MainActivity extends ActionBarActivity {
                         .replace(R.id.fragment_container, calendarFragment, "CALENDAR_FRAGMENT").addToBackStack(null);
                 break;
             case 6:
-                Cursor cursor = getContentResolver().query(TimetableProvider.PERIODS_URI, new String[]{TimetableProvider.ID, TimetableProvider.DAY},
+                ContentResolver cr = getContentResolver();
+                Cursor cursor = cr.query(TimetableProvider.PERIODS_URI, new String[]{TimetableProvider.ID, TimetableProvider.DAY},
                         TimetableProvider.DAY + "='set_up'", null, null);
                 File dir = new File(Environment.getExternalStorageDirectory(), "WGSB\backup");
                 File file = new File(dir, "backup.txt");

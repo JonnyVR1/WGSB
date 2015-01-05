@@ -18,7 +18,11 @@ This application uses [PreferenceFragment Library](https://github.com/justinharr
 
 [Picasso Library](https://github.com/square/picasso/) by [Square community](https://github.com/square),
 
-[FloatLabelLayout Gist](https://gist.github.com/chrisbanes/11247418) by [Chris Banes](https://gist.github.com/chrisbanes).
+[FloatLabelLayout Gist](https://gist.github.com/chrisbanes/11247418) by [Chris Banes](https://gist.github.com/chrisbanes),
+
+[FloatingActionButton Library](https://github.com/makovkastar/FloatingActionButton) by [Melnykov Oleksandr](https://github.com/makovkastar),
+
+[ObservableScrollView Library](https://github.com/ksoichiro/Android-ObservableScrollView/) by [Soichiro Kashima](https://github.com/ksoichiro).
 
 The Timetable part is loosely based on [Timetablr](https://bitbucket.org/ravrahn/timetable) by [Owen Cassidy](https://github.com/ravrahn)
 

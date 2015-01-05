@@ -6,9 +6,9 @@
     <color name="colorPrimaryLight">#C5CAE9</color>
     <color name="colorPrimaryLightLess">#90C5CAE9</color>
     <color name="colorAccent">#FFAB40</color>
-    <color name="colorAccentLight">#FFD180</color>
+    <color name="colorAccentDark">#FF9100</color>
+    <color name="colorAccentRipple">#FFD180</color>
     <color name="colorAccentSecondary">#FFE641</color>
-    <color name="colorAccentSecondaryLight">#E0CB3D</color>
     <color name="colorTextPrimary">#212121</color>
     <color name="colorTextSecondary">#727272</color>
     <color name="grey">#555555</color>

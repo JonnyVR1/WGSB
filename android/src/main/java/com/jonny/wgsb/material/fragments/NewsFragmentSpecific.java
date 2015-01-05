@@ -51,7 +51,7 @@ public class NewsFragmentSpecific extends Fragment implements ObservableScrollVi
     private View mImageHolder, mHeader, mHeaderBar, mHeaderBackground;
     private ObservableScrollView mScrollView;
     private int mActionBarSize, mFlexibleSpaceImageHeight, mIntersectionHeight, mPrevScrollY;
-    private boolean mGapFilled;
+    private boolean mGapIsChanging, mGapHidden;
 
     public NewsFragmentSpecific() {
     }
@@ -160,27 +160,17 @@ public class NewsFragmentSpecific extends Fragment implements ObservableScrollVi
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        ViewHelper.setTranslationY(mImageHolder, scrollY / 2);
+        ViewHelper.setTranslationY(mImageHolder, -scrollY / 2);
+        ViewHelper.setTranslationY(mHeader, getHeaderTranslationY(scrollY));
         final int headerHeight = mHeaderBar.getHeight();
-        int headerTranslationY = mFlexibleSpaceImageHeight - headerHeight;
-        if (mFlexibleSpaceImageHeight - headerHeight - mActionBarSize + mIntersectionHeight <= scrollY) {
-            headerTranslationY = scrollY + mActionBarSize - mIntersectionHeight;
-        }
-        ViewHelper.setTranslationY(mHeader, headerTranslationY);
         boolean scrollUp = mPrevScrollY < scrollY;
         if (scrollUp) {
             if (mFlexibleSpaceImageHeight - headerHeight - mActionBarSize <= scrollY) {
-                if (!mGapFilled) {
-                    mGapFilled = true;
-                    hideGap();
-                }
+                changeHeaderBackgroundHeight(false);
             }
         } else {
             if (scrollY <= mFlexibleSpaceImageHeight - headerHeight - mActionBarSize) {
-                if (mGapFilled) {
-                    mGapFilled = false;
-                    showGap();
-                }
+                changeHeaderBackgroundHeight(true);
             }
         }
         mPrevScrollY = scrollY;
@@ -194,15 +184,28 @@ public class NewsFragmentSpecific extends Fragment implements ObservableScrollVi
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
     }
 
-    private void showGap() {
-        changeHeaderBackgroundHeight(mHeaderBar.getHeight() + mActionBarSize, mHeaderBar.getHeight());
+    private float getHeaderTranslationY(int scrollY) {
+        final int headerHeight = mHeaderBar.getHeight();
+        int headerTranslationY = mActionBarSize - mIntersectionHeight;
+        if (0 <= -scrollY + mFlexibleSpaceImageHeight - headerHeight - mActionBarSize + mIntersectionHeight) {
+            headerTranslationY = -scrollY + mFlexibleSpaceImageHeight - headerHeight;
+        }
+        return headerTranslationY;
     }
 
-    private void hideGap() {
-        changeHeaderBackgroundHeight(mHeaderBar.getHeight(), mHeaderBar.getHeight() + mActionBarSize);
-    }
-
-    private void changeHeaderBackgroundHeight(float from, float to) {
+    private void changeHeaderBackgroundHeight(boolean shouldShowGap) {
+        if (mGapIsChanging) return;
+        final int heightOnGapShown = mHeaderBar.getHeight();
+        final int heightOnGapHidden = mHeaderBar.getHeight() + mActionBarSize;
+        final float from = mHeaderBackground.getLayoutParams().height;
+        final float to;
+        if (shouldShowGap) {
+            if (!mGapHidden) return;
+            to = heightOnGapShown;
+        } else {
+            if (mGapHidden) return;
+            to = heightOnGapHidden;
+        }
         ViewPropertyAnimator.animate(mHeaderBackground).cancel();
         ValueAnimator a = ValueAnimator.ofFloat(from, to);
         a.setDuration(100);
@@ -215,6 +218,8 @@ public class NewsFragmentSpecific extends Fragment implements ObservableScrollVi
                 lp.height = (int) height;
                 lp.topMargin = (int) (mHeaderBar.getHeight() - height);
                 mHeaderBackground.requestLayout();
+                mGapIsChanging = (height != to);
+                if (!mGapIsChanging) mGapHidden = (height == heightOnGapHidden);
             }
         });
         a.start();

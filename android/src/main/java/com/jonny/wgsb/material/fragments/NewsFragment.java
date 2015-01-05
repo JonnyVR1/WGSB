@@ -46,7 +46,7 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
     private static final String ERROR_URL = "http://www.wirralgrammarboys.comhttp://wirralgrammarboys.com";
     private static final String ERROR_FIX_URL = "http://wirralgrammarboys.com";
     private static final String NEWS_DIR_URL = "http://wirralgrammarboys.com/news/";
-    private static final String IMAGE_DIR_URL = "http://wirralgrammarboys.com/images/newsPics/";
+    private static final String IMAGE_DIR_URL = "http://wirralgrammarboys.com/images/newsBig/";
     private static final String ADMINIMAGES_DIR_URL = "http://wirralgrammarboys.com/admin/images/";
     private static final String NUNTIUS_DIR_URL = "http://wirralgrammarboys.com/general/nuntius";
     private static final String UPLOADS_DIR_URL = "http://wirralgrammarboys.com/uploads/";

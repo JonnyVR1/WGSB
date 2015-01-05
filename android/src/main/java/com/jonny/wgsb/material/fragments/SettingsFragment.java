@@ -146,7 +146,8 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         appVersion.setTitle(getResources().getString(R.string.app_name) + " " + versionName[0]);
         appVersion.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.jonny.wgsb")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.jonny.wgsb.material")));
+                getActivity().overridePendingTransition(R.anim.push_up_in, 0);
                 return true;
             }
         });

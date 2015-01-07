@@ -246,8 +246,7 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
                             } else {
                                 dbhandler.updateNews(new News(id, title, story, imageSrc, date));
                             }
-                            if (cd.isWiFiConnected())
-                                Picasso.with(mContext).load(imageSrc).fetch();
+                            if (cd.isWiFiConnected()) Picasso.with(mContext).load(imageSrc).fetch();
                             if (isCancelled() || FlagCancelled) break;
                             progressCount++;
                             publishProgress((int) (progressCount * 100 / newsItems.length()));

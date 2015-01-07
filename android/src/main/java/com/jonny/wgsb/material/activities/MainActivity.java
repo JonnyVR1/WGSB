@@ -264,10 +264,9 @@ public class MainActivity extends ActionBarActivity {
         String[] drawerTitles = getResources().getStringArray(R.array.navigation_main_sections);
         TypedArray drawerIcons = getResources().obtainTypedArray(R.array.drawable_ids);
         ArrayList<Icons> icons = new ArrayList<>();
-        icons.add(new Icons(drawerTitles[0], drawerIcons.getResourceId(0, -1)));
-        icons.add(new Icons(drawerTitles[1], drawerIcons.getResourceId(1, -2)));
-        icons.add(new Icons(drawerTitles[2], drawerIcons.getResourceId(2, -3)));
-        icons.add(new Icons(drawerTitles[3], drawerIcons.getResourceId(3, -4)));
+        for (int i = 0; i < 4; i++) {
+            icons.add(new Icons(drawerTitles[i], drawerIcons.getResourceId(i, -(i + 1))));
+        }
         drawerIcons.recycle();
         mDrawerList.setHasFixedSize(true);
         DrawerRecyclerViewAdapter adapter;

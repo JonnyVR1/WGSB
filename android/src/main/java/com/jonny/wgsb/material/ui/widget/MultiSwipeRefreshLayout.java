@@ -28,9 +28,8 @@ public class MultiSwipeRefreshLayout extends SwipeRefreshLayout {
         if (android.os.Build.VERSION.SDK_INT < 14) {
             if (mMyScrollableView instanceof AbsListView) {
                 final AbsListView absListView = (AbsListView) mMyScrollableView;
-                return absListView.getChildCount() > 0
-                        && (absListView.getFirstVisiblePosition() > 0 || absListView.getChildAt(0)
-                        .getTop() < absListView.getPaddingTop());
+                return absListView.getChildCount() > 0 && (absListView.getFirstVisiblePosition() > 0
+                        || absListView.getChildAt(0).getTop() < absListView.getPaddingTop());
             } else return mMyScrollableView.getScrollY() > 0;
         } else return ViewCompat.canScrollVertically(mMyScrollableView, -1);
     }

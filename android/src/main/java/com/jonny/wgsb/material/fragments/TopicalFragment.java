@@ -1,9 +1,7 @@
 package com.jonny.wgsb.material.fragments;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.jonny.wgsb.material.R;
 import com.jonny.wgsb.material.activities.MainActivity;
 import com.jonny.wgsb.material.adapter.TopicalRecyclerViewAdapter;
@@ -155,24 +154,25 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
     }
 
     private void internetDialogue(String string) {
-        AlertDialog.Builder alertBox = new AlertDialog.Builder(mContext);
-        alertBox.setIcon(R.drawable.fail);
-        alertBox.setMessage(string);
-        alertBox.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.setClassName("com.android.settings", "com.android.settings.Settings");
-                startActivity(intent);
-            }
-        });
-        alertBox.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
-        alertBox.show();
+        new MaterialDialog.Builder(mContext)
+                .icon(getResources().getDrawable(R.drawable.fail))
+                .content(string)
+                .positiveText(R.string.ok)
+                .negativeText(R.string.cancel)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onNegative(MaterialDialog materialDialog) {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    }
+
+                    @Override
+                    public void onPositive(MaterialDialog materialDialog) {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.setClassName("com.android.settings", "com.android.settings.Settings");
+                        startActivity(intent);
+                    }
+                })
+                .show();
     }
 
     private void getTopicalList() {

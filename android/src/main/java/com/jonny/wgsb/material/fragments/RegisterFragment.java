@@ -45,7 +45,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         setupActionBar();
         ConnectionDetector cd = new ConnectionDetector(getActivity().getApplicationContext());
         if (!cd.isConnectingToInternet()) {
-            alert.showAlertDialog(getActivity(), "Internet Connection Error", "Please connect to a working Internet connection", false);
+            alert.showAlertDialog(getActivity(), "Internet Connection Error", "Please connect to a working Internet connection");
             getActivity().getSupportFragmentManager().popBackStack();
         }
         txtName = (EditText) view.findViewById(R.id.txtName);
@@ -91,7 +91,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_up_in, 0, 0, R.anim.push_down_out)
                             .replace(R.id.fragment_container, GCMFragment, "GCM_FRAGMENT").addToBackStack(null).commit();
                 } else {
-                    alert.showAlertDialog(getActivity(), "Registration Error!", "Please enter your details", false);
+                    alert.showAlertDialog(getActivity(), "Registration Error!", "Please enter your details");
                 }
                 break;
         }

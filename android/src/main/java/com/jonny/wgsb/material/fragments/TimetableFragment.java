@@ -1,12 +1,10 @@
 package com.jonny.wgsb.material.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -34,6 +32,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.jonny.wgsb.material.R;
 import com.jonny.wgsb.material.db.TimetableProvider;
 import com.jonny.wgsb.material.ui.helper.TimetablePeriod;
@@ -447,13 +446,12 @@ public class TimetableFragment extends Fragment {
     }
 
     public class EditDialogFragment extends DialogFragment {
-        final EditDialogFragment mContext = this;
         ArrayAdapter<String> startAdapter;
         ArrayAdapter<String> endAdapter;
 
         @NonNull
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
+        public MaterialDialog onCreateDialog(Bundle savedInstanceState) {
             Bundle args = getArguments();
             final int _id = args.getInt("_id");
             String formerId = args.getString("id");
@@ -463,8 +461,6 @@ public class TimetableFragment extends Fragment {
             String formerStart = args.getString("start");
             String formerEnd = args.getString("end");
             boolean formerBreak = args.getBoolean("break");
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(TimetableFragment.this.getActivity());
 
             LinearLayout editView = new LinearLayout(TimetableFragment.this.getActivity());
             editView.setPadding(dp(16), dp(8), dp(16), dp(8));
@@ -590,34 +586,33 @@ public class TimetableFragment extends Fragment {
             breakRules.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             timeBreak.addView(breakCheck, breakRules);
             editView.addView(timeBreak);
-            builder.setView(editView);
-            builder.setTitle("Edit Period");
-            builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    int startInt = Integer.parseInt(startAdapter.getItem(0).split(":")[0]) * 60 +
-                            Integer.parseInt(startAdapter.getItem(0).split(":")[1]);
-                    int endInt = Integer.parseInt(endAdapter.getItem(0).split(":")[0]) * 60 +
-                            Integer.parseInt(endAdapter.getItem(0).split(":")[1]);
-                    ContentResolver cr = TimetableFragment.this.getActivity().getContentResolver();
-                    ContentValues values = new ContentValues();
-                    values.put(TimetableProvider.NAME, id.getText().toString());
-                    values.put(TimetableProvider.ACTIVITY, name.getText().toString());
-                    values.put(TimetableProvider.TEACHER, teacher.getText().toString());
-                    values.put(TimetableProvider.ROOM, room.getText().toString());
-                    values.put(TimetableProvider.START, startInt);
-                    values.put(TimetableProvider.END, endInt);
-                    values.put(TimetableProvider.BREAK, breakCheck.isChecked());
-                    cr.update(TimetableProvider.PERIODS_URI, values, TimetableProvider.ID + "=" + _id, null);
-                    refreshView();
-                    mContext.dismiss();
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    mContext.dismiss();
-                }
-            });
-            return builder.create();
+
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(TimetableFragment.this.getActivity())
+                    .customView(editView, false)
+                    .title("Edit Period")
+                    .positiveText("Done")
+                    .negativeText("Cancel")
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog materialDialog) {
+                            int startInt = Integer.parseInt(startAdapter.getItem(0).split(":")[0]) * 60 +
+                                    Integer.parseInt(startAdapter.getItem(0).split(":")[1]);
+                            int endInt = Integer.parseInt(endAdapter.getItem(0).split(":")[0]) * 60 +
+                                    Integer.parseInt(endAdapter.getItem(0).split(":")[1]);
+                            ContentResolver cr = TimetableFragment.this.getActivity().getContentResolver();
+                            ContentValues values = new ContentValues();
+                            values.put(TimetableProvider.NAME, id.getText().toString());
+                            values.put(TimetableProvider.ACTIVITY, name.getText().toString());
+                            values.put(TimetableProvider.TEACHER, teacher.getText().toString());
+                            values.put(TimetableProvider.ROOM, room.getText().toString());
+                            values.put(TimetableProvider.START, startInt);
+                            values.put(TimetableProvider.END, endInt);
+                            values.put(TimetableProvider.BREAK, breakCheck.isChecked());
+                            cr.update(TimetableProvider.PERIODS_URI, values, TimetableProvider.ID + "=" + _id, null);
+                            refreshView();
+                        }
+                    });
+            return builder.show();
         }
 
         private void updateStartTime(int hour, int minute) {
@@ -632,66 +627,61 @@ public class TimetableFragment extends Fragment {
     }
 
     public class RemoveDialogFragment extends DialogFragment {
-        final RemoveDialogFragment mContext = this;
 
         @NonNull
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
+        public MaterialDialog onCreateDialog(Bundle savedInstanceState) {
             Bundle args = getArguments();
             final int _id = args.getInt("_id");
             String name = args.getString("name");
-            AlertDialog.Builder builder = new AlertDialog.Builder(TimetableFragment.this.getActivity());
             TextView confirmRemove = new TextView(TimetableFragment.this.getActivity());
             confirmRemove.setPadding(dp(16), dp(8), dp(16), dp(8));
             confirmRemove.setText("There is no way to undo this unless you've backed up.");
-            builder.setView(confirmRemove);
-            builder.setTitle("Remove " + name + "?");
-            builder.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    ContentResolver cr = TimetableFragment.this.getActivity().getContentResolver();
-                    cr.delete(TimetableProvider.PERIODS_URI, TimetableProvider.ID + "=" + _id, null);
-                    refreshView();
-                    (mContext).dismiss();
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    (mContext).dismiss();
-                }
-            });
-            return builder.create();
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(TimetableFragment.this.getActivity())
+                    .customView(confirmRemove, false)
+                    .title("Remove " + name + "?")
+                    .positiveText("Remove")
+                    .negativeText(getString(R.string.cancel))
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog materialDialog) {
+                            ContentResolver cr = TimetableFragment.this.getActivity().getContentResolver();
+                            cr.delete(TimetableProvider.PERIODS_URI, TimetableProvider.ID + "=" + _id, null);
+                            refreshView();
+                        }
+                    });
+            return builder.show();
         }
     }
 
     public class OptionsDialogFragment extends DialogFragment {
-        final OptionsDialogFragment mContext = this;
 
         @NonNull
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
+        public MaterialDialog onCreateDialog(Bundle savedInstanceState) {
             final Bundle args = getArguments();
             final CharSequence[] items = {"Edit Period", "Remove Period"};
-            AlertDialog.Builder builder = new AlertDialog.Builder(TimetableFragment.this.getActivity());
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int item) {
-                    switch (item) {
-                        case 0:
-                            EditDialogFragment editFragment = new EditDialogFragment();
-                            editor = editFragment;
-                            editFragment.setArguments(args);
-                            editFragment.show(getFragmentManager(), "edit");
-                            (mContext).dismiss();
-                            break;
-                        case 1:
-                            DialogFragment removeFragment = new RemoveDialogFragment();
-                            removeFragment.setArguments(args);
-                            removeFragment.show(getFragmentManager(), "remove");
-                            (mContext).dismiss();
-                            break;
-                    }
-                }
-            });
-            return builder.create();
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(TimetableFragment.this.getActivity())
+                    .items(items)
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
+                            switch (i) {
+                                case 0:
+                                    EditDialogFragment editFragment = new EditDialogFragment();
+                                    editor = editFragment;
+                                    editFragment.setArguments(args);
+                                    editFragment.show(getFragmentManager(), "edit");
+                                    break;
+                                case 1:
+                                    DialogFragment removeFragment = new RemoveDialogFragment();
+                                    removeFragment.setArguments(args);
+                                    removeFragment.show(getFragmentManager(), "remove");
+                                    break;
+                            }
+                        }
+                    });
+            return builder.show();
         }
     }
 

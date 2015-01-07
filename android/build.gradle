@@ -41,7 +41,8 @@ dependencies {
     compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.squareup.picasso:picasso:2.4.0'
-    compile "com.github.andkulikov:transitions-everywhere:1.2.2"
+    compile 'com.afollestad:material-dialogs:0.5.9'
+    //compile "com.github.andkulikov:transitions-everywhere:1.2.2"
     compile project(':libraries:FloatingActionButton')
     compile project(':libraries:ObservableScrollView')
     compile project(':libraries:PreferenceFragment')
@@ -53,7 +54,6 @@ def Properties props = new Properties()
 def propFile = new File('signing.properties')
 if (propFile.canRead()) {
     props.load(new FileInputStream(propFile))
-
     if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
             props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
         android.signingConfigs.release.storeFile = file(props['STORE_FILE'])

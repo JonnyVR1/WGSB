@@ -1,9 +1,7 @@
 package com.jonny.wgsb.material.fragments;
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -26,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -225,36 +224,35 @@ public class GCMFragment extends Fragment {
                 CharSequence[] items;
                 if (read == 1) items = new CharSequence[]{"Mark as unread", "Delete"};
                 else items = new CharSequence[]{"Mark as read", "Delete"};
-                AlertDialog.Builder alertBox = new AlertDialog.Builder(getActivity());
-                alertBox.setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                if (read == 0) {
-                                    dbhandler.updateNotifications(new Notifications(notificationId, 1));
-                                } else {
-                                    dbhandler.updateNotifications(new Notifications(notificationId, 0));
+                new MaterialDialog.Builder(mContext)
+                        .items(items)
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
+                                switch (i) {
+                                    case 0:
+                                        if (read == 0) {
+                                            dbhandler.updateNotifications(new Notifications(notificationId, 1));
+                                        } else {
+                                            dbhandler.updateNotifications(new Notifications(notificationId, 0));
+                                        }
+                                        getNotificationsList();
+                                        break;
+                                    case 1:
+                                        dbhandler.deleteNotificationAtId(notificationId);
+                                        notificationsListItems.remove(position);
+                                        adapter.notifyDataSetChanged();
+                                        if (dbhandler.getNotificationsCount() > 0) {
+                                            tDisplay.setText("Touch an item to view the message");
+                                        } else {
+                                            tDisplay.setText("There are no notifications to display");
+                                        }
+                                        getNotificationsList();
+                                        break;
                                 }
-                                getNotificationsList();
-                                dialog.dismiss();
-                                break;
-                            case 1:
-                                dbhandler.deleteNotificationAtId(notificationId);
-                                notificationsListItems.remove(position);
-                                adapter.notifyDataSetChanged();
-                                if (dbhandler.getNotificationsCount() > 0) {
-                                    tDisplay.setText("Touch an item to view the message");
-                                } else {
-                                    tDisplay.setText("There are no notifications to display");
-                                }
-                                getNotificationsList();
-                                dialog.dismiss();
-                                break;
-                        }
-                    }
-                });
-                alertBox.show();
+                            }
+                        })
+                        .show();
             }
         });
     }
@@ -282,14 +280,14 @@ public class GCMFragment extends Fragment {
                     Toast.makeText(getActivity(), R.string.push_need_on, Toast.LENGTH_SHORT).show();
                     ((MainActivity) getActivity()).selectItem(9);
                 } else {
-                    alert.showAlertDialog(getActivity(), getString(R.string.internet_connection_error), getString(R.string.internet_connection_error_extra), false);
+                    alert.showAlertDialog(getActivity(), getString(R.string.internet_connection_error), getString(R.string.internet_connection_error_extra));
                 }
             } else if (regId.isEmpty()) {
                 registerInBackground();
             }
         } else {
             Log.i(CommonUtilities.TAG, "No valid Google Play Services APK found.");
-            alert.showAlertDialog(getActivity(), getString(R.string.gcm_play_services_error), getString(R.string.gcm_play_services_error_extra), false);
+            alert.showAlertDialog(getActivity(), getString(R.string.gcm_play_services_error), getString(R.string.gcm_play_services_error_extra));
         }
     }
 

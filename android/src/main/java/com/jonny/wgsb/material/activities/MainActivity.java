@@ -1,12 +1,9 @@
 package com.jonny.wgsb.material.activities;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
@@ -36,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.jonny.wgsb.material.R;
 import com.jonny.wgsb.material.adapter.DrawerRecyclerViewAdapter;
 import com.jonny.wgsb.material.db.DatabaseHandler;
@@ -234,25 +232,22 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
-    protected Dialog onCreateDialog(int id) {
-        Dialog dialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        AlertDialog alert;
+    protected MaterialDialog onCreateDialog(int id) {
+        MaterialDialog dialog;
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext);
         switch (id) {
             case 0:
                 final CharSequence[] bool = {getString(R.string.yes), getString(R.string.no)};
-                builder.setTitle(R.string.restore_detected_backup);
-                builder.setItems(bool, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (item == 0) {
-                            TimetableBackupRestore.restore(mContext);
-                        }
-                        startActivity(new Intent(mContext, TimetableActivity.class));
-                        dialog.cancel();
-                    }
-                });
-                alert = builder.create();
-                dialog = alert;
+                builder.title(R.string.restore_detected_backup)
+                        .items(bool)
+                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
+                                if (i == 0) TimetableBackupRestore.restore(mContext);
+                                startActivity(new Intent(mContext, TimetableActivity.class));
+                            }
+                        });
+                dialog = builder.show();
                 break;
             default:
                 dialog = null;

@@ -1,9 +1,7 @@
 package com.jonny.wgsb.material.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.jonny.wgsb.material.R;
 import com.jonny.wgsb.material.activities.MainActivity;
 import com.jonny.wgsb.material.adapter.CalendarAdapter;
@@ -218,24 +217,25 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
     }
 
     private void internetDialogue(String string) {
-        AlertDialog.Builder alertBox = new AlertDialog.Builder(this.getActivity());
-        alertBox.setIcon(R.drawable.fail);
-        alertBox.setMessage(string);
-        alertBox.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.setClassName("com.android.settings", "com.android.settings.Settings");
-                startActivity(intent);
-            }
-        });
-        alertBox.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
-        alertBox.show();
+        new MaterialDialog.Builder(getActivity())
+                .icon(getResources().getDrawable(R.drawable.fail))
+                .content(string)
+                .positiveText(R.string.ok)
+                .negativeText(R.string.cancel)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onNegative(MaterialDialog materialDialog) {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    }
+
+                    @Override
+                    public void onPositive(MaterialDialog materialDialog) {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.setClassName("com.android.settings", "com.android.settings.Settings");
+                        startActivity(intent);
+                    }
+                })
+                .show();
     }
 
     private void loadCalendar(final Boolean firstRun) {

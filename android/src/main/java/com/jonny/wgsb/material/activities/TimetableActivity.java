@@ -1,12 +1,9 @@
 package com.jonny.wgsb.material.activities;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
@@ -26,6 +23,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.jonny.wgsb.material.R;
 import com.jonny.wgsb.material.adapter.TimetablePagerAdapter;
 import com.jonny.wgsb.material.db.TimetableProvider;
@@ -262,7 +260,7 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
                 return true;
             case (R.id.menu_preferences):
                 startActivity(new Intent(this, TimetableSettingsActivity.class));
-                //overridePendingTransition(R.anim.push_up_in, 0);
+                overridePendingTransition(R.anim.push_up_in, 0);
                 return true;
             case (android.R.id.home):
                 Intent intent = new Intent(this, MainActivity.class);
@@ -276,70 +274,61 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
     }
 
     @Override
-    protected Dialog onCreateDialog(int id) {
-        Dialog dialog;
-        AlertDialog.Builder builder;
-        AlertDialog alert;
+    protected MaterialDialog onCreateDialog(int id) {
+        MaterialDialog dialog;
+        MaterialDialog.Builder builder;
         switch (id) {
             case CONFIRM_DIALOG_ID:
-                builder = new AlertDialog.Builder(this);
                 TextView confirm = new TextView(this);
                 confirm.setText(getString(R.string.clear_data_confirm));
                 confirm.setPadding(15, 15, 15, 15);
-                builder.setTitle(getString(R.string.clear_data));
-                builder.setView(confirm);
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        ContentResolver cr = getContentResolver();
-                        cr.delete(TimetableProvider.PERIODS_URI, null, null);
-                        cr.delete(TimetableProvider.WEEK_URI, null, null);
-                        startActivity(new Intent(TimetableActivity.this, TimetableActivity.class));
-                        overridePendingTransition(0, R.anim.push_down_out);
-                        dialog.dismiss();
-                    }
-                });
-                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.dismiss();
-                    }
-                });
-                alert = builder.create();
-                dialog = alert;
+                builder = new MaterialDialog.Builder(this);
+                builder.title(R.string.clear_data)
+                        .customView(confirm, false)
+                        .positiveText(R.string.yes)
+                        .negativeText(R.string.no)
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog materialDialog) {
+                                ContentResolver cr = getContentResolver();
+                                cr.delete(TimetableProvider.PERIODS_URI, null, null);
+                                cr.delete(TimetableProvider.WEEK_URI, null, null);
+                                startActivity(new Intent(TimetableActivity.this, TimetableActivity.class));
+                                overridePendingTransition(0, R.anim.push_down_out);
+                            }
+                        });
+                dialog = builder.show();
                 break;
             case RESTORE_DIALOG_ID:
-                builder = new AlertDialog.Builder(this);
                 TextView restoreTv = new TextView(this);
                 restoreTv.setText(R.string.restore_confirm);
                 restoreTv.setPadding(15, 15, 15, 15);
-                builder.setTitle(R.string.restore);
-                builder.setView(restoreTv);
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        ProgressDialog progressDialog;
-                        progressDialog = new ProgressDialog(TimetableActivity.this);
-                        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                        progressDialog.setMessage("Restoring...");
-                        progressDialog.setCancelable(false);
-                        progressDialog.show();
-                        Intent backToHome = new Intent(TimetableActivity.this, TimetableActivity.class);
-                        backToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        ContentResolver cr = getContentResolver();
-                        cr.delete(TimetableProvider.PERIODS_URI, null, null);
-                        cr.delete(TimetableProvider.WEEK_URI, null, null);
-                        TimetableBackupRestore.restore(TimetableActivity.this);
-                        progressDialog.dismiss();
-                        startActivity(backToHome);
-                        overridePendingTransition(0, R.anim.push_down_out);
-                        dialog.dismiss();
-                    }
-                });
-                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.dismiss();
-                    }
-                });
-                alert = builder.create();
-                dialog = alert;
+                builder = new MaterialDialog.Builder(this);
+                builder.title(R.string.restore)
+                        .customView(restoreTv, false)
+                        .positiveText(R.string.yes)
+                        .negativeText(R.string.no)
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog materialDialog) {
+                                ProgressDialog progressDialog;
+                                progressDialog = new ProgressDialog(TimetableActivity.this);
+                                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                                progressDialog.setMessage("Restoring...");
+                                progressDialog.setCancelable(false);
+                                progressDialog.show();
+                                Intent backToHome = new Intent(TimetableActivity.this, TimetableActivity.class);
+                                backToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                ContentResolver cr = getContentResolver();
+                                cr.delete(TimetableProvider.PERIODS_URI, null, null);
+                                cr.delete(TimetableProvider.WEEK_URI, null, null);
+                                TimetableBackupRestore.restore(TimetableActivity.this);
+                                progressDialog.dismiss();
+                                startActivity(backToHome);
+                                overridePendingTransition(0, R.anim.push_down_out);
+                            }
+                        });
+                dialog = builder.show();
                 break;
             default:
                 dialog = null;
@@ -367,35 +356,35 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
     }
 
     public class CompactDialogFragment extends DialogFragment {
-        final CompactDialogFragment mContext = this;
 
         @NonNull
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(TimetableActivity.this);
-            builder.setTitle(getString(R.string.select_compact_detail));
-            builder.setItems(R.array.secondary, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int item) {
-                    ContentResolver cr = getContentResolver();
-                    ContentValues values = new ContentValues();
-                    values.put(TimetableProvider.KEY, "comp");
-                    switch (item) {
-                        case 0:
-                            values.put(TimetableProvider.NUM, 1);
-                            break;
-                        case 1:
-                            values.put(TimetableProvider.NUM, 2);
-                            break;
-                        case 2:
-                            values.put(TimetableProvider.NUM, 3);
-                            break;
-                    }
-                    cr.update(TimetableProvider.WEEK_URI, values, TimetableProvider.KEY + "='comp'", null);
-                    refresh();
-                    (mContext).dismiss();
-                }
-            });
-            return builder.create();
+        public MaterialDialog onCreateDialog(Bundle savedInstanceState) {
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(TimetableActivity.this)
+                    .title(R.string.select_compact_detail)
+                    .items(R.array.secondary)
+                    .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
+                            ContentResolver cr = getContentResolver();
+                            ContentValues values = new ContentValues();
+                            values.put(TimetableProvider.KEY, "comp");
+                            switch (i) {
+                                case 0:
+                                    values.put(TimetableProvider.NUM, 1);
+                                    break;
+                                case 1:
+                                    values.put(TimetableProvider.NUM, 2);
+                                    break;
+                                case 2:
+                                    values.put(TimetableProvider.NUM, 3);
+                                    break;
+                            }
+                            cr.update(TimetableProvider.WEEK_URI, values, TimetableProvider.KEY + "='comp'", null);
+                            refresh();
+                        }
+                    });
+            return builder.show();
         }
     }
 }

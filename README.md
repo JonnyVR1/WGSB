@@ -1,4 +1,4 @@
-### Wirral Grammar Boys Android Application
+## Wirral Grammar School for Boys Android Application
 ---
 
 <a href="https://play.google.com/store/apps/details?id=com.jonny.wgsb.material" target="_blank">

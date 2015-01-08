@@ -1,9 +1,25 @@
-WGSB Android Application
-===================================
+Wirral Grammar Boys Android Application
+=======================================
 
-Android Application for students at Wirral Grammar Boys school to keep up-to-date with news, topical information, events and to store their timetable and receive important alerts
+<a href="https://play.google.com/store/apps/details?id=com.jonny.wgsb.material" target="_blank">
+	<img alt="Android app on Google Play" src="https://raw.github.com/JonnyXDA/WGSB/master/art/WGSB-Feature.png" />
+</a>
+
+Android Application for students at Wirral Grammar Boys school to keep up-to-date with news, topical information, events and to store their timetable and receive important alerts.
+
+★ Features ★
+- Material Design
+- View school News, Topical Information, Calendar Events
+- Input and view your Timetable
+- 2 Timetable widgets allowing you to view your timetable direct from your home screen
+- Receive push notifications from the school in case of emergencies
+- Toggle push notifications on or off and choose for which year groups you want to receive alerts from
 
 Screenshots can be found in the gallery section of [my website](http://jonathonfitch.com).
+
+<a href="https://play.google.com/store/apps/details?id=com.jonny.wgsb.material">
+	<img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" />
+</a>
 
 Credits
 -------
@@ -22,7 +38,8 @@ This application uses [PreferenceFragment Library](https://github.com/justinharr
 
 [FloatingActionButton Library](https://github.com/makovkastar/FloatingActionButton) by [Melnykov Oleksandr](https://github.com/makovkastar),
 
-[ObservableScrollView Library](https://github.com/ksoichiro/Android-ObservableScrollView/) by [Soichiro Kashima](https://github.com/ksoichiro).
+[ObservableScrollView Library](https://github.com/ksoichiro/Android-ObservableScrollView/) by [Soichiro Kashima](https://github.com/ksoichiro),
+[Material Dialogs Library](https://github.com/afollestad/material-dialogs/) by [Aidan Follestad](https://github.com/afollestad).
 
 The Timetable part is loosely based on [Timetablr](https://bitbucket.org/ravrahn/timetable) by [Owen Cassidy](https://github.com/ravrahn)
 

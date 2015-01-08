@@ -256,11 +256,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void getDrawerList() {
-        String[] drawerTitles = getResources().getStringArray(R.array.navigation_main_sections);
+        TypedArray drawerTitles = getResources().obtainTypedArray(R.array.navigation_main_sections);
         TypedArray drawerIcons = getResources().obtainTypedArray(R.array.drawable_ids);
         ArrayList<Icons> icons = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            icons.add(new Icons(drawerTitles[i], drawerIcons.getResourceId(i, -(i + 1))));
+            icons.add(new Icons(drawerTitles.getResourceId(i, -(i + 1)), drawerIcons.getResourceId(i, -(i + 1))));
         }
         drawerIcons.recycle();
         mDrawerList.setHasFixedSize(true);

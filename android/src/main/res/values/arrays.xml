@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="navigation_main_sections">
-        <item>News</item>
-        <item>Topical Information</item>
-        <item>Calender</item>
-        <item>Timetable</item>
+        <item>@string/news</item>
+        <item>@string/topical_information</item>
+        <item>@string/calendar</item>
+        <item>@string/timetable</item>
     </string-array>
     <array name="drawable_ids">
         <item>@drawable/ic_news_grey600_48dp</item>
@@ -13,20 +13,20 @@
         <item>@drawable/ic_subject_grey600_48dp</item>
     </array>
     <string-array name="secondary">
-        <item>Room</item>
-        <item>Time</item>
+        <item>@string/room</item>
+        <item>@string/time</item>
     </string-array>
     <string-array name="theme">
-        <item>Light</item>
-        <item>Dark</item>
+        <item>@string/light</item>
+        <item>@string/dark</item>
     </string-array>
     <string-array name="theme_values">
         <item>light</item>
         <item>dark</item>
     </string-array>
     <string-array name="view_style">
-        <item>Expanded</item>
-        <item>Compact</item>
+        <item>@string/expanded</item>
+        <item>@string/compact</item>
     </string-array>
     <string-array name="view_style_values">
         <item>exp</item>

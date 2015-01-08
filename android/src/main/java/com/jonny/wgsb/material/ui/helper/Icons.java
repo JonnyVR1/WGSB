@@ -1,10 +1,9 @@
 package com.jonny.wgsb.material.ui.helper;
 
 public class Icons {
-    public final String title;
-    public final int icon;
+    public final int title, icon;
 
-    public Icons(String title, int icon) {
+    public Icons(int title, int icon) {
         this.title = title;
         this.icon = icon;
     }

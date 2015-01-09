@@ -40,6 +40,7 @@ This application uses [PreferenceFragment Library](https://github.com/justinharr
 [FloatingActionButton Library](https://github.com/makovkastar/FloatingActionButton) by [Melnykov Oleksandr](https://github.com/makovkastar),
 
 [ObservableScrollView Library](https://github.com/ksoichiro/Android-ObservableScrollView/) by [Soichiro Kashima](https://github.com/ksoichiro),
+
 [Material Dialogs Library](https://github.com/afollestad/material-dialogs/) by [Aidan Follestad](https://github.com/afollestad).
 
 The Timetable part is loosely based on [Timetablr](https://bitbucket.org/ravrahn/timetable) by [Owen Cassidy](https://github.com/ravrahn)

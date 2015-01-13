@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteException;
 import android.widget.RemoteViews;
 
 import com.jonny.wgsb.material.R;
-import com.jonny.wgsb.material.activities.MainActivity;
+import com.jonny.wgsb.material.activities.TimetableActivity;
 import com.jonny.wgsb.material.db.TimetableProvider;
 import com.jonny.wgsb.material.ui.helper.TimetablePeriod;
 import com.jonny.wgsb.material.ui.helper.TimetableWidgetContent;
@@ -24,7 +24,7 @@ public class TimetableWidget4x1 extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
         for (int appWidgetId : appWidgetIds) {
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, TimetableActivity.class), 0);
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.timetable_widget4x1_layout);
             views.setOnClickPendingIntent(R.id.widget4x1, pendingIntent);
             TimetableWidgetWeekData weekStuff = weekStuff(context);

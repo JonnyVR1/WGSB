@@ -21,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jonny.wgsb.material.R;
@@ -279,12 +278,9 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
         MaterialDialog.Builder builder;
         switch (id) {
             case CONFIRM_DIALOG_ID:
-                TextView confirm = new TextView(this);
-                confirm.setText(getString(R.string.clear_data_confirm));
-                confirm.setPadding(15, 15, 15, 15);
-                builder = new MaterialDialog.Builder(this);
-                builder.title(R.string.clear_data)
-                        .customView(confirm, false)
+                builder = new MaterialDialog.Builder(this)
+                        .title(R.string.clear_data)
+                        .content(R.string.clear_data_confirm)
                         .positiveText(R.string.yes)
                         .negativeText(R.string.no)
                         .callback(new MaterialDialog.ButtonCallback() {
@@ -300,12 +296,9 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
                 dialog = builder.show();
                 break;
             case RESTORE_DIALOG_ID:
-                TextView restoreTv = new TextView(this);
-                restoreTv.setText(R.string.restore_confirm);
-                restoreTv.setPadding(15, 15, 15, 15);
-                builder = new MaterialDialog.Builder(this);
-                builder.title(R.string.restore)
-                        .customView(restoreTv, false)
+                builder = new MaterialDialog.Builder(this)
+                        .title(R.string.restore)
+                        .content(R.string.restore_confirm)
                         .positiveText(R.string.yes)
                         .negativeText(R.string.no)
                         .callback(new MaterialDialog.ButtonCallback() {

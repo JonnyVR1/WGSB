@@ -634,11 +634,8 @@ public class TimetableFragment extends Fragment {
             Bundle args = getArguments();
             final int _id = args.getInt("_id");
             String name = args.getString("name");
-            TextView confirmRemove = new TextView(TimetableFragment.this.getActivity());
-            confirmRemove.setPadding(dp(16), dp(8), dp(16), dp(8));
-            confirmRemove.setText("There is no way to undo this unless you've backed up.");
             MaterialDialog.Builder builder = new MaterialDialog.Builder(TimetableFragment.this.getActivity())
-                    .customView(confirmRemove, false)
+                    .content("There is no way to undo this unless you've backed up.")
                     .title("Remove " + name + "?")
                     .positiveText("Remove")
                     .negativeText(getString(R.string.cancel))

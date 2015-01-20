@@ -40,11 +40,11 @@ dependencies {
     compile 'com.android.support:palette-v7:21.0.3'
     compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.squareup.picasso:picasso:2.4.0'
-    compile 'com.afollestad:material-dialogs:0.5.9'
+    compile 'com.squareup.picasso:picasso:2.4.1-SNAPSHOT'
+    compile 'com.afollestad:material-dialogs:0.6.1.2'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.4.0'
     //compile "com.github.andkulikov:transitions-everywhere:1.2.2"
     compile project(':libraries:FloatingActionButton')
-    compile project(':libraries:ObservableScrollView')
     compile project(':libraries:PreferenceFragment')
     compile project(':libraries:ViewPagerIndicator')
     compile fileTree(dir: 'libs', include: '*.jar')

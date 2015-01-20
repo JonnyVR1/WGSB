@@ -1,6 +1,5 @@
 package com.jonny.wgsb.material.activities;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -19,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jonny.wgsb.material.R;
@@ -44,17 +42,14 @@ public class TimetableSettingsActivity extends ActionBarActivity {
     }
 
     @Override
-    protected Dialog onCreateDialog(int id) {
+    protected MaterialDialog onCreateDialog(int id) {
         MaterialDialog dialog;
         MaterialDialog.Builder builder;
         switch (id) {
             case CONFIRM_DIALOG_ID:
-                builder = new MaterialDialog.Builder(this);
-                TextView confirm = new TextView(this);
-                confirm.setText(R.string.clear_data);
-                confirm.setPadding(15, 15, 15, 15);
-                builder.title(R.string.clear_data_confirm)
-                        .customView(confirm, false)
+                builder = new MaterialDialog.Builder(this)
+                        .title(R.string.clear_data_confirm)
+                        .content(R.string.clear_data)
                         .positiveText(R.string.yes)
                         .negativeText(R.string.no)
                         .callback(new MaterialDialog.ButtonCallback() {
@@ -72,12 +67,9 @@ public class TimetableSettingsActivity extends ActionBarActivity {
                 dialog = builder.show();
                 break;
             case RESTORE_DIALOG_ID:
-                builder = new MaterialDialog.Builder(this);
-                TextView restoreTv = new TextView(this);
-                restoreTv.setText(R.string.restore_confirm);
-                restoreTv.setPadding(15, 15, 15, 15);
-                builder.title(R.string.restore)
-                        .customView(restoreTv, false)
+                builder = new MaterialDialog.Builder(this)
+                        .title(R.string.restore)
+                        .content(R.string.restore_confirm)
                         .positiveText(R.string.yes)
                         .negativeText(R.string.no)
                         .callback(new MaterialDialog.ButtonCallback() {

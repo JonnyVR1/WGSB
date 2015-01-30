@@ -9,7 +9,7 @@ public final class CommonUtilities {
     public static final String SERVER_UNREGISTER_URL = "http://app.wirralgrammarboys.com/android/unregister.php";
     public static final String SENDER_ID = "75999379623";
     public static final String TAG = "WGSB:GCM";
-    public static final String DISPLAY_MESSAGE_ACTION = "com.jonny.wgsb.DISPLAY_MESSAGE";
+    public static final String DISPLAY_MESSAGE_ACTION = "com.jonny.wgsb.material.DISPLAY_MESSAGE";
     private static final String EXTRA_MESSAGE = "message";
 
     public static void displayMessage(Context context, String message) {

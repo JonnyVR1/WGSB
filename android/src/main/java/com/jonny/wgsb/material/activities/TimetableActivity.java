@@ -221,6 +221,7 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
             if (e.getInt(2) == 1) {
                 menu.removeItem(R.id.menu_compact);
             }
+            e.close();
         } catch (CursorIndexOutOfBoundsException e) {
             e.printStackTrace();
         }

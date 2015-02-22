@@ -262,6 +262,7 @@ public class MainActivity extends ActionBarActivity {
         for (int i = 0; i < 4; i++) {
             icons.add(new Icons(drawerTitles.getResourceId(i, -(i + 1)), drawerIcons.getResourceId(i, -(i + 1))));
         }
+        drawerTitles.recycle();
         drawerIcons.recycle();
         mDrawerList.setHasFixedSize(true);
         DrawerRecyclerViewAdapter adapter;

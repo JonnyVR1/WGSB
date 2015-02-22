@@ -59,6 +59,7 @@ public class TimetableBackupRestore {
                     activity + "|" + teacher + "|" + room + "|" + isBreak + "\n";
             p.moveToNext();
         }
+        p.close();
         w.moveToFirst();
         text += "#![WEEK]\n";
         for (int i = 0; i < w.getCount(); i++) {
@@ -69,6 +70,7 @@ public class TimetableBackupRestore {
             text += key + "|" + w.getInt(2) + "\n";
             w.moveToNext();
         }
+        w.close();
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             try {
                 File root = new File(Environment.getExternalStorageDirectory(), "WGSB/backup");

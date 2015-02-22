@@ -148,7 +148,7 @@ public class GCMFragment extends Fragment {
         try {
             getActivity().unregisterReceiver(mHandleMessageReceiver);
         } catch (Exception e) {
-            Log.e("UnRegister Receiver Error", "> " + e.getMessage());
+            Log.e("UnRegister Error", "> " + e.getMessage());
         }
     }
 
@@ -168,7 +168,7 @@ public class GCMFragment extends Fragment {
         try {
             getActivity().unregisterReceiver(mHandleMessageReceiver);
         } catch (Exception e) {
-            Log.e("UnRegister Receiver Error", "> " + e.getMessage());
+            Log.e("UnRegister Error", "> " + e.getMessage());
         }
     }
 

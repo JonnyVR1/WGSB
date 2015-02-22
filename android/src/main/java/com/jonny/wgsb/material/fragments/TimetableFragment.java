@@ -266,6 +266,7 @@ public class TimetableFragment extends Fragment {
             } else if (r.getInt(2) == 2) {
                 item = compactItem(currentPeriod);
             }
+            r.close();
             if (item != null) {
                 main.addView(item);
             }

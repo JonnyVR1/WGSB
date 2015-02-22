@@ -132,7 +132,7 @@ public class MainActivity extends ActionBarActivity {
         try {
             unregisterReceiver(mHandleMessageReceiver);
         } catch (Exception e) {
-            Log.e("UnRegister Receiver Error", "> " + e.getMessage());
+            Log.e("UnRegister Error", "> " + e.getMessage());
         }
     }
 
@@ -142,7 +142,7 @@ public class MainActivity extends ActionBarActivity {
         try {
             unregisterReceiver(mHandleMessageReceiver);
         } catch (Exception e) {
-            Log.e("UnRegister Receiver Error", "> " + e.getMessage());
+            Log.e("UnRegister Error", "> " + e.getMessage());
         }
     }
 

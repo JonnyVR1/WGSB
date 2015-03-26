@@ -28,14 +28,14 @@ public class TimetableWidget4x1 extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.timetable_widget4x1_layout);
             views.setOnClickPendingIntent(R.id.widget4x1, pendingIntent);
             TimetableWidgetWeekData weekStuff = weekStuff(context);
-            String nowName = "";
-            String nowTeacher = "";
-            String nowRoom = "";
+            String nowName;
+            String nowTeacher;
+            String nowRoom;
             String nowStart = "";
             String nowEnd = "";
-            String nextName = "";
-            String nextTeacher = "";
-            String nextRoom = "";
+            String nextName;
+            String nextTeacher;
+            String nextRoom;
             String nextStart = "";
             String nextEnd = "";
             try {
@@ -109,6 +109,7 @@ public class TimetableWidget4x1 extends AppWidgetProvider {
                     nowTeacher = " - ";
                     nowRoom = " - ";
                 }
+                c.close();
             } catch (SQLiteException e) {
                 e.printStackTrace();
                 nextName = "Nothing";
@@ -182,6 +183,7 @@ public class TimetableWidget4x1 extends AppWidgetProvider {
                 day = "weekend";
                 nextDay = "mon_" + weekNo;
         }
+        w.close();
         return new TimetableWidgetWeekData(day);
     }
 }

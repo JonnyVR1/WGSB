@@ -357,9 +357,9 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
             MaterialDialog.Builder builder = new MaterialDialog.Builder(TimetableActivity.this)
                     .title(R.string.select_compact_detail)
                     .items(R.array.secondary)
-                    .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallback() {
+                    .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
                         @Override
-                        public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
+                        public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
                             ContentResolver cr = getContentResolver();
                             ContentValues values = new ContentValues();
                             values.put(TimetableProvider.KEY, "comp");
@@ -376,6 +376,7 @@ public class TimetableActivity extends ActionBarActivity implements ViewPager.On
                             }
                             cr.update(TimetableProvider.WEEK_URI, values, TimetableProvider.KEY + "='comp'", null);
                             refresh();
+                            return true;
                         }
                     });
             return builder.show();

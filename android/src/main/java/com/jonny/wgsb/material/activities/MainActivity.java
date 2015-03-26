@@ -240,11 +240,12 @@ public class MainActivity extends ActionBarActivity {
                 final CharSequence[] bool = {getString(R.string.yes), getString(R.string.no)};
                 builder.title(R.string.restore_detected_backup)
                         .items(bool)
-                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallback() {
+                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
                             @Override
-                            public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
+                            public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
                                 if (i == 0) TimetableBackupRestore.restore(mContext);
                                 startActivity(new Intent(mContext, TimetableActivity.class));
+                                return true;
                             }
                         });
                 dialog = builder.show();

@@ -28,16 +28,8 @@ public class TimetableWidget4x1 extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.timetable_widget4x1_layout);
             views.setOnClickPendingIntent(R.id.widget4x1, pendingIntent);
             TimetableWidgetWeekData weekStuff = weekStuff(context);
-            String nowName;
-            String nowTeacher;
-            String nowRoom;
-            String nowStart = "";
-            String nowEnd = "";
-            String nextName;
-            String nextTeacher;
-            String nextRoom;
-            String nextStart = "";
-            String nextEnd = "";
+            String nowName, nowTeacher, nowRoom, nowStart = "", nowEnd = "",
+                    nextName, nextTeacher, nextRoom, nextStart = "", nextEnd = "";
             try {
                 Calendar cal = Calendar.getInstance();
                 int currentTime = cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE);

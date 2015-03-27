@@ -59,7 +59,6 @@ public class TimetableSettingsActivity extends ActionBarActivity {
                                 backToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 ContentResolver cr = getContentResolver();
                                 cr.delete(TimetableProvider.PERIODS_URI, null, null);
-                                cr.delete(TimetableProvider.WEEK_URI, null, null);
                                 startActivity(backToHome);
                                 overridePendingTransition(0, R.anim.push_down_out);
                             }

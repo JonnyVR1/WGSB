@@ -17,8 +17,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -59,7 +59,7 @@ import static com.jonny.wgsb.material.util.CommonUtilities.DISPLAY_MESSAGE_ACTIO
 
 @SuppressLint("NewApi")
 @SuppressWarnings("deprecation")
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     public final NewsFragmentSpecific newsFragmentSpecific = NewsFragmentSpecific.getInstance();
     public final TopicalFragmentSpecific topicalFragmentSpecific = TopicalFragmentSpecific.getInstance();
     public final GCMFragmentSpecific GCMFragmentSpecific = new GCMFragmentSpecific();

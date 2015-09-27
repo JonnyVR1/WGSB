@@ -13,7 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.Menu;
@@ -38,7 +38,7 @@ import java.util.Vector;
 
 @SuppressLint({"NewApi", "ValidFragment", "Deprecation"})
 @SuppressWarnings("deprecation")
-public class TimetableActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {
+public class TimetableActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
     private final static int CONFIRM_DIALOG_ID = 0, RESTORE_DIALOG_ID = 1;
     private final TimetableFragment[] days = new TimetableFragment[5];
     private final TimetableFragment monday = new TimetableFragment();

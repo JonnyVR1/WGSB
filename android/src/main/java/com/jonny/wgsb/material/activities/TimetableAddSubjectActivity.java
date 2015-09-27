@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.Gravity;
@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
-public class TimetableAddSubjectActivity extends ActionBarActivity {
+public class TimetableAddSubjectActivity extends AppCompatActivity {
     private static final String[] SUBJECTS = new String[]{
             "Registration", "Lunch", "Break", "Free", "Art", "Astronomy", "Biology",
             "Business Studies", "Chemistry", "Computing", "Design & Technology",

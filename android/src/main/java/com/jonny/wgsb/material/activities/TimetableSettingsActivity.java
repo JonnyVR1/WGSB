@@ -11,7 +11,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.support.v4.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +25,7 @@ import com.jonny.wgsb.material.db.TimetableProvider;
 import com.jonny.wgsb.material.util.TimetableBackupRestore;
 
 @SuppressWarnings("deprecation")
-public class TimetableSettingsActivity extends ActionBarActivity {
+public class TimetableSettingsActivity extends AppCompatActivity {
     private final static int CONFIRM_DIALOG_ID = 0, RESTORE_DIALOG_ID = 1;
 
     @Override

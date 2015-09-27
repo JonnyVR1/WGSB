@@ -4,13 +4,13 @@
 	<img alt="Android app on Google Play" src="https://raw.github.com/JonnyXDA/WGSB/master/art/WGSB-Feature.png" />
 </a>
 
-Android Application for students at Wirral Grammar Boys school to keep up-to-date with news, topical information, events and to store their timetable and receive important alerts.
+Android Application for students studying at Wirral Grammar Boys school to keep up-to-date with news, topical information, events and to store their timetable and receive important alerts.
 
 ---
 ### ★ Features ★
 
 - Material Design
-- View school News, Topical Information, Calendar Events
+- View School News, Topical Information, Calendar Events
 - Input and view your Timetable
 - 2 Timetable widgets allowing you to view your timetable direct from your home screen
 - Receive push notifications from the school in case of emergencies
@@ -48,7 +48,7 @@ The Timetable part is loosely based on [Timetablr](https://bitbucket.org/ravrahn
 ---
 ### License
 
-    Copyright 2014 Jonathon Fitch
+    Copyright 2015 Jonathon Fitch
 
     Licensed under the GNU General Public License, Version 3 (the "License");
     you may not use this file except in compliance with the License.

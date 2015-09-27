@@ -49,6 +49,14 @@ import static com.jonny.wgsb.material.util.CommonUtilities.SENDER_ID;
 public class GCMFragment extends Fragment {
     private static GCMFragment instance = null;
     private static String name, email, year7, year8, year9, year10, year11, year12, year13;
+    private final AlertDialogManager alert = new AlertDialogManager();
+    private MainActivity mActivity;
+    private TextView tDisplay;
+    private GoogleCloudMessaging gcm;
+    private DatabaseHandler dbhandler;
+    private ConnectionDetector cd;
+    private RecyclerView notificationsListView;
+    private Context mContext;
     private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -61,14 +69,6 @@ public class GCMFragment extends Fragment {
             }
         }
     };
-    private final AlertDialogManager alert = new AlertDialogManager();
-    private MainActivity mActivity;
-    private TextView tDisplay;
-    private GoogleCloudMessaging gcm;
-    private DatabaseHandler dbhandler;
-    private ConnectionDetector cd;
-    private RecyclerView notificationsListView;
-    private Context mContext;
     private String regId;
     private CharSequence previousTitle;
 
@@ -103,7 +103,7 @@ public class GCMFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gcm, container, false);
         mActivity = ((MainActivity) getActivity());
-        previousTitle = mActivity.getSupportActionBar().getTitle();
+        previousTitle = mActivity.getDelegate().getSupportActionBar().getTitle();
         setupActionBar();
         savedInstanceState = getArguments();
         if (savedInstanceState != null) {
@@ -155,9 +155,9 @@ public class GCMFragment extends Fragment {
     @Override
     public void onDetach() {
         mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
-        mActivity.getSupportActionBar().setTitle(previousTitle);
+        mActivity.getDelegate().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        mActivity.getDelegate().getSupportActionBar().setDisplayShowTitleEnabled(true);
+        mActivity.getDelegate().getSupportActionBar().setTitle(previousTitle);
         mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
         super.onDetach();
     }
@@ -342,16 +342,16 @@ public class GCMFragment extends Fragment {
         setHasOptionsMenu(true);
         mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
         mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
-        mActivity.getSupportActionBar().setTitle(R.string.notifications);
+        mActivity.getDelegate().getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+        mActivity.getDelegate().getSupportActionBar().setTitle(R.string.notifications);
         mActivity.mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mActivity.getSupportFragmentManager().popBackStack();
                 mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
-                mActivity.getSupportActionBar().setTitle(previousTitle);
+                mActivity.getDelegate().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                mActivity.getDelegate().getSupportActionBar().setDisplayShowTitleEnabled(true);
+                mActivity.getDelegate().getSupportActionBar().setTitle(previousTitle);
                 mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
             }
         });

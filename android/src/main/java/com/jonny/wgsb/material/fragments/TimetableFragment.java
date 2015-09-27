@@ -55,6 +55,10 @@ public class TimetableFragment extends Fragment {
             "Media Studies", "Music", "Psychology", "PHSE", "Physics", "Physical Education",
             "Politics", "Science", "Sociology", "Spanish", "Religious Studies"
     };
+    private boolean isCurrent, stopTimer, tablet;
+    private int titleColour = 0xFF555555, mMinute, dayInt, mHour;
+    private String day;
+    private EditDialogFragment editor;
     private final TimePickerDialog.OnTimeSetListener mStartTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -71,10 +75,6 @@ public class TimetableFragment extends Fragment {
             editor.updateEndTime(hourOfDay, minute);
         }
     };
-    private boolean isCurrent, stopTimer, tablet;
-    private int titleColour = 0xFF555555, mMinute, dayInt, mHour;
-    private String day;
-    private EditDialogFragment editor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,6 +135,7 @@ public class TimetableFragment extends Fragment {
         ContentResolver cr = getActivity().getContentResolver();
         Cursor t = cr.query(TimetableProvider.WEEK_URI, new String[]{TimetableProvider.ID, TimetableProvider.NUM},
                 TimetableProvider.KEY + "='theme'", null, null);
+        assert t != null;
         t.moveToFirst();
         if (t.getInt(1) == 1) {
             titleColour = 0xFF555555;
@@ -148,6 +149,7 @@ public class TimetableFragment extends Fragment {
         if (args == null) day = "mon_1";
         else day = args.getString("day");
         dayInt = 0;
+        assert day != null;
         if (day.contains("tues")) dayInt = 1;
         else if (day.contains("wed")) dayInt = 2;
         else if (day.contains("thurs")) dayInt = 3;
@@ -260,6 +262,7 @@ public class TimetableFragment extends Fragment {
             LinearLayout item = null;
             Cursor r = cr.query(TimetableProvider.WEEK_URI, new String[]{TimetableProvider.ID, TimetableProvider.KEY, TimetableProvider.NUM},
                     TimetableProvider.KEY + "='style'", null, null);
+            assert r != null;
             r.moveToFirst();
             if (r.getInt(2) == 1) {
                 item = expandedItem(currentPeriod);
@@ -409,6 +412,7 @@ public class TimetableFragment extends Fragment {
         ContentResolver cr = getActivity().getApplicationContext().getContentResolver();
         Cursor c = cr.query(TimetableProvider.WEEK_URI, new String[]{TimetableProvider.ID, TimetableProvider.KEY, TimetableProvider.NUM},
                 TimetableProvider.KEY + "='comp'", null, null);
+        assert c != null;
         c.moveToFirst();
         if (c.getInt(2) == 1) {
             secondaryView.setText(currentPeriod.room);

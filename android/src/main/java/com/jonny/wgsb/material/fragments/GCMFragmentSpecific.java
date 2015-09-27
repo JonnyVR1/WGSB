@@ -55,7 +55,7 @@ public class GCMFragmentSpecific extends Fragment implements ObservableScrollVie
         final Integer id = getArguments().getInt("id", 1);
         mActivity = ((MainActivity) getActivity());
         mActivity.mToolbar.setVisibility(Toolbar.GONE);
-        mActivity.getSupportActionBar().hide();
+        mActivity.getDelegate().getSupportActionBar().hide();
         frame = (FrameLayout) getActivity().findViewById(R.id.fragment_container);
         originalParams = (FrameLayout.LayoutParams) frame.getLayoutParams();
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
@@ -80,15 +80,15 @@ public class GCMFragmentSpecific extends Fragment implements ObservableScrollVie
         mScrollView.setScrollViewCallbacks(this);
         mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
-        mActivity.getSupportActionBar().setHomeButtonEnabled(true);
-        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
+        mActivity.getDelegate().getSupportActionBar().setHomeButtonEnabled(true);
+        mActivity.getDelegate().getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
         mActivity.mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mActivity.getSupportFragmentManager().popBackStack();
                 mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+                mActivity.getDelegate().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                mActivity.getDelegate().getSupportActionBar().setDisplayShowTitleEnabled(true);
                 mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
             }
         });

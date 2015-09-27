@@ -138,15 +138,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         mActivity.setupActionBar(getString(R.string.register));
         mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
-        mActivity.getSupportActionBar().setHomeButtonEnabled(true);
-        mActivity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+        mActivity.getDelegate().getSupportActionBar().setHomeButtonEnabled(true);
+        mActivity.getDelegate().getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
         mActivity.mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mActivity.getSupportFragmentManager().popBackStack();
                 mActivity.mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+                mActivity.getDelegate().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                mActivity.getDelegate().getSupportActionBar().setDisplayShowTitleEnabled(true);
                 mActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
             }
         });

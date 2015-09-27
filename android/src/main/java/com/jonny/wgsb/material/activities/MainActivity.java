@@ -353,6 +353,7 @@ public class MainActivity extends AppCompatActivity {
                         TimetableProvider.DAY + "='set_up'", null, null);
                 File dir = new File(Environment.getExternalStorageDirectory(), "WGSB\backup");
                 File file = new File(dir, "backup.txt");
+                assert cursor != null;
                 if (cursor.getCount() == 0 && file.exists()) {
                     cursor.close();
                     mDrawerHandler.postDelayed(new Runnable() {

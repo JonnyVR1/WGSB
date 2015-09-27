@@ -301,7 +301,6 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                mUnregisterTask.execute(null, null, null);
                 Intent unregisterIntent = new Intent("com.google.android.c2dm.intent.UNREGISTER");
                 unregisterIntent.putExtra("app", PendingIntent.getBroadcast(mContext, 0, new Intent(), 0));
                 mContext.startService(unregisterIntent);
@@ -313,6 +312,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
                 mUnregisterTask = null;
             }
         };
+        mUnregisterTask.execute(null, null, null);
     }
 
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {

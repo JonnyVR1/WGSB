@@ -25,7 +25,6 @@ import com.jonny.wgsb.material.ui.helper.Topical;
 import com.jonny.wgsb.material.ui.widget.MultiSwipeRefreshLayout;
 import com.jonny.wgsb.material.util.ConnectionDetector;
 
-import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -216,9 +215,8 @@ public class TopicalFragment extends Fragment implements MultiSwipeRefreshLayout
 
             @Override
             protected Void doInBackground(Void... args) {
-                List<NameValuePair> params = new ArrayList<>();
                 try {
-                    JSONObject json = jParser.makeHttpRequest(AllTopicalItemsURL, params);
+                    JSONObject json = jParser.makeHttpRequest(AllTopicalItemsURL);
                     int success = json.getInt(TAG_SUCCESS);
                     if (success == 1) {
                         dbhandler.deleteAllTopical();

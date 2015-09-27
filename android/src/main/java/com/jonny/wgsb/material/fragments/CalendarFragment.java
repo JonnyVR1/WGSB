@@ -28,7 +28,6 @@ import com.jonny.wgsb.material.ui.widget.MultiSwipeRefreshLayout;
 import com.jonny.wgsb.material.util.CompatUtils;
 import com.jonny.wgsb.material.util.ConnectionDetector;
 
-import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -47,25 +46,6 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
     private static final String DATE = "date";
     private static CalendarFragment instance = null;
     private final JSONParser jParser = new JSONParser();
-    private final AdapterView.OnItemClickListener onItemClickHandler = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ((CalendarAdapter) parent.getAdapter()).setSelected(view, position);
-            String selectedGridDate = CalendarAdapter.dayString.get(position);
-            String[] separatedTime = selectedGridDate.split("-");
-            String gridValueString = separatedTime[0].replaceFirst("^0*", "");
-            int gridValue = Integer.parseInt(gridValueString);
-            if (gridValue > 10 && position < 8) {
-                setPreviousMonth();
-                refreshCalendar();
-            } else if (gridValue < 12 && position > 28) {
-                setNextMonth();
-                refreshCalendar();
-            }
-            setEventsText();
-            ((CalendarAdapter) parent.getAdapter()).setSelected(view, position);
-        }
-    };
     private JSONArray calendarItems = null;
     private DatabaseHandler dbhandler;
     private ProgressDialog mProgress;
@@ -90,6 +70,25 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
             }
             adapterCalendar.setItems(items);
             adapterCalendar.notifyDataSetChanged();
+        }
+    };
+    private final AdapterView.OnItemClickListener onItemClickHandler = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ((CalendarAdapter) parent.getAdapter()).setSelected(view, position);
+            String selectedGridDate = CalendarAdapter.dayString.get(position);
+            String[] separatedTime = selectedGridDate.split("-");
+            String gridValueString = separatedTime[0].replaceFirst("^0*", "");
+            int gridValue = Integer.parseInt(gridValueString);
+            if (gridValue > 10 && position < 8) {
+                setPreviousMonth();
+                refreshCalendar();
+            } else if (gridValue < 12 && position > 28) {
+                setNextMonth();
+                refreshCalendar();
+            }
+            setEventsText();
+            ((CalendarAdapter) parent.getAdapter()).setSelected(view, position);
         }
     };
 
@@ -255,9 +254,8 @@ public class CalendarFragment extends Fragment implements MultiSwipeRefreshLayou
 
             @Override
             protected Void doInBackground(Void... args) {
-                List<NameValuePair> params = new ArrayList<>();
                 try {
-                    JSONObject json = jParser.makeHttpRequest(AllCalendarItemsURL, params);
+                    JSONObject json = jParser.makeHttpRequest(AllCalendarItemsURL);
                     int success = json.getInt(TAG_SUCCESS);
                     if (success == 1) {
                         calendarItems = json.getJSONArray(CALENDAR);

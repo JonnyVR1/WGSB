@@ -26,7 +26,6 @@ import com.jonny.wgsb.material.ui.widget.MultiSwipeRefreshLayout;
 import com.jonny.wgsb.material.util.ConnectionDetector;
 import com.squareup.picasso.Picasso;
 
-import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -218,9 +217,8 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
 
             @Override
             protected Void doInBackground(Void... args) {
-                List<NameValuePair> params = new ArrayList<>();
                 try {
-                    JSONObject json = jParser.makeHttpRequest(AllNewsItemsURL, params);
+                    JSONObject json = jParser.makeHttpRequest(AllNewsItemsURL);
                     int success = json.getInt(TAG_SUCCESS);
                     if (success == 1) {
                         newsItems = json.getJSONArray(NEWS);

@@ -10,9 +10,12 @@
 -keep interface android.support.v4.app.** { *; }
 -keep class android.support.v7.app.** { *; }
 -keep interface android.support.v7.app.** { *; }
+-keep class com.transitionseverywhere.** { *; }
+-keep class com.transitionseverywhere.**.** { *; }
 
--dontwarn com.squareup.okhttp.**
 -dontwarn android.support.**
+-dontwarn com.squareup.okhttp.**
+-dontwarn okio.**
 
 -keepattributes *Annotation*
 -keep public class com.google.vending.licensing.ILicensingService

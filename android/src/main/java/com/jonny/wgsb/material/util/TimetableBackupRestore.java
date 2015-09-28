@@ -29,6 +29,7 @@ public class TimetableBackupRestore {
                 new String[]{TimetableProvider.ID, TimetableProvider.KEY, TimetableProvider.NUM}, null, null, null);
         String text = "";
         text += "#![ACTIVITIES]\n";
+        assert p != null;
         p.moveToFirst();
         text += "#![PERIODS]\n";
         for (int i = 0; i < p.getCount(); i++) {
@@ -60,6 +61,7 @@ public class TimetableBackupRestore {
             p.moveToNext();
         }
         p.close();
+        assert w != null;
         w.moveToFirst();
         text += "#![WEEK]\n";
         for (int i = 0; i < w.getCount(); i++) {

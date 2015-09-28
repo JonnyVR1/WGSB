@@ -45,6 +45,7 @@ public class TimetableWidget4x1 extends AppWidgetProvider {
                         (TimetableProvider.DAY + "='" + weekStuff.day + "'"), null, TimetableProvider.START
                 );
                 if (!weekStuff.day.equals("weekend")) {
+                    assert c != null;
                     c.moveToFirst();
                     try {
                         nowName = c.getString(1);
@@ -101,16 +102,9 @@ public class TimetableWidget4x1 extends AppWidgetProvider {
                     nowTeacher = " - ";
                     nowRoom = " - ";
                 }
+                assert c != null;
                 c.close();
-            } catch (SQLiteException e) {
-                e.printStackTrace();
-                nextName = "Nothing";
-                nextTeacher = " - ";
-                nextRoom = "";
-                nowName = "Nothing";
-                nowTeacher = " - ";
-                nowRoom = "";
-            } catch (NullPointerException e) {
+            } catch (SQLiteException | NullPointerException e) {
                 e.printStackTrace();
                 nextName = "Nothing";
                 nextTeacher = " - ";
@@ -137,6 +131,7 @@ public class TimetableWidget4x1 extends AppWidgetProvider {
                         TimetableProvider.NUM
                 },
                 TimetableProvider.KEY + "='weekNo'", null, null);
+        assert w != null;
         w.moveToFirst();
         int weekNo = w.getInt(2);
         int nextWeekNo = 1;

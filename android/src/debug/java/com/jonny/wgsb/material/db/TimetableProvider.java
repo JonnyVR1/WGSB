@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 
@@ -39,6 +40,24 @@ public class TimetableProvider extends ContentProvider {
     private static final HashMap<String, String> projectionMap;
     private static DatabaseHelper dbHelper;
 
+    static {
+        sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+        sUriMatcher.addURI(PROVIDER_NAME, PERIODS_TABLE_NAME, PERIODS);
+        sUriMatcher.addURI(PROVIDER_NAME, WEEK_TABLE_NAME, WEEK);
+        projectionMap = new HashMap<>();
+        projectionMap.put(ID, ID);
+        projectionMap.put(DAY, DAY);
+        projectionMap.put(START, START);
+        projectionMap.put(END, END);
+        projectionMap.put(ACTIVITY, ACTIVITY);
+        projectionMap.put(TEACHER, TEACHER);
+        projectionMap.put(ROOM, ROOM);
+        projectionMap.put(NAME, NAME);
+        projectionMap.put(BREAK, BREAK);
+        projectionMap.put(KEY, KEY);
+        projectionMap.put(NUM, NUM);
+    }
+
     private static void setDefaults(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         values.put(TimetableProvider.KEY, "style");
@@ -59,7 +78,7 @@ public class TimetableProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String where, String[] whereArgs) {
+    public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int count;
         switch (sUriMatcher.match(uri)) {
@@ -77,7 +96,7 @@ public class TimetableProvider extends ContentProvider {
     }
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         switch (sUriMatcher.match(uri)) {
             case PERIODS:
                 return PERIODS_TYPE;
@@ -89,7 +108,7 @@ public class TimetableProvider extends ContentProvider {
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues initialValues) {
+    public Uri insert(@NonNull Uri uri, ContentValues initialValues) {
         ContentValues values;
         if (initialValues != null) {
             values = new ContentValues(initialValues);
@@ -126,7 +145,7 @@ public class TimetableProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         switch (sUriMatcher.match(uri)) {
             case PERIODS:
@@ -147,7 +166,7 @@ public class TimetableProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String where, String[] whereArgs) {
+    public int update(@NonNull Uri uri, ContentValues values, String where, String[] whereArgs) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int count;
         switch (sUriMatcher.match(uri)) {
@@ -162,24 +181,6 @@ public class TimetableProvider extends ContentProvider {
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
-    }
-
-    static {
-        sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        sUriMatcher.addURI(PROVIDER_NAME, PERIODS_TABLE_NAME, PERIODS);
-        sUriMatcher.addURI(PROVIDER_NAME, WEEK_TABLE_NAME, WEEK);
-        projectionMap = new HashMap<>();
-        projectionMap.put(ID, ID);
-        projectionMap.put(DAY, DAY);
-        projectionMap.put(START, START);
-        projectionMap.put(END, END);
-        projectionMap.put(ACTIVITY, ACTIVITY);
-        projectionMap.put(TEACHER, TEACHER);
-        projectionMap.put(ROOM, ROOM);
-        projectionMap.put(NAME, NAME);
-        projectionMap.put(BREAK, BREAK);
-        projectionMap.put(KEY, KEY);
-        projectionMap.put(NUM, NUM);
     }
 
     public class DatabaseHelper extends SQLiteOpenHelper {

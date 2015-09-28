@@ -1,6 +1,7 @@
 package com.jonny.wgsb.material.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,17 +85,17 @@ public class CalendarAdapter extends BaseAdapter {
             dot.setVisibility(View.GONE);
         }
         if (gridValueInt > 1 && position < firstDay) {
-            dayView.setTextColor(mContext.getResources().getColor(R.color.colorTextSecondary));
+            dayView.setTextColor(ContextCompat.getColor(mContext, R.color.colorTextSecondary));
             dayView.setClickable(false);
             dayView.setFocusable(false);
             dot.setVisibility(View.GONE);
         } else if (gridValueInt <= 12 && position > 28) {
-            dayView.setTextColor(mContext.getResources().getColor(R.color.colorTextSecondary));
+            dayView.setTextColor(ContextCompat.getColor(mContext, R.color.colorTextSecondary));
             dayView.setClickable(false);
             dayView.setFocusable(false);
             dot.setVisibility(View.GONE);
         } else {
-            dayView.setTextColor(mContext.getResources().getColor(R.color.white));
+            dayView.setTextColor(ContextCompat.getColor(mContext, R.color.white));
         }
         if (date.equals(currentDateString)) {
             setSelected(view, position);

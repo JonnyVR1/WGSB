@@ -140,18 +140,7 @@ public class TimetableWidget4x2 extends AppWidgetProvider {
                     thenTeacher = " - ";
                     thenRoom = " - ";
                 }
-            } catch (SQLiteException e) {
-                e.printStackTrace();
-                nextName = "Nothing";
-                nextTeacher = " - ";
-                nextRoom = " - ";
-                nowName = "Nothing";
-                nowTeacher = " - ";
-                nowRoom = " - ";
-                thenName = "Nothing";
-                thenTeacher = " - ";
-                thenRoom = " - ";
-            } catch (NullPointerException e) {
+            } catch (SQLiteException | NullPointerException e) {
                 e.printStackTrace();
                 nextName = "Nothing";
                 nextTeacher = " - ";
@@ -189,6 +178,7 @@ public class TimetableWidget4x2 extends AppWidgetProvider {
                         TimetableProvider.NUM
                 },
                 TimetableProvider.KEY + "='weekNo'", null, null);
+        assert w != null;
         w.moveToFirst();
         int weekNo = w.getInt(2);
         int nextWeekNo = 1;

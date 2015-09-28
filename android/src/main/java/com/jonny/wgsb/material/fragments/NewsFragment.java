@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -154,7 +155,7 @@ public class NewsFragment extends Fragment implements MultiSwipeRefreshLayout.On
 
     private void internetDialogue(String string) {
         new MaterialDialog.Builder(mContext)
-                .icon(getResources().getDrawable(R.drawable.fail))
+                .icon(ContextCompat.getDrawable(mContext, R.drawable.fail))
                 .content(string)
                 .positiveText(R.string.ok)
                 .negativeText(R.string.cancel)

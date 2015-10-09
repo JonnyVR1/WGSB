@@ -20,16 +20,6 @@ public abstract class PreferenceFragment extends Fragment implements PreferenceM
     private static final String PREFERENCES_TAG = "android:preferences";
     private static final int FIRST_REQUEST_CODE = 100;
     private static final int MSG_BIND_PREFERENCES = 1;
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_BIND_PREFERENCES:
-                    bindPreferences();
-                    break;
-            }
-        }
-    };
     private PreferenceManager mPreferenceManager;
     private ListView mList;
     final private Runnable mRequestFocus = new Runnable() {
@@ -51,6 +41,16 @@ public abstract class PreferenceFragment extends Fragment implements PreferenceM
             return false;
         }
 
+    };
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_BIND_PREFERENCES:
+                    bindPreferences();
+                    break;
+            }
+        }
     };
 
     @Override
@@ -149,9 +149,7 @@ public abstract class PreferenceFragment extends Fragment implements PreferenceM
     }
 
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        if (getActivity() instanceof OnPreferenceStartFragmentCallback)
-            return ((OnPreferenceStartFragmentCallback) getActivity()).onPreferenceStartFragment(this, preference);
-        return false;
+        return getActivity() instanceof OnPreferenceStartFragmentCallback && ((OnPreferenceStartFragmentCallback) getActivity()).onPreferenceStartFragment(this, preference);
     }
 
     public Preference findPreference(CharSequence key) {
